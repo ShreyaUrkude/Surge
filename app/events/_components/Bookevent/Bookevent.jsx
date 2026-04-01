@@ -1,0 +1,60 @@
+
+import styles from "./Bookevent.module.css";
+import Image from "next/image";
+
+import Eimg1 from './Eimg1.png';
+import Eimg2 from './Eimg2.png';
+import Eimg4 from './Eimg4.png';
+import Eimg3 from './Eimg3.png';
+import Eimg5 from './Eimg5.png';
+import Eimg6 from './Eimg6.png';
+
+const partnershipsData = [
+  { id: 1, src: Eimg1 },
+  { id: 2, src: Eimg2 },
+  { id: 3, src: Eimg4 },
+  { id: 4, src: Eimg3 },
+  { id: 5, src: Eimg5 },
+  { id: 6, src: Eimg6 },
+];
+
+const Partnerships = () => {
+  const doubledData = [...partnershipsData, ...partnershipsData];
+
+  return (
+    <div className={styles.Main}>
+      <div className={styles.MainConatiner}>
+      
+        <div className={styles.Bottom}>
+          <div className={styles.Marquee}>
+            <div className={styles.Track}>
+              {doubledData.map((partner, index) => (
+                <div key={index} className={styles.imageWrapper}>
+                  <Image
+                    src={partner.src}
+                    alt={`Coffee ${index}`}
+                    fill
+                    className={styles.PartnerLogo}
+                    placeholder="blur"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+       
+        <div className={styles.Content}>
+          <h1 className={styles.Title}>Bold coffee, made the surge way</h1>
+          <p className={styles.Subtitle}>
+            Premium coffee bar setup for offices, launches, weddings, pop-ups, 
+            and private parties in Dubai.
+          </p>
+          <button className={styles.eventButton}>Book an Event</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Partnerships;

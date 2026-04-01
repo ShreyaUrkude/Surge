@@ -1,0 +1,194 @@
+'use client';
+import { useState , useEffect,useRef} from 'react';
+import styles from './Listing.module.css';
+import Image from 'next/image';
+import coffeeImg from './coffee.png';
+
+const PRODUCTS = Array(6).fill({
+  name: "Indonesia Banner Mariah Triple Wet Hull",
+  notes: "Citrus, nutty, chocolate",
+  price: "AED 60",
+}).map((item, index) => ({ ...item, id: `prod-${index}` }));
+
+const FILTER_DATA = [
+  { id: 'cat', title: 'Category', options: ['Single', 'Two', 'Three', 'Multiple'] },
+  { id: 'brew', title: 'Brew Method', options: ['Espresso', 'Filter', 'Milk-Based', 'Omni-Roast'] },
+  { id: 'origin', title: 'Origin', options: ['Brazil', 'Colombia', 'El Salvador', 'Ethiopia', 'Indonesia'] },
+  { id: 'process', title: 'Process', options: ['Washed', 'Natural', 'Honey'] },
+];
+
+const SORT_OPTIONS = ['Recommended', 'Latest to Oldest', 'Oldest to Latest'];
+
+export default function Listing() {
+  const [openSections, setOpenSections] = useState([]); 
+  const [showSort, setShowSort] = useState(false);
+  const [selectedSort, setSelectedSort] = useState('Recommended');
+  const [wishlist, setWishlist] = useState([]);
+  
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+
+  const toggleWishlist = (id) => {
+    setWishlist(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
+
+  const toggleFilter = (id) => {
+    setOpenSections(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
+ const mobileFiltersRef = useRef(null);
+  
+useEffect(() => {
+  const method = isMobileFilterOpen ? 'add' : 'remove';
+  document.documentElement.classList[method]('lock-scroll');
+
+  return () => document.documentElement.classList.remove('lock-scroll');
+}, [isMobileFilterOpen]);
+  
+
+  const renderFilters = () => (
+    <div className={styles.filterContainerBox}>
+      {FILTER_DATA.map((section) => {
+        const isOpen = openSections.includes(section.id);
+        return (section.options && (
+          <div key={section.id} className={styles.filterSection}>
+            <button className={styles.filterHeader} onClick={() => toggleFilter(section.id)}>
+              <span>{section.title}</span>
+              <span className={styles.icon}>
+                <svg 
+                  className={isOpen ? styles.arrowRotate : ''} 
+                  width="12" height="12" viewBox="0 0 24 24" fill="currentColor"
+                >
+                  <path d="M7 10l5 5 5-5z"></path>
+                </svg>
+              </span>
+            </button>
+            {isOpen && (
+              <div className={styles.optionsList}>
+                {section.options.map((opt) => (
+                  <label key={opt} className={styles.optionLabel}>
+                    <input type="checkbox" className={styles.checkboxCustom} />
+                    <span>{opt}</span>
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
+        ));
+      })}
+    </div>
+  );
+
+  return (
+    <div className={styles.mainContainer}>
+     
+
+      <aside className={styles.sidebar}>
+        <h2 className={styles.filterTitle}>Filter</h2>
+        {renderFilters()}
+      </aside>
+
+      <main className={styles.mainContent}>
+        <header className={styles.gridHeader}>
+          <div className={styles.titleGroup}>
+            <h1 className={styles.mainTitle}>Coffee Beans</h1>
+            <p className={styles.itemCount}>({PRODUCTS.length} items)</p>
+          </div>
+
+          <div className={styles.headerActions}>
+
+            <button 
+              className={styles.mobileFilterBtn} 
+              onClick={() => setIsMobileFilterOpen(true)}
+            >
+                             <svg
+                  width="12"
+                  height="8"
+                  viewBox="0 0 12 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4.66667 8V6.66667H7.33333V8H4.66667ZM2 4.66667V3.33333H10V4.66667H2ZM0 1.33333V0H12V1.33333H0Z"
+                    fill="#6E736A"
+                  />
+                </svg>
+              Filter
+            </button>
+
+         
+            <div className={styles.sortWrapper}>
+              <div className={styles.sortBox} onClick={() => setShowSort(!showSort)}>
+                <span className={styles.sortLabel}>Sort By : </span>
+                <span className={styles.sortValue}>{selectedSort}</span>
+                <svg className={`${styles.sortArrow} ${showSort ? styles.arrowRotate : ''}`} width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M7 10l5 5 5-5z"></path>
+                </svg>
+              </div>
+              {showSort && (
+                <div className={styles.dropdownMenu}>
+                  {SORT_OPTIONS.map((option) => (
+                    <div 
+                      key={option} 
+                      className={styles.dropdownItem} 
+                      onClick={() => { setSelectedSort(option); setShowSort(false); }}
+                    >
+                      {option}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </header>
+
+     
+        <div className={styles.productGrid}>
+          {PRODUCTS.map((item) => (
+            <div key={item.id} className={styles.productCard}>
+              <div className={styles.imageWrapper}>
+                <button className={styles.wishlistIcon} onClick={() => toggleWishlist(item.id)}>
+                  <svg width="20" height="18" viewBox="0 0 24 24" fill={wishlist.includes(item.id) ? "#C6825B" : "white"}>
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                  </svg>
+                </button>
+                <Image src={coffeeImg} alt={item.name} width={300} height={340} className={styles.productImg} />
+              </div>
+              <div className={styles.details}>
+                <h3 className={styles.name}>{item.name}</h3>
+                <p className={styles.notes}>{item.notes}</p>
+                <div className={styles.footerRow}>
+                  <span className={styles.priceTag}>{item.price}</span>
+                  <button className={styles.buyBtn}>Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </main>
+
+
+
+    {isMobileFilterOpen && (
+          <>
+        
+            <div
+              className={styles.MobileFilterOverlay}
+              onClick={() => setIsMobileFilterOpen(false)}
+            />
+
+        
+            <div className={styles.MobileFilters} ref={mobileFiltersRef}>
+              <div className={styles.MobileFilterHeader}>
+                <p>Filters</p>
+                <span onClick={() => setIsMobileFilterOpen(false)}>✕</span>
+              </div>
+
+              <div className={styles.LeftBottom}>
+              {renderFilters()}
+              </div>
+            </div>
+          </>
+        )}
+
+    </div>
+  );
+}

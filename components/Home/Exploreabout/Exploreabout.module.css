@@ -1,0 +1,323 @@
+.exploreSection {
+  width: 100%;
+  padding: 0 125px; 
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.gridContainer {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+}
+
+.exploreCard {
+  flex: 1;
+  position: relative; 
+  height: 819px; 
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.imageWrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.bgImage {
+  object-fit: cover !important;
+  width: 100%;
+  height: 100%;
+ max-width: 819px;
+}
+
+.textBox {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0 24px 44px;
+  z-index: 3;
+}
+
+.textBox h2 {
+  font-size: 22px;
+  color: #414343;
+  font-weight: 600;
+  font-family: var(--font-montserrat);
+  margin-bottom: 12px;
+}
+
+.textBox p {
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  width: 628px;
+  font-family: var(--font-raleway);
+  color: #818686;
+  
+}
+
+.btn {
+  background-color: #C4754E; 
+  color: #fff;
+  border: none;
+  font-family: var(--font-raleway);
+  padding: 12px 40px;
+  font-size: 16px;
+ 
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+
+
+
+@media (max-width: 1500px) {
+  .exploreSection {
+    padding: 0 120px; 
+  }
+  
+  .exploreCard {
+    height: 750px; 
+  }
+.textBox  {
+  padding-bottom: 10px;
+}
+  .textBox p {
+   
+    width: 100%;
+    max-width: 500px; 
+      
+  }
+}
+
+@media (max-width: 1200px) {
+  .exploreCard {
+    height: 650px; 
+  }
+
+  .textBox {
+    padding: 0 24px 10px; 
+  }
+
+  .textBox p {
+    max-width: 490px; 
+    font-size: 12px;
+  }
+}
+
+
+
+
+@media (min-width: 800px) and (max-width: 1125px) {
+  .exploreSection {
+    padding: 0 40px; 
+  }
+
+  .gridContainer {
+    gap: 16px; 
+  }
+
+  .exploreCard {
+    height: 680px; 
+    width: 100%;
+  }
+
+  .imageWrapper {
+    height: 100%;
+    width: 100%;
+  }
+
+  .textBox {
+ 
+    padding: 0 18px 10px; 
+    display: flex;
+    flex-direction: column;
+    gap: 12px; 
+  }
+
+  .textBox h2 {
+    font-size: 20px;
+    margin-bottom: 0; 
+  }
+
+  .textBox p {
+  margin: 0;
+  
+    width: 100%;
+    max-width: 380px; 
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 0; 
+  }
+
+  .btn {
+    width: 148px;
+    height: 44px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+}
+
+
+@media (min-width: 768px) and (max-width: 859px) {
+  .exploreSection {
+    padding: 0 24px;
+    background-color: #fff;
+  }
+
+  .gridContainer {
+    display: flex;
+    flex-direction: row; 
+    gap: 12px; 
+  }
+
+  .exploreCard {
+    height: 600px; 
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .imageWrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin-top: 0; 
+  }
+
+  
+  .textBox {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 16px 10px; 
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    top: auto; 
+    z-index: 10;
+  }
+
+  .textBox h2 {
+    font-size: 18px; 
+    color: #414343;
+    margin: 0;
+  }
+
+  .textBox p {
+    font-size: 12px; 
+    line-height: 1.4;
+    color: #818686;
+    margin: 0;
+    width: 100%;
+    max-width: 330px; 
+  }
+
+  .btn {
+    width: 148px;
+    height: 44px;
+    background-color: #C4754E;
+    color: #fff;
+    border: none;
+    padding: 6px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+  }
+
+  .cardImage {
+    object-fit: cover !important;
+    position: absolute !important;
+  }
+}
+@media (min-width: 325px) and (max-width: 767px) {
+  .exploreSection {
+    padding: 0 20px; 
+    background-color: #fff;
+  }
+
+  .gridContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 60px; 
+  }
+
+  .exploreCard {
+    height: auto;
+    overflow: visible; 
+    width: 100%;
+  }
+
+  .imageWrapper {
+    position: relative; 
+    width: 100%; 
+    aspect-ratio: 1 / 1; 
+    height: auto; 
+    display: flex;
+    flex-direction: column; 
+    overflow: visible; 
+  
+    margin-top: 240px; 
+  }
+
+  .textBox {
+    position: absolute;
+    top: -240px;
+    left: 0;
+    width: 638px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 10;
+  }
+
+  .textBox h2 {
+    font-size: 20px; 
+    color: #414343; 
+    margin: 0;
+  }
+
+  .textBox p {
+    font-size: 14px; 
+    line-height: 1.5;
+    color: #818686; 
+    width: 300px; 
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .btn {
+    width: fit-content;
+    min-width: 130px;
+    height: 40px;
+    background-color: #C4754E;
+    color: #fff;
+    border: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cardImage {
+    object-fit: cover !important;
+    position: relative !important; 
+    border-radius: 4px; 
+  }
+}

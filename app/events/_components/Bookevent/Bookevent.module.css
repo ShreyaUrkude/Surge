@@ -1,0 +1,194 @@
+.Main {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+ 
+  background-color: #ffffff;
+}
+
+.MainConatiner {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 100%;
+  
+}
+
+.Bottom {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  width: 100%;
+}
+
+.Marquee {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.Track {
+  display: flex;
+  gap: 8px;
+  animation: scrollWithStartPause 11s linear infinite; 
+  white-space: nowrap;
+  width: max-content;
+}
+.Marquee:hover .Track {
+  animation-play-state: paused;
+}
+.imageWrapper {
+  position: relative;
+  width: 554px; 
+  height: 554px; 
+  flex-shrink: 0; 
+}
+
+.PartnerLogo {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+@keyframes scrollWithStartPause {
+  0% {
+    transform: translateX(0);
+  }
+
+  10% {
+    transform: translateX(0);
+  }
+
+  100% {
+ 
+    transform: translateX(calc(-50% - 4px)); 
+  }
+
+}
+
+
+
+.Content {
+  display: flex;
+  flex-direction: column;
+  padding-top: 55px;
+  padding-left: 125px;
+  padding-bottom: 77px; 
+  gap: 8px;
+  background-color: #F5F5F5;
+  align-items: flex-start;
+}
+
+.Title {
+  font-size: 40px;
+  font-weight: 600;
+  color:#414343;
+  font-family: var(--font-montserrat);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.Subtitle {
+  font-size: 15px;
+  color: #818686;
+  font-family: var(--font-raleway);
+  max-width: 400px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.eventButton {
+  background-color: #c67e58;
+  color: #ffffff;
+  padding: 12px 40px;
+  border: none;
+ font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 35px;
+  transition: opacity 0.3s ease;
+}
+
+.eventButton:hover {
+  opacity: 0.9;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+
+@media (max-width: 1024px) {
+  .Content {
+    padding-left: 60px;
+    padding-top: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  
+    .MainConatiner {
+         padding-top: 10px;
+    }
+  .imageWrapper {
+ 
+    width: 80vw; 
+    height: calc(80vw * (648 / 554)); 
+  }
+
+  
+  .Content {
+    padding-left: 20px; 
+    padding-right: 20px;
+    padding-top: 35px;
+    padding-bottom: 50px;
+    background-color: #F5F5F5; 
+  }
+
+  .Title {
+    font-size: 28px;
+    max-width: 100%;
+  }
+
+  .Subtitle {
+    font-size: 14px;
+    max-width: 100%; 
+  }
+
+  .Bottom, .Track {
+    gap: 12px;
+  }
+
+  .Track {
+
+    animation: scrollWithStartPause 15s linear infinite; 
+  }
+
+ 
+  @keyframes scrollWithStartPause {
+    0%, 10% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-50% - 6px)); 
+    }
+  }
+
+  .eventButton {
+   
+    margin-top: 25px;
+    padding: 14px;
+  }
+}

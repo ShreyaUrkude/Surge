@@ -1,0 +1,298 @@
+
+.container {
+  width: 100%;
+  max-width: none;
+  padding: 150px 0;
+}
+
+.topSection {
+  text-align: center;
+}
+
+.mainHeading {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 8px;
+  font-family: var(--font-montserrat);
+}
+
+.topSubtext {
+  font-size: 16px;
+  color: #818686;
+  font-family: var(--font-raleway);
+  max-width: 776px;
+  margin: 0 auto 40px;
+}
+
+.locationGrid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 870px;
+  margin: 80px auto;
+}
+
+.locationItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+.locName {
+  font-weight: 500;
+  font-size: 18px;
+  font-family: var(--font-montserrat);
+  margin-bottom: 8px;
+}
+
+.locArea {
+  color: #818686;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--font-raleway);
+}
+
+.goldLink {
+  color: #C4754E;
+  font-size: 16px;
+  text-decoration: underline;
+  font-weight: 400;
+  font-family: var(--font-raleway);
+  margin-top: 8px;
+}
+
+.mapContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 150px;
+}
+
+.mapImg {
+  width: 100%;
+  max-width: 1064px;
+  height: 798px;
+  filter: grayscale(1);
+  opacity: 0.9;
+}
+
+.divider {
+  border: 0;
+  margin-bottom: 174px;
+}
+
+.careersSection {
+  padding-left: 250px;
+  padding-right: 250px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.heading {
+  font-size: 22px;
+  font-weight: 600;
+  font-family: var(--font-montserrat);
+  margin-bottom: 16px;
+}
+
+.description {
+  font-size: 16px;
+  color: #818686;
+  font-weight: 400;
+  width: 740px;
+  line-height: 1.4;
+  font-family: var(--font-raleway);
+  margin-bottom: 80px;
+}
+
+.jobGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  column-gap: 164px;
+}
+
+.jobItem {
+  border-bottom: 1px solid #818686;
+  padding-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.jobInfo h3 {
+  font-size: 18px;
+  font-weight: 500;
+  font-family: var(--font-montserrat);
+  margin: 0;
+}
+
+.jobInfo p {
+  font-size: 16px;
+  color: #818686;
+  font-weight: 400;
+  font-family: var(--font-raleway);
+  margin: 5px 0 0;
+  line-height: 1.4;
+}
+
+.detailLink {
+  color: #C4754E;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--font-raleway);
+  text-decoration: none;
+}
+
+.detailLink span {
+  border: 0.5px solid #C4754E;
+  padding: 2px 4px;
+}
+
+.emailFooter {
+  margin-top: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--font-raleway);
+  color: #414343;
+}
+
+.emailLink {
+  color: #C4754E;
+}
+
+
+
+@media (max-height: 850px) and (min-width: 1025px) {
+  .container {
+    padding: 60px 0; 
+  }
+  
+  .locationGrid {
+    margin: 40px auto; 
+  }
+
+  .mapContainer {
+    margin-top: 50px;
+  }
+
+  .mapImg {
+    height: 450px; 
+  }
+
+  .divider {
+    margin-bottom: 60px;
+  }
+
+  .description {
+    margin-bottom: 40px;
+  }
+
+  .careersSection {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+}
+
+
+
+@media (max-width: 1280px) {
+  .careersSection {
+    padding-left: clamp(40px, 8vw, 100px);
+    padding-right: clamp(40px, 8vw, 100px);
+  }
+  
+  .jobGrid {
+    column-gap: clamp(30px, 5vw, 60px);
+  }
+
+  .jobItem {
+    align-items: center; 
+    gap: 20px;
+    flex-wrap: wrap; 
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: clamp(60px, 8vh, 100px) 0;
+  }
+  
+  .careersSection, .topSection {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .description {
+    width: 100%;
+  }
+
+  .mapImg {
+    height: auto;
+    max-height: 400px; 
+  }
+
+  .jobItem {
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 50px 0;
+  }
+
+  .locationGrid {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin: 30px auto;
+  }
+
+  .jobGrid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .jobItem {
+    align-items: flex-end; 
+    flex-wrap: nowrap;
+    padding-bottom: 20px;
+  }
+
+  .mapContainer {
+    margin-top: 40px;
+  }
+
+  .divider {
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .careersSection, .topSection {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .jobItem {
+    flex-direction: column; 
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 15px;
+  }
+
+  .detailLink {
+    align-self: flex-start; 
+  }
+
+  .mainHeading, .heading {
+    font-size: 20px;
+  }
+  
+  .description {
+    margin-bottom: 30px;
+    font-size: 14px;
+  }
+}

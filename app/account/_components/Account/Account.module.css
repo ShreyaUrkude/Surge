@@ -1,0 +1,317 @@
+/* button part*/
+
+.fieldContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+
+.btnGroup {
+  display: flex;
+  gap: 12px;
+  animation: slideDown 0.2s ease-out;
+}
+
+.saveBtn {
+  background: #C4754E; 
+  color: #fff;
+  border: none;
+  padding: 14px 40px;
+    font-family: var(--font-raleway);
+font-weight: 400;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  background: transparent;
+  color: #C4754E;
+  border: 1px solid #C4754E;
+  padding: 14px 40px;
+   font-family: var(--font-raleway);
+font-weight: 400;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.saveBtn:hover { background: #333; }
+.cancelBtn:hover { background: #f5f5f5; }
+
+
+/* Profile*/
+
+.Account {
+    width: 100%;
+    min-height: 100vh;
+     padding: 0 5% 0 5%; 
+    box-sizing: border-box;
+    background-color: #fff;
+    overflow-x: hidden;
+   
+}
+
+.main {
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 100px; 
+    max-width: 1110px; 
+    margin: 0 ;
+}
+
+
+.profileBox {
+    width: 466px;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    align-items: center;
+    margin-bottom: 80px;
+    gap: 31px;
+
+ 
+}
+
+.imageWrapper {
+   
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+    
+}
+
+.uploadBtn {
+    background-color: #c47d56; 
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    font-family: var(--font-raleway);
+    font-size: 15px;
+    font-weight: 500;
+  
+    cursor: pointer;
+}
+.profileBox, .formSection {
+    max-width: 466px; 
+    width: 100%;
+}
+.formSection {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; 
+    height: 100%;
+   
+}
+
+.sectionTitles {
+    font-size: 22px;
+    font-weight: 600;
+    color: #414343;
+    font-family: var(--font-montserrat);
+    margin: 0; 
+}
+
+
+.formGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; 
+    margin: 0;
+   
+}
+.row {
+    display: flex;
+    gap: 50px;
+    width: 100%;
+    
+}
+
+.underlineInputGroup {
+   position: relative;
+    display: flex;
+
+    width: 100%;
+  
+   
+}
+
+.underlineInput, .underlineSelect {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #818686; 
+    padding: 18px 20px ; 
+    font-size: 16px;
+    font-weight: 400;
+    box-sizing: border-box; 
+    color: #414343;
+    background: transparent;
+    outline: none;
+    font-family: var(--font-raleway);
+   
+    display: block; 
+  
+}
+.svgWrapper {
+    position: absolute;
+    right: 0;
+    bottom: 23px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+   
+}
+
+.svgWrapper svg {
+    display: block;
+  
+}
+.dropdownContainer {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    min-width: 200px;   
+    width: auto;          
+    background: white;
+    border: 1px solid #EAEAEA;
+    border-radius: 8px;    
+  
+    z-index: 100;
+    overflow: hidden;      
+}
+
+.dropdownItem {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: var(--font-raleway);
+    color: #414343;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dropdownItem:hover {
+    background-color: #F9F9F9;
+    color: #c47d56;}
+
+
+.editIconInside {
+    position: absolute;
+    right: 0;
+    color: #b0b0b0;
+    font-size: 14px;
+  
+}
+
+
+
+.addressSection {
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+   
+    gap: 30px; 
+}
+   
+
+
+.sectionTitle {
+    font-size: 22px;
+    font-weight: 600;
+    color: #414343;
+   margin: 0;
+    font-family: var(--font-montserrat);
+}
+
+
+.addressHeader { 
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%; 
+    max-width: 709px; 
+  
+}
+.addAddressBtn { 
+    background: transparent;
+    color: #c47d56;
+    border: 1px solid #c47d56;
+    padding: 14px 40px; 
+    cursor: pointer; 
+    margin: 0;
+    font-weight: 600;
+    font-family: var(--font-raleway);
+    font-size: 16px;
+    white-space: nowrap; 
+}
+
+.addressCard { background: #F5F5F5; 
+   max-width: 709px;
+    width: 100%;
+   margin: 0;
+ 
+}
+     .cardHeader { 
+    padding: 22px 13px;
+    position: relative; 
+   
+}
+
+.cardHeader::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 13px;   
+    right: 13px;  
+    border-bottom: 1px solid #818686;
+}
+.cardTitle { font-size: 18px;
+     color: #414343; 
+     font-weight: 600;
+ font-family: var(--font-montserrat);}
+
+
+.cardContent { padding: 16px; }
+
+.nameRow {
+     display: flex; 
+    justify-content: space-between;
+     margin-bottom: 15px; }
+
+.userNameCard 
+{ 
+    font-weight: 600; 
+    font-size:16px;
+    color: #414343; 
+     font-family: var(--font-raleway);
+}
+.badge {
+     font-size: 16px; 
+    color: #414343; 
+  
+    padding: 4px 9px;
+    font-weight: 400;
+  
+      font-family: var(--font-raleway);
+      background: #fff;
+     }
+
+.addressText { 
+    font-size: 16px; color: #818686;
+     font-weight: 400;
+ 
+      font-family: var(--font-raleway);
+     line-height: 1.6;
+      margin-bottom: 24px; }
+.phoneText { font-size: 16px;
+       font-weight: 400;
+  
+      font-family: var(--font-raleway);
+     color: #818686;
+     }
+
+
+

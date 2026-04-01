@@ -1,0 +1,180 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import styles from "./Touch.module.css";
+import one from './get.png';
+import whatsappIcon from './whatsapp.png';
+
+export default function Touch() {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [enquiryType, setEnquiryType] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
+  const [responseError, setResponseError] = useState(false);
+  const [enquiryOpen, setEnquiryOpen] = useState(false);
+
+  const ENDPOINT = "/api/website/contact";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setResponseMessage("");
+    setResponseError(false);
+
+    if (!fullName.trim() || !email.trim()) {
+      setResponseError(true);
+      setResponseMessage("Please enter your name and email.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const payload = {
+        full_name: fullName.trim(),
+        email: email.trim(),
+        phone: phone.trim(),
+        enquiry_type: enquiryType.trim(),
+        message: message.trim(),
+      };
+
+      const res = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const json = await res.json();
+      if (!res.ok || (json && json.success === false)) {
+        setResponseError(true);
+        setResponseMessage(json?.message || "Submission failed.");
+      } else {
+        setResponseError(false);
+        setResponseMessage("Thank you! Your message has been submitted.");
+        setFullName(""); setEmail(""); setPhone(""); setEnquiryType(""); setMessage("");
+      }
+    } catch {
+      setResponseError(true);
+      setResponseMessage("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+      setTimeout(() => setResponseMessage(""), 3000);
+    }
+  };
+
+  return (
+    <div className={styles.main}>
+      <div className={styles.MainContainer}>
+        
+       
+        <div className={styles.LeftConatiner}>
+          <Image
+            src={one}
+            alt="Contact Form Image"
+            className={styles.image}
+            priority
+          />
+          <h1 className={styles.mainTitle}>LET’S GET IN TOUCH</h1>
+        </div>
+
+       
+        <div className={styles.RightContainer}>
+          <div className={styles.RightContent}>
+            
+        
+            <form onSubmit={handleSubmit} className={styles.formMain}>
+
+              <div className={styles.Top}>
+                <h3>Send us a message</h3>
+                <Link href="https://wa.me/+9710589535337">
+                  <Image src={whatsappIcon} alt="Whatsapp" width={28} height={28} />
+                </Link>
+              </div>
+
+            
+              <div className={styles.formBox}>
+                <input 
+                  type="text" 
+                  placeholder="Full Name" 
+                  value={fullName} 
+                  onChange={(e) => setFullName(e.target.value)} 
+                />
+                
+                <div className={styles.row}>
+                  <input 
+                    type="email" 
+                    placeholder="Email" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)} 
+                  />
+                  <input 
+                    type="text" 
+                    placeholder="Phone Number" 
+                    value={phone} 
+                    onChange={(e) => setPhone(e.target.value)} 
+                  />
+                </div>
+
+                <div className={`${styles.selectWrap} ${enquiryOpen ? styles.open : ""}`}>
+                  <select
+                    value={enquiryType}
+                    onFocus={() => setEnquiryOpen(true)}
+                    onBlur={() => setEnquiryOpen(false)}
+                    onChange={(e) => {
+                      setEnquiryType(e.target.value);
+                      setEnquiryOpen(false); 
+                    }}
+                  >
+                    <option value="" hidden>Enquiry Type</option>
+                    <option value="General">General</option>
+                    <option value="Support">Support</option>
+                    <option value="Partnership">Partnership</option>
+                    <option value="Careers">Careers</option>
+                  </select>
+                </div>
+
+                 <textarea
+                  placeholder="How we can help you."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+              </div>
+
+              <div className={styles.Bottom}>
+                <button className={styles.btn} type="submit" disabled={loading}>
+                  {loading ? "Sending..." : "Send Message"}
+                </button>
+              </div>
+
+              {responseMessage && (
+                <div className={styles.statusMsg} style={{ color: responseError ? "crimson" : "#197B5B" }}>
+                  {responseMessage}
+                </div>
+              )}
+            </form>
+
+           
+            <div className={styles.contactFooter}>
+              <div className={styles.footerItem}>
+                <span>Call</span>
+                <p>+971 - 05 8953 5337</p>
+              </div>
+              <div className={styles.footerItem}>
+                <span>Email</span>
+                <p>hello@surge.ae</p>
+              </div>
+              <div className={styles.footerItem}>
+                <span>Follow Us</span>
+                <p>Instagram ↗</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

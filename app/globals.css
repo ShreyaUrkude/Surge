@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Raleway:wght@400;500;600&display=swap');
+
+:root {
+  --font-lato: 'Lato', sans-serif;         
+  --font-montserrat: 'Montserrat', sans-serif; 
+ --font-raleway: 'Raleway', sans-serif;
+}
+
+html, body {
+  margin:  0 ;
+  padding: 0;
+ 
+  overflow-x: hidden; 
+}
