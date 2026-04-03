@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import styles from "./Footer.module.css";
 import logo from "./Footer.png";
 
+
 export default function Footer() {
   const pathname = usePathname();
   const [email, setEmail] = useState("");
