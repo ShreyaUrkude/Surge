@@ -37,7 +37,7 @@ const NavbarShop = ({ onClose }) => {
                 className={styles.featuredImage}
               />
             </div>
-            <p className={styles.gridLabel}>{cat.name}</p>
+            <p className={styles.Label}>{cat.name}</p>
           </Link>
         ))}
       </div>
