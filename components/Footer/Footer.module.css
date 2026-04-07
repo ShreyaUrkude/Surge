@@ -3,12 +3,12 @@
   background-color: #414343;
   color: white;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 60px clamp(24px, 8vw, 127px) 40px;
+  padding: 65px clamp(24px, 8vw, 127px) 25px;
   box-sizing: border-box;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .container {
@@ -23,9 +23,8 @@
 .promoSection {
   display: flex;
   justify-content: space-between; 
-  align-items: flex-start;
+  align-items: flex-end;
   gap: 40px;
-  margin-bottom: 40px;
 }
 
 .logoCol {
@@ -35,9 +34,8 @@
 .promoRightSide {
   display: flex;
   justify-content: flex-end; 
-  gap: 100px;
+  gap: 169px;
   flex: 1;
-  align-items: flex-start;
 }
 
 .promoCol {
@@ -125,9 +123,9 @@
   width: 100%;
   height: 1px;
   background-color: #FFFFFF;
-  margin: 30px 0;
+  margin: 20px 0;
   border: none;
-  opacity: 0.2;
+  opacity: 0.3;
 }
 
 
@@ -135,8 +133,7 @@
   display: flex;
   justify-content: flex-start; 
   align-items: flex-start;
-  gap: 150px;
-  margin-bottom: 50px;
+  gap: 243px; 
 }
 
 .newsletterArea {
@@ -194,8 +191,7 @@ margin: 0;
 
 .linkColumns {
   display: flex;
-  gap: 120px;
-  flex: 1;
+  gap: 147px;
 }
 
 .column h4 {
@@ -225,7 +221,6 @@ margin: 0;
   overflow: hidden;
   pointer-events: none; 
   user-select: none;
-  margin: 40px 0;
 }
 
 .surgeBackground h1 {
@@ -242,14 +237,13 @@ margin: 0;
 .infoGrid {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 30px;
-  gap: 40px;
+  align-items: flex-end;
+  margin-bottom: 20px;
 }
 
 .contactWrapper {
   display: flex;
-  gap: 100px;
+  gap: 160px;
 }
 
 
@@ -307,22 +301,14 @@ margin: 0;
 
 /* --- Mobile Responsive --- */
 @media (max-width: 1024px) {
-  .topSection { gap: 80px; }
-  .linkColumns { gap: 80px; }
-  .contactWrapper { gap: 60px; }
+  .topSection { gap: 40px; }
 }
 
 @media (max-width: 768px) {
-  .footer { min-height: auto; overflow: visible; padding: 40px 20px; }
-  .promoSection { flex-direction: column; align-items: flex-start; gap: 30px; }
-  .promoRightSide { flex-direction: column; gap: 30px; }
-  .topSection { flex-direction: column; align-items: flex-start; gap: 30px; }
-  .infoGrid { flex-direction: column; align-items: flex-start; gap: 30px; }
+  .footer { height: auto; min-height: 100vh; overflow: visible; padding: 40px 20px; }
+  .promoSection, .topSection, .infoGrid { flex-direction: column; align-items: flex-start; gap: 30px; }
   .surgeBackground { display: none; }
   .newsletterArea { width: 100%; }
-  .linkColumns { flex-direction: column; gap: 20px; }
   .contactWrapper { flex-direction: column; gap: 20px; }
-  .bottomBar { flex-direction: column; gap: 15px; text-align: left; align-items: flex-start; }
-  .mobilelegal { display: flex; gap: 20px; margin-bottom: 20px; }
-  .legal { display: none; }
+  .bottomBar { flex-direction: column; gap: 15px; text-align: center; }
 }
