@@ -1,12 +1,10 @@
 import React from "react";
+import WhislistComponents from "./_components/WhislistComponents/WhislistComponents";
 
-import WishlistComponents from "../_components/WishlistComponents/WishlistComponents";
-
-export default function Rewardpage() {
+export default function WishlistPage() {
   return (
     <div>
-       
-        <WishlistComponents/>
+      <WhislistComponents />
     </div>
   );
 }

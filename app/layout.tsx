@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import type { ReactNode } from "react";
+import NextAuthProvider from "../components/SessionProvider";
 
 export const metadata = {
   title: "Surge Coffee",
@@ -18,9 +19,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
 
       <body>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <NextAuthProvider>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </NextAuthProvider>
       </body>
     </html>
   );

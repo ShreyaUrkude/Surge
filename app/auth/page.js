@@ -1,0 +1,312 @@
+"use client";
+import styles from "./page.module.css";
+import React, { useState, useEffect, Suspense } from "react";
+import Image from "next/image";
+import Logo from "./logo.png";
+import Link from "next/link";
+import Cookies from "js-cookie";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import axiosClient from "@/lib/axios";
+
+function AuthPageContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { data: session, status, update } = useSession();
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // useEffect(() => {
+  //   if (status === "authenticated") {
+  //     router.push("/");
+  //   }
+  // }, [status, router]);
+
+  // Handle social OAuth callbacks (Google & Apple)
+  useEffect(() => {
+    async function handleSocialCallback() {
+      if (status === "authenticated" && session?.user?.email) {
+        const fromParam = searchParams.get("from");
+        const isFromGoogle =
+          fromParam === "google" ||
+          (!fromParam &&
+            window.location.href.includes("callbackUrl") &&
+            session?.isGoogleLogin);
+        // const isFromApple = fromParam === "apple";
+        const isFromApple = false;
+
+        if (!isFromGoogle && !isFromApple) return;
+
+        setLoading(true);
+
+        try {
+          let res;
+          if (isFromGoogle) {
+            res = await axiosClient.post("/api/website/google-auth", {
+              googleToken: session.googleIdToken,
+            });
+            // } else {
+            //   const applePayload = { appleToken: session.appleIdToken };
+            //   if (session.user?.firstName) applePayload.firstName = session.user.firstName;
+            //   if (session.user?.lastName) applePayload.lastName = session.user.lastName;
+            //   res = await axiosClient.post("/api/website/apple-auth", applePayload);
+          }
+
+          if (!res.data.success) {
+            throw new Error(res.data.message || "Social login failed");
+          }
+
+          if (res.data.token) {
+            Cookies.set("paylaod-token", res.data.token, { expires: 7 });
+          }
+
+          // Update NextAuth session with the correct backend user ID and data
+          if (res.data.user) {
+            await update({
+              user: {
+                id: res.data.user.id,
+                email: res.data.user.email,
+                firstName: res.data.user.firstName,
+                lastName: res.data.user.lastName,
+                profileImage: res.data.user.profileImage,
+                stripeCustomerId: res.data.user.stripeCustomerId,
+                "paylaod-token": res.data.token,
+              },
+            });
+          }
+
+          const redirectParam = searchParams.get("redirect") || "/";
+          if (res.data.isNewUser) {
+            window.location.href = `/auth/create-profile?redirect=${encodeURIComponent(redirectParam)}`;
+          } else {
+            window.location.href = redirectParam;
+          }
+        } catch (e) {
+          setError(
+            e.response?.data?.message ||
+              e.message ||
+              "Failed to complete sign-in",
+          );
+          setLoading(false);
+        }
+      }
+    }
+
+    handleSocialCallback();
+  }, [status, session, searchParams, router]);
+
+  async function handleContinue(e) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailRegex.test(email)) {
+      setError("Invalid email format");
+      setLoading(false);
+      return;
+    }
+
+    sessionStorage.setItem("email", email);
+
+    try {
+      // STEP 1: Validate email and check user status
+      const signupRes = await axiosClient.post("api/otp/send-web", {
+        email,
+      });
+      console.log(signupRes);
+
+      const signupJson = signupRes.data;
+
+      // Check if signup route failed
+      if (signupRes.status !== 200 || signupJson.success === false) {
+        setError(signupJson.message || "Email validation failed");
+        setLoading(false);
+        return;
+      }
+
+      if (signupJson.success === true) {
+        const redirectParam = searchParams.get("redirect");
+        const verifyUrl = redirectParam
+          ? `/auth/verify?redirect=${encodeURIComponent(redirectParam)}`
+          : "/auth/verify";
+        router.push(verifyUrl);
+      }
+    } catch (e) {
+      setError(e.response.data.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleGoogleSignIn() {
+    const redirectParam = searchParams.get("redirect");
+    const callbackUrl = redirectParam
+      ? `/auth?from=google&redirect=${encodeURIComponent(redirectParam)}`
+      : "/auth?from=google";
+    signIn("google", {
+      callbackUrl,
+    });
+  }
+
+  // function handleAppleSignIn() {
+  //   signIn("apple", {
+  //     callbackUrl: "/auth?from=apple",
+  //   });
+  // }
+
+  return (
+    <>
+      <div className={styles.Main}>
+        <div className={styles.MainCoantiner}>
+          <div className={styles.LeftCoantiner}>
+            <h4>Pure Craft. Uncompromising Quality.</h4>
+            <p>
+              Dedicated to the master transformation of green coffee into
+              world-class specialty beans for you
+            </p>
+          </div>
+          <div className={styles.RightCoantiner}>
+            <div className={styles.RightTop}>
+              <div className={styles.RightTopOne}>
+                <div className={styles.RightTopOneTop}>
+                  <Image src={Logo} alt="White Mantis Logo" />
+                </div>
+                <div className={styles.RightTopOneBottom}>
+                  <div className={styles.RightTopOneBottomTop}>
+                    <h3>ENTER YOUR EMAIL</h3>
+                    <p>We'll send a quick code - no password needed.</p>
+                  </div>
+                  <div className={styles.RightTopOneBottomBottom}>
+                    {error && <p className={styles.errorMessage}>{error}</p>}
+                    <input
+                      type="email"
+                      placeholder="Enter your email address"
+                      className={styles.inputemail}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      disabled={loading}
+                      suppressHydrationWarning
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className={styles.RightTopTwo}>
+                <button
+                  className={styles.ctacontinue}
+                  onClick={handleContinue}
+                  disabled={loading || !email}
+                >
+                  {loading ? "Processing..." : "Send Code"}
+                </button>
+                <p>
+                  By continuing, you agree to our{" "}
+                  <Link href="/terms-and-conditions" className={styles.Tnc}>
+                    Terms & Privacy Policy
+                  </Link>
+                </p>
+              </div>
+            </div>
+            <div className={styles.RightBottom}>
+              <div className={styles.RightBottomOne}>
+                <div className={styles.line}></div>
+                <div className={styles.textor}>
+                  <p>or continue with</p>
+                </div>
+                <div className={styles.line}></div>
+              </div>
+              <div className={styles.socials}>
+                <button
+                  onClick={handleGoogleSignIn}
+                  disabled={loading}
+                  className={styles.googleButton}
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    cursor: loading ? "not-allowed" : "pointer",
+                    opacity: loading ? 0.6 : 1,
+                    padding: 0,
+                  }}
+                  aria-label="Sign in with Google"
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clipPath="url(#clip0_3069_17144)">
+                      <path
+                        d="M23.9995 12.0386C23.9995 11.0554 23.9178 10.3378 23.7411 9.59375H12.25V14.0317H18.995C18.8591 15.1346 18.1248 16.7956 16.4928 17.9117L16.47 18.0603L20.1032 20.8105L20.355 20.835C22.6667 18.7488 23.9995 15.6794 23.9995 12.0386Z"
+                        fill="#4285F4"
+                      />
+                      <path
+                        d="M12.2383 23.9139C15.5428 23.9139 18.3169 22.8508 20.3432 21.0172L16.4811 18.0939C15.4476 18.7981 14.0605 19.2898 12.2383 19.2898C9.00175 19.2898 6.25478 17.2037 5.27556 14.3203L5.13203 14.3322L1.35409 17.189L1.30469 17.3232C3.31731 21.2297 7.45141 23.9139 12.2383 23.9139Z"
+                        fill="#34A853"
+                      />
+                      <path
+                        d="M5.27634 14.3228C5.01797 13.5787 4.86844 12.7814 4.86844 11.9576C4.86844 11.1338 5.01797 10.3365 5.26275 9.59244L5.25591 9.43397L1.43062 6.53125L1.30547 6.58942C0.475969 8.21052 0 10.0309 0 11.9576C0 13.8843 0.475969 15.7047 1.30547 17.3258L5.27634 14.3228Z"
+                        fill="#FBBC05"
+                      />
+                      <path
+                        d="M12.2383 4.62403C14.5365 4.62403 16.0867 5.59401 16.9707 6.40461L20.4248 3.10928C18.3034 1.1826 15.5428 0 12.2383 0C7.45141 0 3.31731 2.68406 1.30469 6.59056L5.26197 9.59359C6.25478 6.7102 9.00175 4.62403 12.2383 4.62403Z"
+                        fill="#EB4335"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_3069_17144">
+                        <rect width="24" height="24" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                  <p>Sign in with Google</p>
+                </button>
+                {/* Apple Sign-In button commented out
+                <button
+                  onClick={handleAppleSignIn}
+                  disabled={loading}
+                  className={styles.googleButton}
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    cursor: loading ? "not-allowed" : "pointer",
+                    opacity: loading ? 0.6 : 1,
+                    padding: 0,
+                  }}
+                  aria-label="Sign in with Apple"
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M17.0435 12.7249C17.0279 10.8504 17.8935 9.44785 19.6404 8.41441C18.6607 7.00535 17.1638 6.22754 15.1794 6.07629C13.3013 5.92816 11.2544 7.14472 10.5076 7.14472C9.71729 7.14472 7.90603 6.12629 6.47197 6.12629C3.50978 6.17316 0.359985 8.46129 0.359985 13.1249C0.359985 14.5218 0.611235 15.9656 1.11373 17.4562C1.78435 19.4093 4.25291 24.126 6.82416 24.0478C8.15853 24.0165 9.09666 23.1196 10.8279 23.1196C12.5123 23.1196 13.3779 24.0478 14.8654 24.0478C17.4522 24.0087 19.6873 19.7249 20.3267 17.7718C16.961 16.1624 17.0435 12.8187 17.0435 12.7249ZM14.0813 4.22629C15.5063 2.53129 15.3738 0.985039 15.3269 0.454102C14.0657 0.532227 12.6004 1.31629 11.7663 2.28754C10.8435 3.33254 10.3254 4.62691 10.4423 6.04535C11.8073 6.14941 13.0529 5.44472 14.0813 4.22629Z"
+                      fill="#2F362A"
+                    />
+                  </svg>
+                  <p>Sign in with Apple</p>
+                </button>
+                */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default function Auth() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthPageContent />
+    </Suspense>
+  );
+}
