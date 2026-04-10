@@ -45,11 +45,10 @@ const [mainTitle, subTitle] = blog.title.split(':');
 
 
 
-
-
-       <div className={styles.heroLayoutSection}>
-  <div className={styles.imageWrapper}>
-    <Image 
+          <div className={styles.heroContentGap}>
+            
+            <div className={styles.imageWrapper}>
+               <Image 
       src={blog.img} 
       alt={blog.title} 
       className={styles.heroImg}
@@ -57,34 +56,6 @@ const [mainTitle, subTitle] = blog.title.split(':');
       width={1200}
       height={600}
     />
-  </div>
-
-  <aside className={styles.mobileSidebar}>
-    <h3 className={styles.mobileSidebarTitle}>Explore more blogs</h3>
-    <div className={styles.mobileSidebarList}>
-      {moreBlogs.map((item) => (
-        <Link href={`/blog/${item.slug}`} key={item.id} className={styles.mobileSidebarCard}>
-          
-          <div className={styles.mobileSidebarThumb}>
-            <Image src={item.img} alt={item.title} width={180} height={110} style={{objectFit: 'cover'}} />
-          </div>
-          <div className={styles.mobileSidebarInfo}>
-            <span className={styles.mobileReadTime}>5 Min Read</span>
-            <p className={styles.mobileTitleText}>{item.title}</p>
-             <span className={styles.mobilesidebarDate}>{item.date || "Oct 23, 2024"}</span>
-          </div>
-        </Link>
-      ))}
-    </div>
-  </aside>
-</div>
-
-
-
-          <div className={styles.heroContentGap}>
-            
-            <div className={styles.imageWrapper}>
-              
             </div>
 
 
