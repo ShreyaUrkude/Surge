@@ -73,8 +73,11 @@ Imagine leaving a grape in the sun until it becomes a raisin thats essentially w
 Walk into any specialty coffee shop today, and youll likely encounter tasting notes that read more like a fruit basket than a morning beverage: bright strawberry,juicy blueberry,tropical mango . But these fruity flavors don t come from added ingredients—they re the natural result of how coffee cherries are processed after harvest. <br/>
                   </p>
                   <div className={styles.inlineImage}>
+
                     <Image src={blog.img} alt="Coffee beans drying" width={910} height={346} />
                   </div>
+
+                  
                  <p className={styles.text}>
     In the world of specialty coffee, the flavors in your cup are shaped long before 
     the roasting process begins. One of the most fascinating contributors to these 
