@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 import styles from "../Checkout.module.css"
-import { emirates } from "../data/data";
-import CountrySelect from "../../account/countryDropdown/CountrySelect";
-import EmiratesPopup from "../../account/emiratesDropdown/EmiratesDropdown";
+import { emirates } from "../../checkout/data/data";
+import CountrySelect from "../../../app/account1/countryDropdown/CountrySelect";
+import EmiratesPopup from "../../../app/account1/emiratesDropdown/EmiratesDropdown";
 export default function BillingAddress() {
     const [form, setForm] = useState({
         firstName: "",

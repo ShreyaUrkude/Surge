@@ -92,131 +92,62 @@ function CreateProfileContent() {
 
   return (
     <div className={styles.Main}>
-      <div className={styles.MainContainer}>
-        <div className={styles.LeftContainer}>
-          <h4>PURE CRAFT. UNCOMPROMISING QUALITY.</h4>
-          <p>
-            Dedicated to the master transformation of green coffee into
-            world-class specialty beans for you
-          </p>
-        </div>
+      <div className={styles.card}>
+        <div className={styles.UpperTop}>
+          <div className={styles.headingBlock}>
+            <h3>Create your Account</h3>
+            <p>Your specialty coffee journey begins here.</p>
+          </div>
 
-        <div className={styles.RightContainer}>
-          <form className={styles.FormWrapper} onSubmit={submit}>
-            <div className={styles.LogoBox}>
-              <Image src={Logo} alt="White Mantis Logo" />
-            </div>
-
-            <div className={styles.Header}>
-              <h3>YOU'RE ALMOST IN</h3>
-              <p>Your specialty coffee journey begins here.</p>
-            </div>
-
-            <div className={styles.Fields}>
-              {error && <p className={styles.errorMessage}>{error}</p>}
-
-              <input
-                type="email"
-                placeholder="username@gmail.com"
-                value={email}
-                disabled
-                style={{
-                  backgroundColor: "#f5f5f5",
-                  cursor: "not-allowed",
-                  opacity: 0.7,
-                }}
-              />
-
-              <input
-                type="text"
-                placeholder="First Name*"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-                disabled={loading}
-              />
-              <input
-                type="text"
-                placeholder="Last Name*"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-                disabled={loading}
-              />
-
-              <div className={styles.PhoneRow}>
-                <div className={styles.FlagBox}>
-                  <Image src={flag} alt="UAE Flag" />
-                  <span>+971</span>
-                </div>
+          <div className={styles.inputBlock}>
+            {error && <p className={styles.errorMessage}>{error}</p>}
+            <input
+              type="email"
+              placeholder="Username@gmail.com"
+              className={styles.inputemail}
+              // value={email}
+              // onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={loading}
+              suppressHydrationWarning
+            />
+            <input
+              type="name"
+              placeholder="Full name*"
+              className={styles.inputemail}
+              // value={email}
+              // onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={loading}
+              suppressHydrationWarning
+            />
+            <div className={styles.numberInput}>
+              <Image src={flag} />
+              <p>+91
                 <input
-                  type="tel"
-                  placeholder="Phone Number*"
-                  value={phone}
-                  maxLength={9}
-                  onChange={(e) => {
-                    let val = e.target.value.replace(/[^0-9]/g, "");
-                    if (val.startsWith("0")) val = val.substring(1);
-                    setPhone(val);
-                  }}
+                  type="number"
+                  placeholder="Phone number"
+                  className={styles.inputemail}
+                  // value={email}
+                  // onChange={(e) => setEmail(e.target.value)}
                   required
                   disabled={loading}
+                  suppressHydrationWarning
                 />
-              </div>
-
-              <div className={styles.SelectWrapper} ref={genderRef}>
-                <div
-                  className={`${styles.CustomSelectTrigger} ${gender ? styles.hasValue : ""}`}
-                  onClick={() => !loading && setIsGenderOpen(!isGenderOpen)}
-                >
-                  <span>
-                    {genderOptions.find((o) => o.value === gender)?.label ||
-                      "Gender (optional)"}
-                  </span>
-                </div>
-
-                <svg
-                  className={`${styles.DropArrow} ${isGenderOpen ? styles.Rotate : ""}`}
-                  width="13"
-                  height="7"
-                  viewBox="0 0 13 7"
-                  fill="none"
-                >
-                  <path
-                    opacity="0.6"
-                    d="M6.0625 6.75L0.000322705 1.88257e-07L12.1247 -8.71687e-07L6.0625 6.75Z"
-                    fill="#6E736A"
-                  />
-                </svg>
-
-                {isGenderOpen && (
-                  <div className={styles.CustomOptionsList}>
-                    {genderOptions.map((option) => (
-                      <div
-                        key={option.value}
-                        className={styles.OptionItem}
-                        onClick={() => {
-                          setGender(option.value);
-                          setIsGenderOpen(false);
-                        }}
-                      >
-                        {option.label}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <button
-                className={styles.PrimaryBtn}
-                type="submit"
-                disabled={loading}
-              >
-                {loading ? "Proceding" : "Begin Your Journey"}
-              </button>
+              </p>
             </div>
-          </form>
+          </div>
         </div>
+        <div className={styles.lowerBottom}>
+          <button
+            className={styles.ctacontinue}
+            // onClick={handleContinue}
+            disabled={loading || !email}
+          >
+            {loading ? "Processing..." : "Continue"}
+          </button>
+        </div>
+
       </div>
     </div>
   );

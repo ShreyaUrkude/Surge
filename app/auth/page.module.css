@@ -1,343 +1,302 @@
 .Main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding-right: clamp(24px, calc(24px + (122 * ((100vw - 320px) / 1120))), 146px);
-
-    height: 100svh;
-    overflow-y: auto;
-    background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100svh;
+  background: url('./27a11dffca8efc701d3ceac00c224bb44b5d10b9.jpg') no-repeat center center;
+  background-size: cover;
 }
 
-.MainCoantiner {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    flex-direction: row;
-    gap: clamp(30px, calc(30px + (120 * ((100vw - 320px) / 1120))), 150px);
-
+.card {
+  background: #fff;
+  padding: 74px 65px;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 40px;
 }
 
-.LeftCoantiner {
-    display: flex;
-    justify-content: end;
-    background: url('./1.png') no-repeat;
-    flex-direction: column;
-    background-size: cover;
-    gap: 4px;
-    padding-left: clamp(24px, calc(24px + (101 * ((100vw - 320px) / 1120))), 125px);
-    object-fit: cover;
-    object-position: center;
-    height: 960px;
-
-    width: 62.5%;
-    max-width: clamp(400px, calc(400px + (800 * ((100vw - 320px) / 1120))), 1200px);
-
-    height: 100%;
-    padding-bottom: clamp(40px, calc(40px + (84 * ((100vw - 320px) / 1120))), 124px);
-
+.logo {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
 }
 
-.LeftCoantiner h4 {
-    font-family: var(--lexend);
-    font-size: var(--fs-22);
-    font-weight: var(--lexend-heading-font-weight);
-    color: var(--white-color);
-    text-transform: uppercase;
+.headingBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 12px;
+  text-align: center;
 }
 
-.LeftCoantiner p {
-    font-family: var(--lato);
-    font-size: var(--fs-15);
-    font-weight: var(--lato-font-weight);
-    color: var(--white-color);
-    max-width: 455px;
+.headingBlock h3 {
+  font-family: var(--font-montserrat);
+  font-size: var(--fs-22);
+  font-weight: 600;
+  color: var(--heads-color);
+  margin: 0;
+  text-align: left;
 }
 
-.RightCoantiner {
-    display: flex;
-    justify-content: left;
-    flex-direction: column;
-    gap: 56px;
+.headingBlock p {
+  font-family: var(--font-raleway);
+  font-size: var(--fs-18);
+  font-weight: 400;
+  color: #6E736A;
+  margin: 0;
+  text-align: left;
+  width: 85%;
 }
 
-.RightTop {
-    display: flex;
-    justify-content: left;
-    flex-direction: column;
-    gap: clamp(28px, calc(28px + (12 * ((100vw - 320px) / 1120))), 40px);
-
-}
-
-.RightTopOne {
-    display: flex;
-    justify-content: left;
-    flex-direction: column;
-    gap: 32px;
-}
-
-.RightTopOneTop {
-    display: flex;
-    justify-content: left;
-}
-
-.RightTopOneTop img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    max-width: 38px;
-    max-height: 38px;
-}
-
-.RightTopOneBottom {
-    display: flex;
-    justify-content: left;
-    flex-direction: column;
-    gap: 28px;
-}
-
-.RightTopOneBottomTop {
-    display: flex;
-    justify-content: left;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.RightTopOneBottomTop h3 {
-    font-family: var(--lexend);
-    font-size: var(--fs-22);
-    font-weight: var(--lexend-heading-font-weight);
-    color: var(--heads-color);
-}
-
-.RightTopOneBottomTop p {
-    font-family: var(--lato);
-    font-size: var(--fs-15);
-    font-weight: var(--lato-font-weight);
-    color: var(--body-color);
-    max-width: 405px;
-}
-
-.RightTopOneBottomBottom {
-    display: flex;
-    justify-content: left;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.errorMessage {
-    font-family: var(--lato);
-    font-size: 13px;
-    font-weight: var(--lato-font-weight);
-    color: var(--red-color);
-    padding: 8px 12px;
-    background-color: #FFEBEE;
-    border-left: 3px solid var(--red-color);
-    border-radius: 2px;
-    max-width: 420px;
+.inputBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
 }
 
 .inputemail {
-    width: 100%;
-    height: 48px;
-    max-width: 420px;
-    border: 1px solid #2F362A4D;
-    padding: 19px 20px;
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-bottom: 1px solid #2F362A4D;
+  padding: 0 0px;
+  box-sizing: border-box;
+  outline: none;
+  font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  font-weight: 400;
 }
 
 .inputemail:focus {
-    border-color: var(--heads-color) !important;
-    border-radius: 0 !important;
+  border-color: var(--heads-color);
 }
 
-.RightTopTwo {
-    display: flex;
-    justify-content: left;
-    flex-direction: column;
-    gap: 12px;
+.UpperTop {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.RightTopTwo p {
-    font-family: var(--lato);
-    font-size: var(--fs-15);
-    font-weight: var(--lato-font-weight);
-    color: var(--body-color);
+.lowerBottom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
 }
 
-.Tnc {
-    text-decoration: underline;
-    color: var(--body-color);
+.errorMessage {
+  font-family: var(--lato);
+  font-size: 13px;
+  color: var(--red-color);
+  padding: 8px 12px;
+  background-color: #FFEBEE;
+  border-left: 3px solid var(--red-color);
+  border-radius: 2px;
 }
 
 .ctacontinue {
-    width: 100%;
-    max-width: 420px;
-    height: 44px;
-    background-color: var(--primary-color);
-    border: none;
-    font-family: var(--lato);
-    font-size: var(--fs-15);
-    font-weight: 500;
-    padding: 13px 20px;
-    color: var(--white-color);
-    cursor: pointer;
+  width: 100%;
+  height: 44px;
+  background-color: var(--primary-color);
+  border: none;
+  font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  font-weight: 600;
+  color: var(--background);
+  cursor: pointer;
 }
 
-.RightBottom {
-    display: flex;
-    justify-content: left;
-    flex-direction: column;
-    gap: 32px;
-}
-
-.RightBottomOne {
-    display: flex;
-    justify-content: left;
-    flex-direction: row;
-    gap: 8px;
-    align-items: center;
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
 }
 
 .line {
-    width: 100%;
-    height: 1px;
-    background-color: var(--line-color);
+  flex: 1;
+  height: 1px;
+  background-color: var(--text-secondary);
 }
 
 .textor p {
-    font-family: var(--lato);
-    font-size: var(--fs-15);
-    font-weight: var(--lato-font-weight);
-    white-space: nowrap;
-    color: var(--body-color);
+  font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  font-weight: 400;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  margin: 0;
 }
 
 .socials {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-self: center;
-    flex-direction: row;
-    gap: 16px;
-    width: 100%;
-    background-color: var(--white-color);
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
 }
 
 .socials>button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-    border: 1px solid var(--heads-color) !important;
-    padding: 16px 26px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--text-secondary);
+  padding: 16px 28px;
+  background: transparent;
+  cursor: pointer;
 }
 
-.googleButton {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-self: center;
-    flex-direction: row;
-    gap: 15px;
-    font-size: var(--fs-15);
-    font-family: var(--lato);
-    font-weight: var(--lato-font-weight);
-    color: var(--heads-color);
+.socials>button:hover {
+  opacity: 0.7;
+}
+
+.socials>button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.tnc {
+  font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin: 0px;
+}
+
+.Tnc {
+  text-decoration: underline;
+  color: var(--text-secondary);
 }
 
 @media (max-width: 1024px) {
-    .Main {
-        height: 100dvh;
-        padding-right: 0px;
-    }
+  .Main {
+    height: 100dvh;
+    padding-right: 0px;
+  }
 
-    .MainCoantiner {
-        flex-direction: column;
-        gap: 30px;
-    }
+  .MainCoantiner {
+    flex-direction: column;
+    gap: 30px;
+  }
 
-    .LeftCoantiner {
-        max-width: 100%;
+  .LeftCoantiner {
+    max-width: 100%;
 
-        background-size: cover;
-        padding-left: 0px;
-        height: 400px;
-    }
+    background-size: cover;
+    padding-left: 0px;
+    height: 400px;
+  }
 
-    .LeftCoantiner p {
-        display: none;
-    }
+  .LeftCoantiner p {
+    display: none;
+  }
 
-    .LeftCoantiner h4 {
-        display: none;
-    }
+  .LeftCoantiner h4 {
+    display: none;
+  }
 
-    .RightCoantiner {
-        width: 100%;
-        gap: 80px;
-        padding-left: 24px;
-        padding-right: 24px;
-        padding-bottom: 100px;
-        padding-top: 50px;
+  .RightCoantiner {
+    width: 100%;
+    gap: 80px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 100px;
+    padding-top: 50px;
 
-    }
+  }
 
-    .RightTop {
-        gap: 28px;
-    }
+  .RightTop {
+    gap: 28px;
+  }
 
-    .RightTopOneBottomTop h3 {
-        font-size: 20px;
-    }
+  .RightTopOneBottomTop h3 {
+    font-size: 20px;
+  }
 
-    .inputemail {
-        max-width: 100%;
-    }
+  .inputemail {
+    max-width: 100%;
+  }
 
-    .ctacontinue {
-        max-width: 100%;
-    }
+  .ctacontinue {
+    max-width: 100%;
+  }
 
-    .errorMessage {
-        max-width: 100%;
-    }
+  .errorMessage {
+    max-width: 100%;
+  }
 
-    .RightTopOne {
-        gap: 22px;
-    }
+  .RightTopOne {
+    gap: 22px;
+  }
 
-    .RightTopOneTop img {
-        max-width: 44px;
-        max-height: 48px;
-    }
+  .RightTopOneTop img {
+    max-width: 44px;
+    max-height: 48px;
+  }
 
-    .RightTopOneBottomTop {
-        gap: 4px;
-    }
+  .RightTopOneBottomTop {
+    gap: 4px;
+  }
 
-    .RightTopOneBottomTop p,
-    .RightTopTwo p,
-    .textor p {
-        max-width: 100%;
-        font-size: 14px;
-    }
+  .RightTopOneBottomTop p,
+  .RightTopTwo p,
+  .textor p {
+    max-width: 100%;
+    font-size: 14px;
+  }
 
-    .RightBottom {
-        gap: 32px;
-    }
+  .RightBottom {
+    gap: 32px;
+  }
 }
 
 @media (min-width: 1025px) and (max-width: 1440px) {
-    .LeftCoantiner {
-        max-width: 600px;
-        height: 700px;
-    }
+  .LeftCoantiner {
+    max-width: 600px;
+    height: 700px;
+  }
 
-    .RightCoantiner {
-        padding-top: 100px;
-    }
+  .RightCoantiner {
+    padding-top: 100px;
+  }
+}
+@media (max-width: 768px) {
+  .Main {
+    align-items: center;
+    background-position: center ;
+  }
+
+  .card {
+    padding: 40px 24px;
+    max-width: 100%;
+    width: calc(100% - 32px);  /* 16px breathing room on each side */
+    margin: 80px 16px 16px;       /* left, right, and a little bottom lift */
+    gap: 28px;
+  }
+
+  .headingBlock p {
+    font-size: var(--fs-16);
+    width: 100%;
+  }
+
+  .UpperTop {
+    gap: 24px;
+  }
+
+  .socials > button {
+    padding: 14px 0;
+    flex: 1;
+  }
+
+  .tnc {
+    font-size: 13px;
+  }
+
+  .ctacontinue {
+    height: 48px;
+  }
 }

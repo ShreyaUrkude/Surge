@@ -85,8 +85,8 @@ function AuthPageContent() {
         } catch (e) {
           setError(
             e.response?.data?.message ||
-              e.message ||
-              "Failed to complete sign-in",
+            e.message ||
+            "Failed to complete sign-in",
           );
           setLoading(false);
         }
@@ -159,113 +159,105 @@ function AuthPageContent() {
 
   return (
     <>
-      <div className={styles.Main}>
+      {/* <div className={styles.Main}>
         <div className={styles.MainCoantiner}>
           <div className={styles.LeftCoantiner}>
-            <h4>Pure Craft. Uncompromising Quality.</h4>
-            <p>
-              Dedicated to the master transformation of green coffee into
-              world-class specialty beans for you
-            </p>
-          </div>
-          <div className={styles.RightCoantiner}>
-            <div className={styles.RightTop}>
-              <div className={styles.RightTopOne}>
-                <div className={styles.RightTopOneTop}>
-                  <Image src={Logo} alt="White Mantis Logo" />
-                </div>
-                <div className={styles.RightTopOneBottom}>
-                  <div className={styles.RightTopOneBottomTop}>
-                    <h3>ENTER YOUR EMAIL</h3>
-                    <p>We'll send a quick code - no password needed.</p>
-                  </div>
-                  <div className={styles.RightTopOneBottomBottom}>
-                    {error && <p className={styles.errorMessage}>{error}</p>}
-                    <input
-                      type="email"
-                      placeholder="Enter your email address"
-                      className={styles.inputemail}
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      disabled={loading}
-                      suppressHydrationWarning
-                    />
+            <div className={styles.RightCoantiner}>
+              <div className={styles.RightTop}>
+                <div className={styles.RightTopOne}>
+
+                  <div className={styles.RightTopOneBottom}>
+                    <div className={styles.RightTopOneBottomTop}>
+                      <h3>ENTER YOUR EMAIL</h3>
+                      <p>We’ll send a one-time password (OTP) to this email address to securely verify your account.</p>
+                    </div>
+                    <div className={styles.RightTopOneBottomBottom}>
+                      {error && <p className={styles.errorMessage}>{error}</p>}
+                      <input
+                        type="email"
+                        placeholder="Enter your email address"
+                        className={styles.inputemail}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        disabled={loading}
+                        suppressHydrationWarning
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className={styles.RightTopTwo}>
-                <button
-                  className={styles.ctacontinue}
-                  onClick={handleContinue}
-                  disabled={loading || !email}
-                >
-                  {loading ? "Processing..." : "Send Code"}
-                </button>
-                <p>
-                  By continuing, you agree to our{" "}
-                  <Link href="/terms-and-conditions" className={styles.Tnc}>
-                    Terms & Privacy Policy
-                  </Link>
-                </p>
-              </div>
-            </div>
-            <div className={styles.RightBottom}>
-              <div className={styles.RightBottomOne}>
-                <div className={styles.line}></div>
-                <div className={styles.textor}>
-                  <p>or continue with</p>
-                </div>
-                <div className={styles.line}></div>
-              </div>
-              <div className={styles.socials}>
-                <button
-                  onClick={handleGoogleSignIn}
-                  disabled={loading}
-                  className={styles.googleButton}
-                  style={{
-                    background: "transparent",
-                    border: "none",
-                    cursor: loading ? "not-allowed" : "pointer",
-                    opacity: loading ? 0.6 : 1,
-                    padding: 0,
-                  }}
-                  aria-label="Sign in with Google"
-                >
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                <div className={styles.RightTopTwo}>
+                  <button
+                    className={styles.ctacontinue}
+                    onClick={handleContinue}
+                    disabled={loading || !email}
                   >
-                    <g clipPath="url(#clip0_3069_17144)">
-                      <path
-                        d="M23.9995 12.0386C23.9995 11.0554 23.9178 10.3378 23.7411 9.59375H12.25V14.0317H18.995C18.8591 15.1346 18.1248 16.7956 16.4928 17.9117L16.47 18.0603L20.1032 20.8105L20.355 20.835C22.6667 18.7488 23.9995 15.6794 23.9995 12.0386Z"
-                        fill="#4285F4"
-                      />
-                      <path
-                        d="M12.2383 23.9139C15.5428 23.9139 18.3169 22.8508 20.3432 21.0172L16.4811 18.0939C15.4476 18.7981 14.0605 19.2898 12.2383 19.2898C9.00175 19.2898 6.25478 17.2037 5.27556 14.3203L5.13203 14.3322L1.35409 17.189L1.30469 17.3232C3.31731 21.2297 7.45141 23.9139 12.2383 23.9139Z"
-                        fill="#34A853"
-                      />
-                      <path
-                        d="M5.27634 14.3228C5.01797 13.5787 4.86844 12.7814 4.86844 11.9576C4.86844 11.1338 5.01797 10.3365 5.26275 9.59244L5.25591 9.43397L1.43062 6.53125L1.30547 6.58942C0.475969 8.21052 0 10.0309 0 11.9576C0 13.8843 0.475969 15.7047 1.30547 17.3258L5.27634 14.3228Z"
-                        fill="#FBBC05"
-                      />
-                      <path
-                        d="M12.2383 4.62403C14.5365 4.62403 16.0867 5.59401 16.9707 6.40461L20.4248 3.10928C18.3034 1.1826 15.5428 0 12.2383 0C7.45141 0 3.31731 2.68406 1.30469 6.59056L5.26197 9.59359C6.25478 6.7102 9.00175 4.62403 12.2383 4.62403Z"
-                        fill="#EB4335"
-                      />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_3069_17144">
-                        <rect width="24" height="24" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                  <p>Sign in with Google</p>
-                </button>
-                {/* Apple Sign-In button commented out
+                    {loading ? "Processing..." : "Send Code"}
+                  </button>
+                  <p>
+                    By continuing, you agree to our{" "}
+                    <Link href="/terms-and-conditions" className={styles.Tnc}>
+                      Terms & Privacy Policy
+                    </Link>
+                  </p>
+                </div>
+              </div>
+              <div className={styles.RightBottom}>
+                 <div className={styles.RightBottomOne}>
+                  <div className={styles.line}></div>
+                  <div className={styles.textor}>
+                    <p>or continue with</p>
+                  </div>
+                  <div className={styles.line}></div>
+                </div> 
+                <div className={styles.socials}>
+                  <button
+                    onClick={handleGoogleSignIn}
+                    disabled={loading}
+                    className={styles.googleButton}
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      cursor: loading ? "not-allowed" : "pointer",
+                      opacity: loading ? 0.6 : 1,
+                      padding: 0,
+                    }}
+                    aria-label="Sign in with Google"
+                  >
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g clipPath="url(#clip0_3069_17144)">
+                        <path
+                          d="M23.9995 12.0386C23.9995 11.0554 23.9178 10.3378 23.7411 9.59375H12.25V14.0317H18.995C18.8591 15.1346 18.1248 16.7956 16.4928 17.9117L16.47 18.0603L20.1032 20.8105L20.355 20.835C22.6667 18.7488 23.9995 15.6794 23.9995 12.0386Z"
+                          fill="#4285F4"
+                        />
+                        <path
+                          d="M12.2383 23.9139C15.5428 23.9139 18.3169 22.8508 20.3432 21.0172L16.4811 18.0939C15.4476 18.7981 14.0605 19.2898 12.2383 19.2898C9.00175 19.2898 6.25478 17.2037 5.27556 14.3203L5.13203 14.3322L1.35409 17.189L1.30469 17.3232C3.31731 21.2297 7.45141 23.9139 12.2383 23.9139Z"
+                          fill="#34A853"
+                        />
+                        <path
+                          d="M5.27634 14.3228C5.01797 13.5787 4.86844 12.7814 4.86844 11.9576C4.86844 11.1338 5.01797 10.3365 5.26275 9.59244L5.25591 9.43397L1.43062 6.53125L1.30547 6.58942C0.475969 8.21052 0 10.0309 0 11.9576C0 13.8843 0.475969 15.7047 1.30547 17.3258L5.27634 14.3228Z"
+                          fill="#FBBC05"
+                        />
+                        <path
+                          d="M12.2383 4.62403C14.5365 4.62403 16.0867 5.59401 16.9707 6.40461L20.4248 3.10928C18.3034 1.1826 15.5428 0 12.2383 0C7.45141 0 3.31731 2.68406 1.30469 6.59056L5.26197 9.59359C6.25478 6.7102 9.00175 4.62403 12.2383 4.62403Z"
+                          fill="#EB4335"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_3069_17144">
+                          <rect width="24" height="24" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                    <p>Sign in with Google</p>
+                  </button> 
+                  Apple Sign-In button commented out
                 <button
                   onClick={handleAppleSignIn}
                   disabled={loading}
@@ -292,11 +284,131 @@ function AuthPageContent() {
                     />
                   </svg>
                   <p>Sign in with Apple</p>
-                </button>
-                */}
+                </button> 
+                
+                </div>
               </div>
             </div>
           </div>
+
+        </div>
+      </div> */}
+
+
+      <div className={styles.Main}>
+        <div className={styles.card}>
+          <div className={styles.UpperTop}>
+            <div className={styles.headingBlock}>
+              <h3>Login / Sign Up</h3>
+              <p>We’ll send a one-time password (OTP) to this email address to securely verify your account.</p>
+            </div>
+
+            <div className={styles.inputBlock}>
+              {error && <p className={styles.errorMessage}>{error}</p>}
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                className={styles.inputemail}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={loading}
+                suppressHydrationWarning
+              />
+            </div>
+          </div>
+          <div className={styles.lowerBottom}>
+            <p className={styles.tnc}>
+              By continuing, you agree to our{" "}
+              <Link href="/terms-and-conditions" className={styles.Tnc}>
+                Terms & Privacy Policy
+              </Link>
+            </p>
+            <button
+              className={styles.ctacontinue}
+              onClick={handleContinue}
+              disabled={loading || !email}
+            >
+              {loading ? "Processing..." : "Continue"}
+            </button>
+          </div>
+
+
+          <div className={styles.divider}>
+            <span className={styles.line} />
+            <div className={styles.textor}><p>or continue with</p></div>
+            <span className={styles.line} />
+          </div>
+
+          <div className={styles.socials}>
+            <button
+              // onClick={handleGoogleSignIn}
+              disabled={loading}
+              className={styles.googleButton}
+              aria-label="Sign in with Google"
+            >
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clipPath="url(#clip0_3069_17144)">
+                  <path d="M23.9995 12.0386C23.9995 11.0554 23.9178 10.3378 23.7411 9.59375H12.25V14.0317H18.995C18.8591 15.1346 18.1248 16.7956 16.4928 17.9117L16.47 18.0603L20.1032 20.8105L20.355 20.835C22.6667 18.7488 23.9995 15.6794 23.9995 12.0386Z" fill="#4285F4" />
+                  <path d="M12.2383 23.9139C15.5428 23.9139 18.3169 22.8508 20.3432 21.0172L16.4811 18.0939C15.4476 18.7981 14.0605 19.2898 12.2383 19.2898C9.00175 19.2898 6.25478 17.2037 5.27556 14.3203L5.13203 14.3322L1.35409 17.189L1.30469 17.3232C3.31731 21.2297 7.45141 23.9139 12.2383 23.9139Z" fill="#34A853" />
+                  <path d="M5.27634 14.3228C5.01797 13.5787 4.86844 12.7814 4.86844 11.9576C4.86844 11.1338 5.01797 10.3365 5.26275 9.59244L5.25591 9.43397L1.43062 6.53125L1.30547 6.58942C0.475969 8.21052 0 10.0309 0 11.9576C0 13.8843 0.475969 15.7047 1.30547 17.3258L5.27634 14.3228Z" fill="#FBBC05" />
+                  <path d="M12.2383 4.62403C14.5365 4.62403 16.0867 5.59401 16.9707 6.40461L20.4248 3.10928C18.3034 1.1826 15.5428 0 12.2383 0C7.45141 0 3.31731 2.68406 1.30469 6.59056L5.26197 9.59359C6.25478 6.7102 9.00175 4.62403 12.2383 4.62403Z" fill="#EB4335" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_3069_17144">
+                    <rect width="30" height="30" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </button>
+
+            <button
+              // onClick={handleAppleSignIn}
+              disabled={loading}
+              className={styles.googleButton}
+              aria-label="Sign in with Apple"
+            >
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M17.0435 12.7249C17.0279 10.8504 17.8935 9.44785 19.6404 8.41441C18.6607 7.00535 17.1638 6.22754 15.1794 6.07629C13.3013 5.92816 11.2544 7.14472 10.5076 7.14472C9.71729 7.14472 7.90603 6.12629 6.47197 6.12629C3.50978 6.17316 0.359985 8.46129 0.359985 13.1249C0.359985 14.5218 0.611235 15.9656 1.11373 17.4562C1.78435 19.4093 4.25291 24.126 6.82416 24.0478C8.15853 24.0165 9.09666 23.1196 10.8279 23.1196C12.5123 23.1196 13.3779 24.0478 14.8654 24.0478C17.4522 24.0087 19.6873 19.7249 20.3267 17.7718C16.961 16.1624 17.0435 12.8187 17.0435 12.7249ZM14.0813 4.22629C15.5063 2.53129 15.3738 0.985039 15.3269 0.454102C14.0657 0.532227 12.6004 1.31629 11.7663 2.28754C10.8435 3.33254 10.3254 4.62691 10.4423 6.04535C11.8073 6.14941 13.0529 5.44472 14.0813 4.22629Z"
+                  fill="#2F362A"
+                />
+              </svg>
+            </button>
+
+            <button
+              // onClick={handleAppleSignIn}
+              disabled={loading}
+              className={styles.googleButton}
+              aria-label="Sign in with Apple"
+            >
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_5492_20142)">
+                  <path d="M14.137 0H9.86301C4.41582 0 0 4.41582 0 9.86301V14.137C0 19.5842 4.41582 24 9.86301 24H14.137C19.5842 24 24 19.5842 24 14.137V9.86301C24 4.41582 19.5842 0 14.137 0Z" fill="#1E4BC6" />
+                  <path d="M19.7255 12.0073C19.7255 7.74031 16.2664 4.28125 11.9995 4.28125C7.7325 4.28125 4.27344 7.74031 4.27344 12.0073C4.27344 16.2742 7.7325 19.7333 11.9995 19.7333C16.2664 19.7333 19.7255 16.2742 19.7255 12.0073Z" fill="white" />
+                  <path d="M13.7649 8.87853C13.7649 7.87988 12.9553 7.07031 11.9567 7.07031C10.958 7.07031 10.1484 7.87988 10.1484 8.87853C10.1484 9.87718 10.958 10.6868 11.9567 10.6868C12.9553 10.6868 13.7649 9.87718 13.7649 8.87853Z" fill="#6D90FF" />
+                  <path d="M11.9517 11.6719C13.9119 11.6719 15.5577 13.0174 16.0162 14.8351C15.2063 16.0886 13.6922 16.9321 11.9577 16.9321C10.217 16.9321 8.69837 16.0826 7.89062 14.8218C8.35384 13.0108 9.99635 11.6719 11.9517 11.6719Z" fill="#1E4BC6" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_5492_20142">
+                    <rect width="24" height="24" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+
+
+
+            </button>
+
+
+          </div>
+
         </div>
       </div>
     </>
