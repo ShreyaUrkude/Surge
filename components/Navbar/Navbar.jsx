@@ -3,11 +3,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation"; // Pathname detect karne ke liye
 import styles from "./Navbar.module.css";
 import logo from "./logo.png";
 import NavbarShop from "./NavbarShop";
 
 export default function Navbar() {
+  const pathname = usePathname(); 
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,6 +31,17 @@ export default function Navbar() {
   }, []);
 
   // ── Account: mobile only click, desktop hover ─────────────────
+
+  const isActive = (path) => pathname === path;
+
+ 
+  const isParentActive = (path) => pathname.startsWith(path);
+
+  const handleShopClick = (e) => {
+    e.preventDefault(); 
+    setIsShopOpen(!isShopOpen);
+  };
+
   const handleAccountClick = (e) => {
     const isMobile = typeof window !== "undefined" && window.innerWidth < 1300;
     if (isMobile) {
@@ -53,31 +66,17 @@ export default function Navbar() {
 
       <div className={`${styles.navWrapper} ${menuOpen ? styles.active : ""}`}>
         <nav className={styles.menuCenter}>
-
-          {/* ── Our Shop — hover on desktop, click on mobile ── */}
-          <div
-            className={styles.shopTrigger}
-            onMouseEnter={() => {
-              if (window.innerWidth >= 1300) setIsShopOpen(true);
-            }}
-            onMouseLeave={() => {
-              if (window.innerWidth >= 1300) setIsShopOpen(false);
-            }}
-          >
-            <Link
-              href="/shop"
-              className={styles.navLinkRed}
-              onClick={(e) => {
-                if (window.innerWidth < 1300) {
-                  e.preventDefault();
-                  setIsShopOpen((v) => !v);
-                }
-              }}
+          
+          <div className={styles.shopTrigger}>
+            <Link 
+              href="/shop" 
+              className={`${styles.navLink} ${isParentActive("/shop") ? styles.activeRed : ""}`} 
+              onClick={handleShopClick}
             >
-              Our Shop
+              Our Shop 
               <span className={`${styles.arrow} ${isShopOpen ? styles.arrowUp : ""}`}>
                 <svg width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6.0625 0L0.000322342 6.75H12.1247L6.0625 0Z" fill="#2F362A" />
+                  <path d="M6.0625 0L0.000322342 6.75H12.1247L6.0625 0Z" fill="currentColor"/>
                 </svg>
               </span>
             </Link>
@@ -87,13 +86,34 @@ export default function Navbar() {
                 <div className={styles.desktopOnly}>
                   <NavbarShop onClose={() => setIsShopOpen(false)} />
                 </div>
+
                 <div className={styles.mobileOnly}>
                   <ul className={styles.linkStack}>
-                    <li><Link href="/shop/coffee-beans" onClick={() => setIsShopOpen(false)}>Coffee Beans</Link></li>
-                    <li><Link href="/shop/coffee-dripbags" onClick={() => setIsShopOpen(false)}>Coffee Drip Bags</Link></li>
-                    <li><Link href="/shop/coffee-capsules" onClick={() => setIsShopOpen(false)}>Coffee Capsules</Link></li>
-                    <li><Link href="/shop/Merchandise" onClick={() => setIsShopOpen(false)}>Merchandise</Link></li>
-                    <li><Link href="/shop/Equipments" onClick={() => setIsShopOpen(false)}>Equipments</Link></li>
+                    <li>
+                      <Link href="/shop/coffee-beans" className={isActive("/shop/coffee-beans") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
+                        Coffee beans
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/coffee-dripbags" className={isActive("/shop/coffee-dripbags") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
+                        Coffee Drip bags
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/coffee-capsules" className={isActive("/shop/coffee-capsules") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
+                        Coffee Capsules
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/Merchandise" className={isActive("/shop/Merchandise") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
+                        Merchandise
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/Equipments" className={isActive("/shop/Equipments") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
+                        Equipments
+                      </Link>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -101,34 +121,36 @@ export default function Navbar() {
           </div>
 
           <div className={styles.mobileLine}></div>
-          <Link href="/about-us" className={styles.navLink}>About Us</Link>
+          <Link href="/about-us" className={`${styles.navLink} ${isActive("/about-us") ? styles.activeRed : ""}`}>About Us</Link>
           <div className={styles.mobileLine}></div>
-          <Link href="/events" className={styles.navLink}>Events</Link>
+          <Link href="/events" className={`${styles.navLink} ${isActive("/events") ? styles.activeRed : ""}`}>Events</Link>
           <div className={styles.mobileLine}></div>
-          <Link href="/ourmenu" className={styles.navLink}>Cafe Menu</Link>
+          <Link href="/ourmenu" className={`${styles.navLink} ${isActive("/ourmenu") ? styles.activeRed : ""}`}>Cafe Menu</Link>
         </nav>
 
         <nav className={styles.menuRight}>
           <div className={styles.mobileLine}></div>
-          <Link href="/contact">Contact Us</Link>
+          <Link href="/contact" className={isActive("/contact") ? styles.activeRed : ""}>Contact Us</Link>
           <div className={styles.mobileLine}></div>
-          <Link href="/blogs">Blogs</Link>
+          <Link href="/blogs" className={isActive("/blogs") ? styles.activeRed : ""}>Blogs</Link>
+
           <div className={styles.mobileLine}></div>
-          <Link href="/cart">Cart</Link>
+          <Link href="/cart" className={isActive("/cart") ? styles.activeRed : ""}>Cart</Link>
+          
           <div className={styles.mobileLine}></div>
-          <Link href="/Login">Login</Link>
+          <Link href="/Login" className={isActive("/Login") ? styles.activeRed : ""}>Login</Link>
           <div className={styles.mobileLine}></div>
 
           <div className={styles.accountTrigger}>
-            <Link
-              href="/account/profile"
-              className={styles.navLink}
+            <Link 
+              href="/account/profile" 
+              className={`${styles.navLink} ${isParentActive("/account") ? styles.activeRed : ""}`} 
               onClick={handleAccountClick}
             >
-              Account
+              / Account 
               <span className={`${styles.arrow} ${isAccountOpen ? styles.arrowUp : ""}`}>
                 <svg width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6.0625 0L0.000322342 6.75H12.1247L6.0625 0Z" fill="#2F362A" />
+                  <path d="M6.0625 0L0.000322342 6.75H12.1247L6.0625 0Z" fill="currentColor"/>
                 </svg>
               </span>
             </Link>
@@ -136,11 +158,21 @@ export default function Navbar() {
             {isAccountOpen && (
               <div className={styles.mobileOnly}>
                 <ul className={styles.accountStack}>
-                  <li><Link href="/account/profile" onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Profile</Link></li>
-                  <li><Link href="/account/orders" onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Orders</Link></li>
-                  <li><Link href="/account/manage-subscription" onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Manage Subscription</Link></li>
-                  <li><Link href="/account/wishlist" onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Wishlist</Link></li>
-                  <li><Link href="/account/logout" onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Logout</Link></li>
+                  <li>
+                    <Link href="/account/profile" className={isActive("/account/profile") ? styles.activeRed : ""} onClick={() => {setIsAccountOpen(false); setMenuOpen(false);}}>Profile</Link>
+                  </li>
+                  <li>
+                    <Link href="/account/orders" className={isActive("/account/orders") ? styles.activeRed : ""} onClick={() => {setIsAccountOpen(false); setMenuOpen(false);}}>Orders</Link>
+                  </li>
+                  <li>
+                    <Link href="/account/manage-subscription" className={isActive("/account/manage-subscription") ? styles.activeRed : ""} onClick={() => {setIsAccountOpen(false); setMenuOpen(false);}}>Manage Subscription</Link>
+                  </li>
+                  <li>
+                    <Link href="/account/wishlist" className={isActive("/account/wishlist") ? styles.activeRed : ""} onClick={() => {setIsAccountOpen(false); setMenuOpen(false);}}>Wishlist</Link>
+                  </li>
+                  <li>
+                    <Link href="/account/logout" onClick={() => {setIsAccountOpen(false); setMenuOpen(false);}}>Logout</Link>
+                  </li>
                 </ul>
               </div>
             )}

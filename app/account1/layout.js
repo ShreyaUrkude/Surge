@@ -3,7 +3,7 @@ import React from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import styles from './layout.module.css';
 
-import Breadcrumbs from "./_components/Breadcrumbs/Breadcrumbs";
+
 
 export default function AccountLayout({ children }) {
   const pathname = usePathname();
@@ -60,19 +60,13 @@ export default function AccountLayout({ children }) {
   ];
 
 
-  const activeItem = menuItems.find(item => pathname === item.path) || menuItems[0];
+ 
 
   return (
     
    <div className={styles.AccountRoot}>
     
-      <div className={styles.breadcrumbWrapper}>
-        <Breadcrumbs 
-          activeLabel={activeItem.label} 
-          activeIcon={activeItem.svg} 
-        />
-      </div>
-
+    
    
       <div className={styles.shell}>
         <aside className={styles.Left}>

@@ -1,3 +1,4 @@
+/*
 "use client";
 import { usePathname } from "next/navigation"; 
 import styles from "./Breadcrumbs.module.css";
@@ -67,4 +68,4 @@ const Breadcrumbs = ({ activeLabel = "Profile" }) => {
   );
 };
 
-export default Breadcrumbs;
+export default Breadcrumbs; */

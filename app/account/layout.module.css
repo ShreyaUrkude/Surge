@@ -19,7 +19,187 @@
 
 @media (max-width: 640px) {
   .shell {
-    padding-top: 110px;
-    padding-bottom: 20px
+    padding-left: 5% !important; 
+    gap: 60px;
+  }
+}
+
+
+@media screen and (max-width: 1000px) {
+  .shell {
+  
+    gap: 70px;
+    flex-direction: row;
+  }
+
+  .Left {
+    width: 250px;
+  }
+
+  .right {
+    max-width: 100%; 
+  }
+
+  .addressHeader, .addressCard {
+    max-width: 100% !important;
+    
+  }
+  
+  .row {
+    gap: 20px; }
+}
+
+
+@media screen and (max-width: 760px) {
+  .shell {
+    flex-direction: column; 
+    align-items: center;
+    padding: 130px 20px 60px 20px !important;
+    gap: 50px;
+  }
+
+   .right {
+    width: 100%;
+    max-width: 100%;
+  }
+.Left {
+  display: none;
+}
+  .menuItem {
+    width: 100% !important;
+    
+  }
+
+  .row {
+    flex-direction: column; 
+    gap: 16px;
+  }
+
+  .addressHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    
+    gap: 15px;
+  }
+
+  .addAddressBtn {
+    width: 100%; 
+   
+    text-align: center;
+  }
+  
+  .btnGroup {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .saveBtn, .cancelBtn {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1150px) and (min-width: 1024px) {
+    .shell {
+       
+        padding-left: 50px !important; 
+        padding-right: 40px !important;
+        display: flex;
+        flex-direction: row;
+        gap: 0 !important; 
+    }
+
+    .Left {
+        width: 280px;
+        flex-shrink: 0;
+    }
+
+    .right {
+     
+        margin-left: 80px !important; 
+        
+        flex-grow: 1;
+        max-width: 550px !important; 
+        width: 100%;
+    }
+
+    .addressSection, .formSection {
+        width: 100%;
+    }
+
+    .addressCard, .addressHeader {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1550px) {
+    .shell {
+       
+        padding-left: 10% !important; 
+        padding-right: 5% !important; 
+        gap: 80px;
+        justify-content: center; 
+    }
+
+    .right {
+      
+        max-width: 900px !important; 
+        width: 100%;
+        flex-grow: 1;
+    }
+
+    .addressSection, 
+    .addressHeader, 
+    .addressCard {
+        width: 100%;
+        max-width: 100% !important;
+    }
+}
+
+
+
+@media screen and (max-width: 850px) and (min-width: 768px) {
+  .shell {
+ 
+  
+    gap: 40px !important; 
+    align-items: flex-start;
+  }
+
+  .Left {
+    width: 260px; 
+  }
+
+ 
+  .menuContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px !important; 
+  }
+
+  .menuItem {
+    width: 100% !important;
+   
+    padding: 12px 15px !important; 
+    font-size: 15px;
+    border-bottom: 1px solid #818686;
+    box-sizing: border-box;
+  }
+
+
+  .addressSection {
+ 
+    padding-top: 15px !important; 
+  }
+
+  .profileBox {
+    margin-bottom: 20px !important;
+    gap: 15px !important;
+  }
+
+  .underlineInput {
+ 
+    padding: 10px 0 5px 0 !important;
+    height: auto !important;
   }
 }
