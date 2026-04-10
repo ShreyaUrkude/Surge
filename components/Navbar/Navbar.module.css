@@ -3,7 +3,7 @@
 .navbar {
   height: 94px;
   background-color: var(--background);
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid #2f362a66;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -13,8 +13,10 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 10000;
   box-sizing: border-box; 
+   transform: translateY(0);
+  transition: transform 0.4s ease-in-out;
 }
 .navWrapper {
   display: flex;
@@ -83,6 +85,9 @@
   transition: 0.3s;
 }
 
+.activeRed {
+  color: var(--primary-color) ; 
+}
 
 
 
@@ -98,7 +103,7 @@
     box-sizing: border-box; 
     display: flex;
     align-items: center;
-    z-index: 1000;          
+    z-index: 10000;          
   }
 
   .logo {
@@ -119,10 +124,10 @@
     display: none;
     flex-direction: column;
     position: absolute;
-    top: 104px;
+    top: 94px;
     left: 0;
     width: 100%;
-    background: #fff;
+    background: var(--background);
     padding: 20px; 
     z-index: 1001;
     align-items: flex-start;
@@ -177,8 +182,8 @@
 
   .linkStack li a {
     text-decoration: none;
-    color: #888888; 
-    font-size: 16px;
+    color: var(--text-secondary); 
+    font-size: var(--fs-16);
     font-weight: 400;
       font-family: var(--font-raleway);
     display: block; 
@@ -197,10 +202,10 @@
 
   .accountStack li a {
     text-decoration: none;
-    color: #888888;
+    color: var(--text-secondary);
     font-weight: 400;
       font-family: var(--font-raleway);
-    font-size: 16px;
+    font-size: var(--fs-16);
   }
   
 }

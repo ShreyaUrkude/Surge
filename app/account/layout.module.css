@@ -8,7 +8,7 @@
 .shell {
   display: flex;
   width: 100%;
-   padding: 0 0 120px 560px;
+   padding: 249px 0 146px 403px;
   gap: 100px;
   align-items: flex-start;
   box-sizing: border-box;
@@ -144,7 +144,7 @@ display: flex;
 
 @media screen and (max-width: 1000px) {
   .shell {
-    padding: 40px 5% 80px 5% !important;
+  
     gap: 70px;
     flex-direction: row;
   }
@@ -171,15 +171,17 @@ display: flex;
   .shell {
     flex-direction: column; 
     align-items: center;
-    padding: 20px 20px 60px 20px !important;
+    padding: 130px 20px 60px 20px !important;
     gap: 50px;
   }
 
-  .Left, .right {
+   .right {
     width: 100%;
     max-width: 100%;
   }
-
+.Left {
+  display: none;
+}
   .menuItem {
     width: 100% !important;
     
@@ -193,11 +195,13 @@ display: flex;
   .addressHeader {
     flex-direction: column;
     align-items: flex-start;
+    
     gap: 15px;
   }
 
   .addAddressBtn {
     width: 100%; 
+   
     text-align: center;
   }
   
@@ -210,38 +214,7 @@ display: flex;
     width: 100%;
   }
 }
-@media screen and (min-width: 1400px) and (max-width: 1600px) {
-    .shell {
-     
-        padding-left: 560px !important; 
-     
-        padding-right: 150px !important; 
-        
-        gap: 60px;
-        display: flex;
-        justify-content: flex-start;
-    }
 
-    .right {
-   
-        max-width: 710px; 
-        width: 100%;
-        flex-grow: 0;
-    }
-
-    .addressSection {
-        width: 100%;
-    
-        padding-right: 40px; 
-    }
-
-    .addressHeader, 
-    .addressCard {
-    
-        width: 100%;
-        max-width: 100%;
-    }
-}
 @media screen and (max-width: 1150px) and (min-width: 1024px) {
     .shell {
        
@@ -305,7 +278,7 @@ display: flex;
 @media screen and (max-width: 850px) and (min-width: 768px) {
   .shell {
  
-    padding: 20px 5% 40px 5% !important;
+  
     gap: 40px !important; 
     align-items: flex-start;
   }

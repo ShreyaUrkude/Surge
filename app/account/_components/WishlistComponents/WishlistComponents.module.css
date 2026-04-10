@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
-  background-color: #fff;
+  background-color: var(--background);
   
 }
 
@@ -16,16 +16,16 @@
 }
 
 .title {
-  font-size: 22px;
+  font-size: var(--fs-22);
   font-weight: 600;
-  color: #414343;
+  color: var(--text-primary);
   font-family: var(--font-montserrat);
   margin: 0;
 }
 
 .itemCount {
-  font-size: 16px;
-  color: #818686;
+  font-size: var(--fs-16);
+  color: var(--text-secondary);
   font-family: var(--font-raleway);
   font-weight: 400;
   margin: 0;
@@ -49,7 +49,7 @@
   position: relative;
   width: 295px;
   height: 339px;
-  background-color: #F5F5F5;
+  background-color: var(--cards-bg);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -85,13 +85,13 @@
 .productName {
   font-size: 16px;
   font-weight: 400;
-  color: #414343;
+  color: var(--text-primary);
   font-family: var(--font-raleway);
   margin: 0 0 8px 0;
 }
 
 .productNotes {
-  font-size: 16px;
+  font-size: var(--fs-16);
   font-weight: 400;
   color: #818686;
   font-family: var(--font-raleway);
@@ -109,19 +109,19 @@
 }
 
 .price {
-  font-size: 18px;
+  font-size: var(--fs-18);
   font-weight: 500;
   font-family: var(--font-montserrat);
-  color: #414343;
+  color:var(--text-primary);
 }
 
 .addToCart {
-  background-color: #C4754E;
+  background-color: var(--primary-color);
   color: white;
   border: none;
   padding: 12px 40px;
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: var(--fs-16);
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s ease;
@@ -132,7 +132,7 @@
 }
 
 .addToCart:hover {
-  background-color: #A35E3D;
+  background-color: var(--primary-color);
 }
 
 

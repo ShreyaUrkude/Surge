@@ -1,44 +1,3 @@
-/* button part*/
-
-.fieldContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-}
-
-
-.btnGroup {
-  display: flex;
-  gap: 12px;
-  animation: slideDown 0.2s ease-out;
-}
-
-.saveBtn {
-  background: #C4754E; 
-  color: #fff;
-  border: none;
-  padding: 14px 40px;
-    font-family: var(--font-raleway);
-font-weight: 400;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.cancelBtn {
-  background: transparent;
-  color: #C4754E;
-  border: 1px solid #C4754E;
-  padding: 14px 40px;
-   font-family: var(--font-raleway);
-font-weight: 400;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.saveBtn:hover { background: #333; }
-.cancelBtn:hover { background: #f5f5f5; }
-
 
 /* Profile*/
 
@@ -47,7 +6,7 @@ font-weight: 400;
     min-height: 100vh;
      padding: 0 5% 0 5%; 
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: var(--background);
     overflow-x: hidden;
    
 }
@@ -61,6 +20,41 @@ font-weight: 400;
     max-width: 1110px; 
     margin: 0 ;
 }
+
+
+
+.leftCol {
+  flex: 1;
+  max-width: 466px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rightCol {
+  flex: 1;
+  max-width: 709px;
+}
+
+
+.personalInfoHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.editBtn {
+  background-color: transparent;
+ border: none;
+  color: var(--primary-color);
+  font-size: var(--fs-16);
+    font-family: var(--font-raleway);
+font-weight: 600;
+  cursor: pointer;
+}
+
+
 
 
 .profileBox {
@@ -79,17 +73,17 @@ font-weight: 400;
    
     border-radius: 50%;
     overflow: hidden;
-    border: 1px solid #f0f0f0;
+    border: 1px solid var(--background);
     
 }
 
 .uploadBtn {
-    background-color: #c47d56; 
-    color: white;
+    background-color: var(--primary-color); 
+    color: var(--background);
     border: none;
     padding: 12px 40px;
     font-family: var(--font-raleway);
-    font-size: 15px;
+    font-size: var(--fs-16);
     font-weight: 500;
   
     cursor: pointer;
@@ -107,9 +101,9 @@ font-weight: 400;
 }
 
 .sectionTitles {
-    font-size: 22px;
+    font-size: var(--fs-22);
     font-weight: 600;
-    color: #414343;
+    color: var(--text-primary);
     font-family: var(--font-montserrat);
     margin: 0; 
 }
@@ -132,7 +126,6 @@ font-weight: 400;
 .underlineInputGroup {
    position: relative;
     display: flex;
-
     width: 100%;
   
    
@@ -141,12 +134,12 @@ font-weight: 400;
 .underlineInput, .underlineSelect {
     width: 100%;
     border: none;
-    border-bottom: 1px solid #818686; 
+    border-bottom: 1px solid var(--text-secondary); 
     padding: 18px 20px ; 
-    font-size: 16px;
+    font-size: var(--fs-16);
     font-weight: 400;
     box-sizing: border-box; 
-    color: #414343;
+    color: var(--text-secondary);
     background: transparent;
     outline: none;
     font-family: var(--font-raleway);
@@ -175,27 +168,22 @@ font-weight: 400;
     left: 0;
     min-width: 200px;   
     width: auto;          
-    background: white;
-    border: 1px solid #EAEAEA;
-    border-radius: 8px;    
-  
+    background: var(--cards-bg);
+    border: 1px solid var(--background);
     z-index: 100;
     overflow: hidden;      
 }
 
 .dropdownItem {
     padding: 12px 20px;
-    font-size: 16px;
+    font-size: var(--fs-16);
     font-weight: 400;
     font-family: var(--font-raleway);
-    color: #414343;
+    color: var(--text-primary);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.dropdownItem:hover {
-    background-color: #F9F9F9;
-    color: #c47d56;}
 
 
 .editIconInside {
@@ -209,10 +197,9 @@ font-weight: 400;
 
 
 .addressSection {
-    padding-top: 80px;
+    padding-top: 119px;
     display: flex;
     flex-direction: column;
-   
     gap: 30px; 
 }
    
@@ -231,6 +218,7 @@ font-weight: 400;
     display: flex;
     justify-content: space-between; 
     align-items: center; 
+   
     width: 100%; 
     max-width: 709px; 
   
@@ -302,16 +290,328 @@ font-weight: 400;
 .addressText { 
     font-size: 16px; color: #818686;
      font-weight: 400;
- 
       font-family: var(--font-raleway);
      line-height: 1.6;
-      margin-bottom: 24px; }
-.phoneText { font-size: 16px;
+      margin-bottom: 24px; 
+    }
+.phoneText {
+     font-size: 16px;
        font-weight: 400;
-  
+  margin: 0;
       font-family: var(--font-raleway);
      color: #818686;
      }
+.cardBtn {
+  display: flex;
+  justify-content: flex-end; 
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.penIcon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #6E736A;
+  display: flex;
+  align-items: center;
+}
+
+
+.deleteAccountSection {
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+ 
+}
+
+.deleteBtn  {
+    font-size: 16px;
+    background: transparent;
+    padding: 12px 40px;
+    font-weight: 600;
+    width: fit-content;
+  border-color: #C4754E;
+  cursor: pointer;
+    color: #C4754E;
+      font-family: var(--font-raleway);
+}
 
 
 
+.noAddressContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  
+}
+
+.noAddressTitle {
+  font-size: 16px;
+  font-weight: 400;
+ font-family: var(--font-raleway);
+  color: #414343;
+}
+
+.noAddressSubtext {
+  font-size: 16px;
+  color: #818686;
+   font-family: var(--font-raleway);
+font-weight: 400;
+  margin: 0;
+}
+
+
+
+
+
+/* button part*/
+
+.fieldContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+
+.btnGroup {
+  display: flex;
+  gap: 12px;
+  animation: slideDown 0.2s ease-out;
+}
+
+.saveBtn {
+  background: #C4754E; 
+  color: #fff;
+  border: none;
+  padding: 14px 40px;
+    font-family: var(--font-raleway);
+font-weight: 400;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  background: transparent;
+  color: #C4754E;
+  border: 1px solid #C4754E;
+  padding: 14px 40px;
+   font-family: var(--font-raleway);
+font-weight: 400;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.saveBtn:hover { background: #333; }
+.cancelBtn:hover { background: #f5f5f5; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 1400px) {
+  .shell {
+    padding-left: 5% !important; 
+    gap: 40px;
+  }
+}
+
+
+@media screen and (max-width: 1000px) {
+  .shell {
+    padding: 0 5% 80px 5% ;
+    gap: 70px;
+    flex-direction: row;
+  }
+
+  .Left {
+    width: 250px;
+  }
+
+  .right {
+    max-width: 100%; 
+  }
+
+  .addressHeader, .addressCard {
+    max-width: 100% !important;
+    
+  }
+  
+  .row {
+    gap: 20px; }
+}
+
+
+@media screen and (max-width: 760px) {
+  .shell {
+    flex-direction: column; 
+    align-items: center;
+    padding: 130px 20px 60px 20px !important;
+    gap: 50px;
+  }
+
+   .right {
+    width: 100%;
+    max-width: 100%;
+  }
+.Left {
+  display: none;
+}
+  .menuItem {
+    width: 100% !important;
+    
+  }
+
+  .row {
+    flex-direction: row; 
+    gap: 16px;
+  }
+
+  .addressHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    
+    gap: 15px;
+  }
+
+  .addAddressBtn {
+
+   
+    text-align: center;
+  }
+  
+  .btnGroup {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .saveBtn, .cancelBtn {
+    width: 100%;
+  }
+}
+@media screen and (min-width: 1400px) and (max-width: 1600px) {
+    .shell {
+     
+       
+     
+        padding-right: 150px !important; 
+        
+        gap: 60px;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .right {
+   
+        max-width: 710px; 
+        width: 100%;
+        flex-grow: 0;
+    }
+
+    .addressSection {
+        width: 100%;
+    
+     
+    }
+
+    .addressHeader, 
+    .addressCard {
+    
+        width: 100%;
+        max-width: 100%;
+    }
+}
+@media screen and (max-width: 1150px) and (min-width: 1024px) {
+    .shell {
+       
+        padding-left: 50px !important; 
+        padding-right: 40px !important;
+        display: flex;
+        flex-direction: row;
+        gap: 0 !important; 
+    }
+
+    .Left {
+        width: 280px;
+        flex-shrink: 0;
+    }
+
+    .right {
+     
+        margin-left: 80px !important; 
+        
+        flex-grow: 1;
+        max-width: 550px !important; 
+        width: 100%;
+    }
+
+    .addressSection, .formSection {
+        width: 100%;
+    }
+
+    .addressCard, .addressHeader {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+
+@media screen and (max-width: 850px) and (min-width: 768px) {
+  .shell {
+ 
+    padding: 20px 5% 40px 5% !important;
+    gap: 40px !important; 
+    align-items: flex-start;
+  }
+
+  .Left {
+    width: 260px; 
+  }
+
+ 
+  .menuContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px !important; 
+  }
+
+  .menuItem {
+    width: 100% !important;
+   
+    padding: 12px 15px !important; 
+    font-size: 15px;
+    border-bottom: 1px solid #818686;
+    box-sizing: border-box;
+  }
+
+
+  .addressSection {
+ 
+    padding-top: 60px !important; 
+  }
+
+  .profileBox {
+    margin-bottom: 20px !important;
+    gap: 15px !important;
+  }
+
+  .underlineInput {
+ 
+    padding: 10px 0 5px 0 !important;
+    height: auto !important;
+  }
+}

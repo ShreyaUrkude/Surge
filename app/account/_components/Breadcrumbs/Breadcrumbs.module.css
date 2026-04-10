@@ -1,3 +1,5 @@
+
+/*
 .main {
   display: flex;
   justify-content: center;
@@ -78,7 +80,7 @@
         font-weight: 400;
     }
 }
-/* 1. Default: Hide the new arrow on Desktop */
+
 .MediaOnlyArrow {
   display: none;
 }
@@ -175,3 +177,6 @@
     gap: 8px !important;
   }
 }
+
+
+*/

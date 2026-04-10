@@ -1,7 +1,7 @@
 
 .menuSection {
   padding: 40px 20px; 
-  background-color: #ffffff;
+  background-color: var(--background);
 }
 
 .sectionHeader {
@@ -9,25 +9,26 @@
   display: flex;
   flex-direction: column; 
   align-items: flex-start;
- 
+   
 }
 
 .heading {
-  font-size: 20px;
+  font-size: var(--fs-20);
   font-weight: 600;
-  gap: 8px;
-  color: #414343;
+  margin: 0;
+  color: var(--text-primary);
   font-family: var(--font-montserrat);
 }
 
 .subtext {
-  font-size: 15px;
+  font-size: var(--fs-16);
   font-weight: 400;
-  color: #818686;
+  color:var(--text-secondary);
   line-height: 1.4;
   font-family: var(--font-raleway);
   max-width: 100%; 
- 
+ margin-top:12px;
+ margin-bottom: 38px;
 }
 
 .menuGrid {
@@ -35,14 +36,15 @@
   flex-wrap: wrap;
   justify-content: center; 
   gap: 24px;
-  margin-top: 30px;
+  
+  
 }
 
 .card {
   width: 100%; 
   max-width: 300px; 
   height: auto; 
-  background: #f2f2f2;
+  background: var(--background);
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -64,16 +66,16 @@
 }
 
 .cardTitle {
-  background: #F5F5F5;
+  background: var(--cards-bg);
   width: 100%;
-  height: 46px;
+  height: 44px;
   display: flex;
   align-items: center;
-  padding-left: 20px;
+  padding-left: 15px;
   font-family: var(--font-montserrat);
-  font-size: 18px; 
-  font-weight: 600;
-  color: #414343;
+  font-size: var(--fs-18); 
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
 
@@ -115,9 +117,11 @@
 
 @media (min-width: 1600px) {
     .menuSection {
-        padding: 80px 251px; 
+        padding: 80px 250px; 
     }
 }
+
+
 @media screen and (min-width: 800px) and (max-width: 1100px) {
   
   .menuSection {
