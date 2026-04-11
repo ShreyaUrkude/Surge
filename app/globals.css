@@ -3,14 +3,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Raleway:wght@400;500;600&display=swap');
 
 :root {
-  --font-lato: 'Lato', sans-serif;         
-  --font-montserrat: 'Montserrat', sans-serif; 
- --font-raleway: 'Raleway', sans-serif;
+  --font-lato: 'Lato', sans-serif;
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-raleway: 'Raleway', sans-serif;
 
 
- --background: #ffffff;
+  --background: #ffffff;
   --black: black;
---primary-color: #C4754E;
+  --primary-color: #C4754E;
   --cards-bg: #F5F5F5;
   --text-primary: #414343;
   --text-secondary: #818686;
@@ -20,24 +20,50 @@
   --brown: #333333;
 
 
---fs-12: clamp(0.66rem, 0.09vi + 0.63rem, 0.75rem);
-  --fs-14: clamp(0.75rem, 0.13vi + 0.72rem, 0.88rem);
---fs-16: clamp(1rem, 0.01vi + 1rem, 1.01rem);
- --fs-18: clamp(0.88rem, 0.25vi + 0.82rem, 1.13rem);
-  --fs-20: clamp(0.88rem, 0.38vi + 0.79rem, 1.25rem);
-  --fs-22: clamp(1.25rem, 0.13vi + 1.22rem, 1.38rem);
-   --fs-24: clamp(1.13rem, 0.38vi + 1.04rem, 1.5rem);
-  --fs-60: clamp(1.75rem, 2.03vi + 1.32rem, 3.75rem);
-  --fs-150: clamp(1rem, 8.83vi + -1.21rem, 9.38rem);
+  --fs-12: 12px; 
+  /* clamp(0.75rem, 0.15vw + 0.71rem, 0.875rem); */
+  /* 12px -> 14px */
+  --fs-14: 14px; 
+  /* clamp(0.875rem, 0.25vw + 0.82rem, 1rem); */
+  /* 14px -> 16px */
+  --fs-16: 16px; 
+  /* clamp(1rem, 0.35vw + 0.93rem, 1.125rem); */
+  /* 16px -> 18px */
+  --fs-18: 18px; 
+  /* clamp(1.125rem, 0.45vw + 1.03rem, 1.375rem); */
+  /* 18px -> 22px */
+
+  /* --- Sub-headings: Moderate growth --- */
+  --fs-20: 20px; 
+  /* clamp(1.25rem, 0.6vw + 1.13rem, 1.625rem); */
+  /* 20px -> 26px */
+  --fs-22: 22px ;
+  /* clamp(1.375rem, 0.8vw + 1.21rem, 1.875rem); */
+  /* 22px -> 30px */
+  --fs-24: 24px; 
+  /* clamp(1.5rem, 1vw + 1.3rem, 2.25rem); */
+  /* 24px -> 36px */
+
+  /* --- Large Headings: Dynamic growth --- */
+  --fs-60: 60px;
+  /* clamp(2.5rem, 4vw + 1.5rem, 4rem); */
+  /* 40px -> 64px */
+
+  /* --- Hero/Display Text (The "Surge" Look): Aggressive growth --- */
+  /* This prevents 150px from breaking mobile layouts by starting at 48px */
+  --fs-150: 150px; 
+  /* clamp(3rem, 10vw + 1rem, 9.375rem); */
 }
 
-html, body {
-  margin:  0 ;
+html,
+body {
+  margin: 0;
   padding: 0;
 
-  overflow-x: hidden; 
-   box-sizing: border-box;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
+
 h1 {
   font-family: var(--font-montserrat);
   font-size: var(--fs-60);
@@ -47,18 +73,18 @@ h1 {
 h2 {
   font-family: var(--font-montserrat);
   font-size: var(--fs-40);
-  font-weight: 600; 
+  font-weight: 600;
 }
 
 h3 {
   font-family: var(--font-montserrat);
   font-size: var(--fs-22);
-  font-weight: 600; 
+  font-weight: 600;
 }
 
 
 p {
   font-family: var(--font-raleway);
-   font-size: var(--fs-18);
+  font-size: var(--fs-18);
   font-weight: 400;
 }

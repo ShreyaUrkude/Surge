@@ -2,7 +2,7 @@
     position: relative;
     width: 100%;
     /* Updated to global font and fluid size */
-    font-family: var(--font-lato); 
+    font-family: var(--font-raleway); 
     font-size: var(--fs-14);
 }
 
@@ -11,13 +11,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 10px;
+    padding: 10px 0px;
     background: none;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     color: var(--text-primary); /* Global text color */
-    font-size: var(--fs-14);    /* Global fluid size */
+    font-size: var(--fs-16);    /* Global fluid size */
     font-family: inherit;
     font-weight: 400;
     text-align: left;
@@ -37,7 +37,7 @@
 
 .arrow {
     font-size: var(--fs-12);
-    color: var(--text-secondary); /* Global muted text */
+    color: var(--cards-bg); /* Global muted text */
     transition: transform 0.2s ease;
     flex-shrink: 0;
 }
@@ -45,48 +45,54 @@
 .arrowUp {
     transform: rotate(180deg);
 }
-
 .dropdown {
     position: absolute;
     top: 100%;
-    left: -1px;
-    right: -1px;
-    background: var(--background); /* Global background */
-    border: 1px solid rgba(196, 117, 78, 0.12); /* Based on Primary */
+    left: 0; /* Changed from -1px to 0 for a cleaner flush fit */
+    right: 0;
+    background: var(--background); 
+    /* Changed border to a subtle version of your text-secondary or a neutral grey */
+    border: 1px solid rgba(0, 0, 0, 0.1); 
     border-top: none;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     list-style: none;
-    margin-top: 1px;
-    padding: 0px 0;
+    padding: 4px 0; /* Added slight vertical padding for breathing room */
     z-index: 200;
+    /* Added a subtle shadow to separate the menu from elements behind it */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .option {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 12px;
+    padding: 12px 16px;
     cursor: pointer;
-    font-size: var(--fs-14);
-    color: var(--text-primary);
+    font-size: var(--fs-16);
+    color: var(--heads-color); /* Darker text for readability */
     font-weight: 400;
-    transition: background 0.12s, color 0.12s;
+    transition: background 0.15s ease, color 0.15s ease;
 }
 
 .option:hover {
-    background: var(--surge-app); /* Using brand-niche light background */
-    color: var(--primary-color);
-    font-weight: 500;
+    /* Background now uses your requested secondary color */
+    background: var(--cards-bg);
+   /* Text turns light if secondary is dark, or vice versa */
 }
 
 .active {
-    color: var(--primary-color);
+    background: var(--cards-bg);
+    /* color: var(--background); */
     font-weight: 600;
-    background: var(--surge-app);
 }
 
-.check {
-    font-size: var(--fs-12);
-    color: var(--primary-color);
+/* Optional: Subtle animation for the reveal */
+.dropdown {
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }

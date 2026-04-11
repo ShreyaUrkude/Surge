@@ -28,7 +28,6 @@ function CreateProfileContent() {
     { label: "Female", value: "female" },
   ];
 
-  // --- Click Outside logic for Dropdown ---
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (genderRef.current && !genderRef.current.contains(event.target)) {
@@ -54,13 +53,9 @@ function CreateProfileContent() {
     e.preventDefault();
     setError("");
 
-    // UAE Phone Validation: 9 digits starting with 5 (after +971)
-    // Common prefixes: 50, 52, 54, 55, 56, 58
     const uaePhoneRegex = /^5[024568]\d{7}$/;
     if (!uaePhoneRegex.test(phone)) {
-      setError(
-        "Please enter a valid UAE mobile number (9 digits starting with 5).",
-      );
+      setError("Please enter a valid UAE mobile number (9 digits starting with 5).");
       return;
     }
 
@@ -68,10 +63,10 @@ function CreateProfileContent() {
 
     try {
       const res = await axiosClient.patch(`/api/users/${session?.user?.id}`, {
-        firstName: firstName,
-        lastName: lastName,
+        firstName,
+        lastName,
         gender: gender.toLowerCase(),
-        phone: phone,
+        phone,
       });
 
       const json = await res.data;
@@ -101,53 +96,99 @@ function CreateProfileContent() {
 
           <div className={styles.inputBlock}>
             {error && <p className={styles.errorMessage}>{error}</p>}
+
             <input
               type="email"
               placeholder="Username@gmail.com"
               className={styles.inputemail}
-              // value={email}
-              // onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
               disabled={loading}
               suppressHydrationWarning
             />
+
             <input
-              type="name"
+              type="text"
               placeholder="Full name*"
               className={styles.inputemail}
-              // value={email}
-              // onChange={(e) => setEmail(e.target.value)}
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
               required
               disabled={loading}
               suppressHydrationWarning
             />
+
+            {/* Phone */}
             <div className={styles.numberInput}>
-              <Image src={flag} />
-              <p>+91
-                <input
-                  type="number"
-                  placeholder="Phone number"
-                  className={styles.inputemail}
-                  // value={email}
-                  // onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={loading}
-                  suppressHydrationWarning
-                />
-              </p>
+              <div className={styles.flagCode}>
+                <Image src={flag} width={24} height={16} alt="flag" />
+                <span>+971</span>
+              </div>
+              <input
+                type="number"
+                placeholder="Phone Number*"
+                className={styles.phoneField}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+                disabled={loading}
+                suppressHydrationWarning
+              />
+            </div>
+
+            {/* Gender Dropdown */}
+            <div className={styles.genderWrapper} ref={genderRef}>
+              <button
+                type="button"
+                className={styles.genderTrigger}
+                onClick={() => setIsGenderOpen((prev) => !prev)}
+              >
+                <span className={gender ? styles.genderSelected : styles.genderPlaceholder}>
+                  {gender ? genderOptions.find(o => o.value === gender)?.label : "Gender"}
+                </span>
+                <svg
+                  className={`${styles.chevron} ${isGenderOpen ? styles.chevronOpen : ""}`}
+                  width="16" height="16" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" strokeWidth="2"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+
+              {isGenderOpen && (
+                <div className={styles.genderDropdown}>
+                  
+                  {genderOptions.map((opt) => (
+                    <label key={opt.value} className={styles.genderOption}>
+                      <span>{opt.label}</span>
+                      <input
+                        type="radio"
+                        name="gender"
+                        value={opt.value}
+                        checked={gender === opt.value}
+                        onChange={() => {
+                          setGender(opt.value);
+                          setIsGenderOpen(false);
+                        }}
+                      />
+                    </label>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
+
         <div className={styles.lowerBottom}>
           <button
             className={styles.ctacontinue}
-            // onClick={handleContinue}
+            onClick={submit}
             disabled={loading || !email}
           >
             {loading ? "Processing..." : "Continue"}
           </button>
         </div>
-
       </div>
     </div>
   );

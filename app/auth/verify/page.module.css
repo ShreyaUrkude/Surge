@@ -10,7 +10,7 @@
 
 .card {
   background: #fff;
-  padding: 74px 65px;
+  padding: clamp(40px, 6vh, 74px) clamp(24px, 5vw, 65px);
   width: 100%;
   max-width: 480px;
   display: flex;
@@ -148,6 +148,7 @@
   padding: 0;
   text-decoration: underline;
   text-underline-offset: 3px;
+  margin-bottom: 2px;
 }
 
 .resendBtn:disabled {

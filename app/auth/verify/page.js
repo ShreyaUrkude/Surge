@@ -17,7 +17,7 @@ function Otp() {
   const [info, setInfo] = useState("");
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
-  const [countdown, setCountdown] = useState(RESEND_COOLDOWN);
+  const [countdown, setCountdown] = useState(0);
   const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
@@ -194,7 +194,7 @@ function Otp() {
           <button
             className={styles.ctacontinue}
             onClick={handleVerify}
-            disabled={loading || countdown > 0}
+            disabled={loading}
           >
             {loading ? "Processing..." : "Continue"}
           </button>

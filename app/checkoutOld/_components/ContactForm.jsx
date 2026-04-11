@@ -2,8 +2,8 @@
 import { useState } from "react";
 import styles from "../Checkout.module.css"
 import { emirates } from "../data/data";
-import CountrySelect from "../../account2/countryDropdown/CountrySelect";
-import EmiratesPopup from "../../account2/emiratesDropdown/EmiratesDropdown";
+import CountrySelect from "../../account1/countryDropdown/CountrySelect";
+import EmiratesPopup from "../../account1/emiratesDropdown/EmiratesDropdown";
 export default function ContactForm() {
     const [method, setMethod] = useState("ship");
     const [emailOffers, setEmailOffers] = useState(false);
@@ -64,7 +64,7 @@ export default function ContactForm() {
 
             {/* ── Contact – Delivery Method ── */}
             <div className={styles.section}>
-                <h2 className={styles.sectionTitle}>Contact</h2>
+                <h2 className={styles.sectionTitle}>Delivery</h2>
 
                 <div className={styles.methodRow}>
                     {["ship", "delivery"].map((m) => (
@@ -206,3 +206,25 @@ export default function ContactForm() {
         </div>
     );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
