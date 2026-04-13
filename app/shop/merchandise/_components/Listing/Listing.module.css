@@ -291,7 +291,11 @@ background-color: #F5F5F5;}
 
 }
 
-
+.linkWrapper {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
 
 
 

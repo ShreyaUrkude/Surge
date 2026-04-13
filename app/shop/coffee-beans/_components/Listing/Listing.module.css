@@ -533,7 +533,11 @@ background-color: #F5F5F5;}
   text-align: center;
 }
 
-
+.linkWrapper {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
 
 @media (max-width: 950px) {
   .mainContainer {

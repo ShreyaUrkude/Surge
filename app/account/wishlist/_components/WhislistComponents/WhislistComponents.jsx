@@ -1,6 +1,7 @@
+
 "use client";
 import React, { useState, useEffect } from "react";
-import { useWishlist } from "../../../../_context/WishlistContext";
+import { useWishlist } from "../../../../_context/WishlistContext";  
 import AddToCart from "@/app/_components/AddToCart";
 import styles from "./WhislistComponents.module.css";
 import Image from "next/image";
@@ -504,4 +505,5 @@ const WhislistComponents = () => {
   );
 };
 
-export default WhislistComponents;
+export default WhislistComponents; 
+
