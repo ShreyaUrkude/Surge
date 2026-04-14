@@ -1,15 +1,6 @@
 "use client";
-// ─── AddressCard ──────────────────────────────────────────────────────────────
-// Renders one saved address block with edit and delete icon buttons.
-//
-// Props:
-//   address   object  — one entry from the addresses array
-//   onEdit    (address) => void
-//   onDelete  (id: string) => void  — triggers the delete confirmation popup
-
 import React from "react";
 import styles from "../ProfileComponents.module.css";
-
 import { UAE_STATES } from "../profileConstants";
 
 const EditIcon = () => (
@@ -27,26 +18,34 @@ const DeleteIcon = () => (
 const AddressCard = ({ address, onEdit, onDelete }) => {
     const emirateLabel = UAE_STATES.find(s => s.value === address.emirates)?.label || address.emirates;
 
+    // Correcting the name mapping to support the mock JSON keys
+    const firstName = address.addressFirstName || address.firstName || "";
+    const lastName = address.addressLastName || address.lastName || "";
+    const fullName = `${firstName} ${lastName}`.trim();
+
     return (
         <div className={styles.AddressCard}>
-            <div className={styles.AddressText}>
-                <p className={styles.Label}>{address.label || "Others"}</p>
-                <p className={styles.Name}>
-                    {`${address.addressFirstName || ""} ${address.addressLastName || ""}`.trim()}
-                </p>
-                <hr />
-                <p className={styles.Name}>
-                    {address.street && <>{address.street}<br /></>}
-                    {address.apartment && <>{address.apartment}<br /></>}
-                    {address.city}, {emirateLabel}, {address.country}
-                </p>
-                <hr />
-                <p className={styles.Name}>Phone number: {address.phoneNumber}</p>
+            {/* Header: Name Left, Label Right */}
+            <div className={styles.AddressCardHeader}>
+                <p className={styles.Name}>{fullName}</p>
+                <p className={styles.LabelBadge}>{address.label || "Home"}</p>
             </div>
 
+            <div className={styles.AddressContent}>
+                <p className={styles.AddressDetails}>
+                    {address.street && <>{address.street}<br /></>}
+                    {address.apartment && <>{address.apartment}<br /></>}
+                    {address.city}, {emirateLabel || "Dubai"}, {address.country} {address.postalCode}
+                </p>
+                <p className={styles.PhoneNumber}>
+                    Phone number: {address.phoneNumber || address.phone}
+                </p>
+            </div>
+
+            {/* Bottom Actions */}
             <div className={styles.AddressActions}>
-                <span onClick={() => onEdit(address)}><EditIcon /></span>
-                <span onClick={() => onDelete(address.id)}><DeleteIcon /></span>
+                <span onClick={() => onEdit(address)} className={styles.ActionIcon}><EditIcon /></span>
+                <span onClick={() => onDelete(address.id)} className={styles.ActionIcon}><DeleteIcon /></span>
             </div>
         </div>
     );

@@ -72,25 +72,18 @@ const PersonalInfoForm = ({
       </div>
 
       {/* First name + Last name row */}
-      <div className={styles.Name1}>
-        <div className={styles.Field}>
-          <input
-            value={profile.firstName || ""}
-            placeholder={!isGuestUser ? "Enter your first name" : ""}
-            disabled={!editMode || isGuestUser}
-            onChange={(e) => onFieldChange("firstName", e.target.value)}
-          />
-        </div>
+      <div className={styles.Name}>
+  <div className={styles.Field}>
+    <input
+      value={profile.firstName || ""}
+      placeholder={!isGuestUser ? "Enter your name" : ""}
+      disabled={!editMode || isGuestUser}
+      onChange={(e) => onFieldChange("firstName", e.target.value)}
+    />
+    {errors.firstName && <p className={styles.errorText}>{errors.firstName}</p>}
+  </div>
 
-        <div className={styles.Field}>
-          <input
-            value={profile.lastName || ""}
-            placeholder={!isGuestUser ? "Enter your last name" : ""}
-            disabled={!editMode || isGuestUser}
-            onChange={(e) => onFieldChange("lastName", e.target.value)}
-          />
-        </div>
-      </div>
+</div>
 
       {/* Email + OTP trigger */}
       <div
@@ -134,55 +127,54 @@ const PersonalInfoForm = ({
             onChange={(e) => onFieldChange("phone", e.target.value)}
           />
         </div>
+ 
+      <div className={styles.Field} ref={genderRef}>
+          {editMode ? (
+            <div
+              className={styles.SelectContainer}
+              style={{ position: "relative" }}
+            >
+              <div
+                className={styles.CustomSelectTrigger}
+                onClick={() => setIsGenderOpen(!isGenderOpen)}
+              >
+                <span style={{ textTransform: "capitalize" }}>
+                  {profile.gender || "Select Gender"}
+                </span>
+                <span
+                  className={`${styles.Arrow} ${isGenderOpen ? styles.Rotate : ""}`}
+                >
+                  ▼
+                </span>
+              </div>
 
-        <div className={styles.Field} ref={genderRef}>
-          {editMode ? (
-            <div
-              className={styles.SelectContainer}
-              style={{ position: "relative" }}
-            >
-              <div
-                className={styles.CustomSelectTrigger}
-                onClick={() => setIsGenderOpen(!isGenderOpen)}
-              >
-                <span style={{ textTransform: "capitalize" }}>
-                  {profile.gender || "Select Gender"}
-                </span>
-                <span
-                  className={`${styles.Arrow} ${isGenderOpen ? styles.Rotate : ""}`}
-                >
-                  ▼
-                </span>
-              </div>
-
-              {isGenderOpen && (
-                <div className={styles.CustomOptionsList}>
-                  {genderOptions.map((opt) => (
-                    <div
-                      key={opt.value}
-                      className={styles.OptionItem}
-                      onClick={() => {
-                        onFieldChange("gender", opt.value);
-                        setIsGenderOpen(false);
-                      }}
-                    >
-                      {opt.label}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ) : (
-            <input
-              value={profile.gender || ""}
-              style={{ textTransform: "capitalize" }}
-              disabled
-              placeholder="Not Specified"
-            />
-          )}
-        </div>
-      </div>
-
+              {isGenderOpen && (
+                <div className={styles.CustomOptionsList}>
+                  {genderOptions.map((opt) => (
+                    <div
+                      key={opt.value}
+                      className={styles.OptionItem}
+                      onClick={() => {
+                        onFieldChange("gender", opt.value);
+                        setIsGenderOpen(false);
+                      }}
+                    >
+                      {opt.label}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <input
+              value={profile.gender || ""}
+              style={{ textTransform: "capitalize" }}
+              disabled
+              placeholder="Not Specified"
+            />
+          )}
+        </div>
+      </div>
       {errors.general && (
         <p className={styles.ErrorText} style={{ marginTop: "8px" }}>
           {errors.general}

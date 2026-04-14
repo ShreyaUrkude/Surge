@@ -83,7 +83,7 @@
   display: flex;
   justify-content: left;
   flex-direction: column;
-  gap: 30px;
+  gap: 80px;
 }
 
 /* .Field {
@@ -148,6 +148,7 @@
   user-select: none;
 }
 
+
 .Field input {
   border: none;
   outline: none;
@@ -198,6 +199,8 @@
 
 .Row {
   display: grid;
+
+
   grid-template-columns: 1.5fr 1fr;
 }
 
@@ -210,6 +213,7 @@
 .Name1 {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  
 }
 
 .divide {
@@ -226,6 +230,7 @@
 .Field,
 .SelectContainer {
   /* Whichever div wraps both the Trigger and the List */
+ 
   position: relative;
 }
 
@@ -336,19 +341,13 @@
   margin-bottom: 5px;
 }
 
-/* --- Grid Rows --- */
-.Name1,
-.Row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  /* Adjust if you want a gap between first/last name */
-}
+
+
 
 .AddressSection {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
 }
 
 .AddressText .Label {
@@ -405,6 +404,7 @@
   font-size: 16px;
   margin: 0px;
   font-weight: 400;
+  margin-bottom: 12px;
    color:var(--text-primary);
 }
 
@@ -412,50 +412,109 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 0;
 }
 
 .AddressHeader h4 {
  font-family: var(--font-montserrat);
   font-size: var(--fs-22);
   font-weight: 600;
+  margin: 0;
   color: var(--text-primary);
 }
 
 .AddressHeader button {
   border: none;
   background: #ffffff;
-  padding: 8px 10px;
+  padding: 14px 40px;
   font-family: var(--font-raleway);
   font-size: 16px;
   color:#C4754E;
   font-weight: 600;
   background-color: #ffffff;
   cursor: pointer;
+ 
+}
+.AddAddressBtn {
+  display: flex !important; 
+  align-items: center;
+  gap: 8px;
+
+  background-color: transparent;
+  border: 1px solid #C4754E !important; 
+
+  outline: none;
+  padding: 14px 40px;
+  cursor: pointer;
+  color: #C4754E;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-height: 40px; 
 }
 
+
+.AddAddressBtn svg {
+  flex-shrink: 0;
+}
 .AddressCard {
-  border: 1px solid #2f362a4d;
-  padding: 16px 28px;
+  border-top: 1px solid #2f362a4d;
+ padding-top: 16px;
   display: flex;
-  justify-content: space-between;
+    justify-content: space-between;
+
   align-items: flex-start;
   flex-direction: column;
-  gap: 8px;
+  gap: 8px; /* Vertical gap between rows */
   font-family: var(--lato);
   font-size: 15px;
   font-weight: 400;
-}
-
-.AddressText {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.AddressText hr {
-  border-color: rgba(47, 54, 42, 0.3);
   width: 100%;
 }
+
+/* 1. This handles the "Name on Left, Home on Right" */
+.AddressCardHeader {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.Name {
+    font-weight: 600;
+    font-size: 16px;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.LabelBadge {
+    background: #FFFFFF;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #6E736A;
+}
+
+.AddressContent {
+    color: #6E736A;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.AddressActions {
+    display: flex;
+    justify-content: flex-end; /* Pushes icons to bottom right */
+    gap: 16px;
+    
+}
+
+.ActionIcon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
 
 .AddressActions {
   display: flex;
@@ -484,21 +543,29 @@
   margin: 0;
 }
 
-.fixerOne,
-.fixerTwo {
-  display: flex;
-  justify-content: left;
-  flex-direction: column;
-  gap: 15px;
+.fixerOne p, 
+.fixerTwo h6 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 12px;
+  text-transform: capitalize;
 }
 
-.fixerOne p,
-.fixerTwo p {
-  font-family: var(--font-raleway);
-  font-size: 16px;
-  font-weight: 400;
-  color: #2f362a;
+/* Wrappers for the address groups */
+.fixerOne, .fixerTwo {
+  width: 100%;
+  padding: 20px 10px;
+  background-color: #F7F7F7; /* Light gray background from image */
+  border-radius: 4px;
+  
+  display: flex;
+  flex-direction: column;
 }
+
+
+
+
 
 .DeleteAccount button {
   width: fit-content;
@@ -682,7 +749,7 @@
 }
 
 .PersonalInfoSection .AddressHeader {
-  margin-bottom: 30px;
+  margin-bottom: 0;
 }
 
 .DeleteDanger,
@@ -851,8 +918,8 @@
 
 .Name1,
 .Row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+
   gap: 20px; 
 }
 /* ── Responsive ───────────────────────────────────────────────── */
@@ -999,7 +1066,7 @@
   }
 
   .Row {
-    display: grid;
+    display: flex;
     grid-template-columns: 1.5fr 1fr;
   }
 }
