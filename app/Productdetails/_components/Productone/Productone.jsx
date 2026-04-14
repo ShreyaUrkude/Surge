@@ -64,7 +64,6 @@ export default function ProductPage() {
       if (slug.includes('-3')) priceValue = 58;
       if (slug.includes('-2')) priceValue = 70;
       if (slug.includes('ethiopia')) priceValue = 75;
-
       const generatedData = {
         name: slug.replace(/-/g, ' ').toUpperCase(),
         price: priceValue,
@@ -77,12 +76,10 @@ export default function ProductPage() {
         },
         desc: "A high-altitude heirloom from Guji, bright and expressive with delicate floral lift and stone-fruit sweetness. Silky in body with a tea-like finish, it unfolds in layers of citrus zest, white blossom aromatics, and subtle honeyed notes. . Perfect for slow brews and mindful sips, this cup is both refreshing and nuanced — a beautiful expression of terroir and craft."
       };
-
       setProduct(generatedData);
       setSelectedSize(TYPE_CONFIG[productType].options[0]);
       setLoading(false);
     };
-
     fetchProductData();
   }, [slug]);
 

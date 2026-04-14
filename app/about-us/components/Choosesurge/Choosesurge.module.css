@@ -42,7 +42,7 @@
   padding: 31px;
 }
 .card:hover .product {
-  transform: scale(1.02); 
+  transform: scale(1.06); 
 }
 .product {
   width: 100%;

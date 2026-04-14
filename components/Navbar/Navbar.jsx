@@ -67,7 +67,8 @@ export default function Navbar() {
       <div className={`${styles.navWrapper} ${menuOpen ? styles.active : ""}`}>
         <nav className={styles.menuCenter}>
           
-          <div className={styles.shopTrigger}>
+          <div className={styles.shopTrigger}
+          >
             <Link 
               href="/shop" 
               className={`${styles.navLink} ${isParentActive("/shop") ? styles.activeRed : ""}`} 

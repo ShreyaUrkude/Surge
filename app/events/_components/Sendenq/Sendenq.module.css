@@ -69,13 +69,13 @@
 .formBox {
   display: flex;
   flex-direction: column;
-  gap: 16px; 
+  gap: 12px; 
 }
 
 .formBox input,
 .formBox textarea {
   width: 100%;
-  padding: 20px 0;
+  padding: 20px 0 5px 0px;
   border: none;
   border-bottom: 1px solid #414343;
   background: transparent;
