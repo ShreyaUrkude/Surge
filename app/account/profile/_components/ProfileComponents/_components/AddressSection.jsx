@@ -1,26 +1,46 @@
 "use client";
-// ─── AddressSection ───────────────────────────────────────────────────────────
-// Renders the full "Saved Address" section:
-//   - Section header with "Add new Address" button
-//   - Default address card
-//   - List of other address cards
-//
-// Props:
-//   addresses         object[]  — full addresses array from state
-//   onAddNew          () => void
-//   onEdit            (address) => void
-//   onDeleteRequest   (id: string) => void   — sets id + opens delete popup
 
 import React from "react";
 import styles from "../ProfileComponents.module.css";
 import AddressCard from "./AddressCard";
 import Image from "next/image";
-import AddressZero from "./AddressZero.png"
-const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
-  // Defensive check to ensure addresses is always an array
-  const addressList = Array.isArray(addresses) ? addresses : [];
+import AddressZero from "./AddressZero.png";
 
-  // Only identify as default if explicitly marked
+const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
+ 
+  const mockAddresses = [
+    {
+      id: "default-1",
+      firstName: "Ahmed",
+      lastName: "Al-Mansouri",
+      label: "Home",
+      street: "Office 1502, Jumeirah Business Centre 1",
+      apartment: "Jumeirah Lakes Towers (JLT), Cluster G",
+      city: "Dubai",
+      country: "UAE",
+      postalCode: "450123",
+      phone: "+971 50 123 4567",
+      isDefaultAddress: true,
+    },
+    {
+      id: "other-1",
+      firstName: "Ahmed",
+      lastName: "Al-Mansouri",
+      label: "Office",
+      street: "Office 1502, Jumeirah Business Centre 1",
+      apartment: "Jumeirah Lakes Towers (JLT), Cluster G",
+      city: "Dubai",
+      country: "UAE",
+      postalCode: "450123",
+      phone: "+971 50 123 4567",
+      isDefaultAddress: false,
+    },
+  ];
+
+  // 2. Use mock data if the addresses prop is empty or not provided
+  const addressList = addresses && addresses.length > 0 ? addresses : mockAddresses;
+
+  // 3. Identification logic
   const defaultAddress = addressList.find((a) => a.isDefaultAddress);
   const otherAddresses = defaultAddress
     ? addressList.filter((a) => a.id !== defaultAddress.id)
@@ -30,20 +50,21 @@ const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
     <div className={styles.AddressSection}>
       {/* Header */}
       <div className={styles.AddressHeader}>
-        <h4>SAVED ADDRESS</h4>
-        <button onClick={onAddNew}>
+        <h4>Saved Address</h4>
+        <button onClick={onAddNew} className={styles.AddAddressBtn}>
           <svg
-            width="15"
-            height="15"
+            width="13"
+            height="13"
             viewBox="0 0 12 12"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
               d="M5.33333 12V6.66667H0V5.33333H5.33333V0H6.66667V5.33333H12V6.66667H6.66667V12H5.33333Z"
-              fill="#6E736A"
+              fill="#C4754E"
             />
           </svg>
+          <span>Add Address</span>
         </button>
       </div>
 
@@ -60,7 +81,7 @@ const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
             </div>
 
             {otherAddresses.length > 0 && (
-              <div className={styles.fixerTwo}>
+              <div className={styles.fixerOne}>
                 <h6 className={styles.other}>Other addresses</h6>
                 {otherAddresses.map((addr) => (
                   <AddressCard
@@ -74,7 +95,7 @@ const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
             )}
           </>
         ) : (
-          /* No default address: just show all addresses without labels */
+        
           <div className={styles.fixerTwo}>
             {addressList.map((addr) => (
               <AddressCard
@@ -87,18 +108,20 @@ const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
           </div>
         )
       ) : (
+        /* This part is now a backup in case mockAddresses is also cleared */
         <div className={styles.NoAddressCard}>
           <Image
             src={AddressZero}
-            alt="No products"
+            alt="No addresses"
             width={200}
             height={135}
           />
           <div className={styles.NoAddressP}>
-            <p style={{color:"black",marginTop:"20px"}}>No Saved Addresses yet</p>
+            <p style={{ color: "black", marginTop: "20px" }}>
+              No Saved Addresses yet
+            </p>
             <p>Add a delivery address to make checkout faster.</p>
           </div>
-
         </div>
       )}
     </div>

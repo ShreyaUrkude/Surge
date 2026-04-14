@@ -2,35 +2,26 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './Listing.module.css';
 import Image from 'next/image';
-import coffeeImg from './m.png';
+import coffeeImg from './m.png'; 
+import Link from 'next/link'; 
 
+const PRODUCTS = [
+  { id: 'm-1', slug: "monolith-tee-black", name: "SURGE MONOLITH TEE", notes: "Heavyweight 300GSM Cotton, Boxy Fit", price: "AED 65" },
+  { id: 'm-2', slug: "studio-essentials-hoodie", name: "STUDIO ESSENTIALS HOODIE", notes: "French Terry, Industrial Cut", price: "AED 70" },
+  { id: 'm-3', slug: "titan-axis-cap", name: "TITAN AXIS CAP", notes: "Structured 6-Panel, Embroidered", price: "AED 95" },
+  { id: 'm-4', slug: "monolith-tee-white", name: "SURGE MONOLITH TEE WHITE", notes: "Heavyweight 300GSM Cotton", price: "AED 55" },
+  { id: 'm-5', slug: "brewing-gear-tote", name: "BREWING GEAR TOTE", notes: "Heavy Canvas, Reinforced Straps", price: "AED 75" },
+  { id: 'm-6', slug: "studio-mug-industrial", name: "INDUSTRIAL STUDIO MUG", notes: "Matte Ceramic, 350ml", price: "AED 70" },
+  { id: 'm-7', slug: "axis-socks-sage", name: "AXIS STUDIO SOCKS", notes: "Combed Cotton, Ribbed Knit", price: "AED 60" },
+  { id: 'm-8', slug: "monolith-beanie", name: "MONOLITH BEANIE", notes: "Acrylic Knit, Double Cuff", price: "AED 65" },
+  { id: 'm-9', slug: "lifestyle-sticker-pack", name: "STUDIO STICKER PACK", notes: "Vinyl, Weatherproof", price: "AED 75" },
+];
 
-const PRODUCTS = Array(9).fill({
-name: "SURGE MONOLITH TEE",
-    notes: "Heavyweight 300GSM Cotton, Boxy Fit",
-  price: "AED 60",
-}).map((item, index) => ({ ...item, id: `prod-${index}` }));
 const FILTER_DATA = [
-  { 
-    id: 'type', 
-    title: 'Category', 
-    options: ['Apparel', 'Brewing Gear', 'Drinkware', 'Lifestyle'] 
-  },
-  { 
-    id: 'collection', 
-    title: 'Collection', 
-    options: ['Monolith Series', 'Titan Axis', 'Studio Essentials'] 
-  },
-  { 
-    id: 'size', 
-    title: 'Size', 
-    options: ['One Size', 'Small', 'Medium', 'Large', 'XL'] 
-  },
-  { 
-    id: 'color', 
-    title: 'Palette', 
-    options: ['Obsidian Black', 'Chalk White', 'Sage Green', 'Raw Canvas'] 
-  },
+  { id: 'type', title: 'Category', options: ['Apparel', 'Brewing Gear', 'Drinkware', 'Lifestyle'] },
+  { id: 'collection', title: 'Collection', options: ['Monolith Series', 'Titan Axis', 'Studio Essentials'] },
+  { id: 'size', title: 'Size', options: ['One Size', 'Small', 'Medium', 'Large', 'XL'] },
+  { id: 'color', title: 'Palette', options: ['Obsidian Black', 'Chalk White', 'Sage Green', 'Raw Canvas'] },
 ];
 
 const SORT_OPTIONS = ['Recommended', 'Price:High to Low', 'Price:Low to High', 'Popularity'];
@@ -41,10 +32,10 @@ export default function Listing() {
   const [selectedSort, setSelectedSort] = useState('Recommended');
   const [wishlist, setWishlist] = useState([]);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-
   const [visibleCount, setVisibleCount] = useState(6);
 
-  const toggleWishlist = (id) => {
+  const toggleWishlist = (e, id) => {
+    e.preventDefault(); 
     setWishlist(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
   };
 
@@ -53,7 +44,6 @@ export default function Listing() {
   };
 
   const handleViewMore = () => {
-  
     setVisibleCount(prev => prev + 3);
   };
 
@@ -74,14 +64,8 @@ export default function Listing() {
             <button className={styles.filterHeader} onClick={() => toggleFilter(section.id)}>
               <span>{section.title}</span>
               <span className={styles.icon}>
-                <svg
-                  className={isOpen ? styles.arrowRotate : ''}
-                  width="13" height="8" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11.91 -0.00113773L12.97 1.05986L7.193 6.83886C7.10043 6.93202 6.99036 7.00595 6.86911 7.05639C6.74786 7.10684 6.61783 7.13281 6.4865 7.13281C6.35517 7.13281 6.22514 7.10684 6.10389 7.05639C5.98264 7.00595 5.87257 6.93202 5.78 6.83886L0 1.05986L1.06 -0.000137806L6.485 5.42386L11.91 -0.00113773Z"
-                    fill="#414343"
-                  />
+                <svg className={isOpen ? styles.arrowRotate : ''} width="13" height="8" viewBox="0 0 13 8" fill="none">
+                  <path d="M11.91 -0.00113773L12.97 1.05986L7.193 6.83886C7.10043 6.93202 6.99036 7.00595 6.86911 7.05639C6.74786 7.10684 6.61783 7.13281 6.4865 7.13281C6.35517 7.13281 6.22514 7.10684 6.10389 7.05639C5.98264 7.00595 5.87257 6.93202 5.78 6.83886L0 1.05986L1.06 -0.000137806L6.485 5.42386L11.91 -0.00113773Z" fill="#414343" />
                 </svg>
               </span>
             </button>
@@ -116,39 +100,21 @@ export default function Listing() {
           </div>
 
           <div className={styles.headerActions}>
-            <button
-              className={styles.mobileFilterBtn}
-              onClick={() => setIsMobileFilterOpen(true)}
-            >
-              <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4.66667 8V6.66667H7.33333V8H4.66667ZM2 4.66667V3.33333H10V4.66667H2ZM0 1.33333V0H12V1.33333H0Z" fill="#6E736A" />
-              </svg>
+            <button className={styles.mobileFilterBtn} onClick={() => setIsMobileFilterOpen(true)}>
+              <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M4.66667 8V6.66667H7.33333V8H4.66667ZM2 4.66667V3.33333H10V4.66667H2ZM0 1.33333V0H12V1.33333H0Z" fill="#6E736A" /></svg>
               Filter
             </button>
 
             <div className={styles.sortWrapper}>
-              <div
-                className={`${styles.sortBox} ${showSort ? styles.activeSortBox : ''}`}
-                onClick={() => setShowSort(!showSort)}
-              >
+              <div className={`${styles.sortBox} ${showSort ? styles.activeSortBox : ''}`} onClick={() => setShowSort(!showSort)}>
                 <span className={styles.sortLabel}>Sort By : </span>
                 <span className={styles.sortValue}>{selectedSort}</span>
-                <svg
-                  className={`${styles.sortArrow} ${showSort ? styles.arrowRotate : ''}`}
-                  width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M6.63055 6.75943C6.23768 7.16467 5.58748 7.16467 5.1946 6.75943L0.285735 1.69607C-0.329211 1.06177 0.120255 1.54337e-07 1.00371 8.53452e-08L10.8214 -6.81352e-07C11.7049 -7.50344e-07 12.1544 1.06177 11.5394 1.69607L6.63055 6.75943Z" fill="#C4754E" />
-                </svg>
+                <svg className={`${styles.sortArrow} ${showSort ? styles.arrowRotate : ''}`} width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M6.63055 6.75943C6.23768 7.16467 5.58748 7.16467 5.1946 6.75943L0.285735 1.69607C-0.329211 1.06177 0.120255 1.54337e-07 1.00371 8.53452e-08L10.8214 -6.81352e-07C11.7049 -7.50344e-07 12.1544 1.06177 11.5394 1.69607L6.63055 6.75943Z" fill="#C4754E" /></svg>
               </div>
-
               {showSort && (
                 <div className={styles.dropdownMenu}>
                   {SORT_OPTIONS.map((option) => (
-                    <div
-                      key={option}
-                      className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`}
-                      onClick={() => { setSelectedSort(option); setShowSort(false); }}
-                    >
+                    <div key={option} className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`} onClick={() => { setSelectedSort(option); setShowSort(false); }}>
                       <span className={styles.optionText}>{option}</span>
                       <span className={styles.radioCircle}></span>
                     </div>
@@ -160,36 +126,38 @@ export default function Listing() {
         </header>
 
         <div className={styles.productGrid}>
-        
           {PRODUCTS.slice(0, visibleCount).map((item) => (
-            <div key={item.id} className={styles.productCard}>
-              <div className={styles.imageWrapper}>
-                <button className={styles.wishlistIcon} onClick={() => toggleWishlist(item.id)}>
-                  <svg width="20" height="18" viewBox="0 0 24 24" fill={wishlist.includes(item.id) ? "#C6825B" : "white"}>
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                  </svg>
-                </button>
-                <Image src={coffeeImg} alt={item.name} width={300} height={340} className={styles.productImg} />
-              </div>
-              <div className={styles.details}>
-                <h3 className={styles.name}>{item.name}</h3>
-                <p className={styles.notes}>{item.notes}</p>
-                <div className={styles.footerRow}>
-                  <span className={styles.priceTag}>{item.price}</span>
-                  <button className={styles.buyBtn}>Add to Cart</button>
-                  <span className={styles.mobileText}>Shop Now</span>
+            <Link 
+              href={`/shop/merchandise/${item.slug}`} 
+              key={item.id} 
+              className={styles.linkWrapper}
+            >
+              <div className={styles.productCard}>
+                <div className={styles.imageWrapper}>
+                  <button className={styles.wishlistIcon} onClick={(e) => toggleWishlist(e, item.id)}>
+                    <svg width="20" height="18" viewBox="0 0 24 24" fill={wishlist.includes(item.id) ? "#C6825B" : "white"}>
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                  </button>
+                  <Image src={coffeeImg} alt={item.name} width={300} height={340} className={styles.productImg} />
+                </div>
+                <div className={styles.details}>
+                  <h3 className={styles.name}>{item.name}</h3>
+                  <p className={styles.notes}>{item.notes}</p>
+                  <div className={styles.footerRow}>
+                    <span className={styles.priceTag}>{item.price}</span>
+                    <button className={styles.buyBtn} onClick={(e) => e.preventDefault()}>Add to Cart</button>
+                    <span className={styles.mobileText}>Shop Now</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
-      
         {visibleCount < PRODUCTS.length && (
           <div className={styles.footer}>
-            <button className={styles.viewMoreBtn} onClick={handleViewMore}>
-              View More
-            </button>
+            <button className={styles.viewMoreBtn} onClick={handleViewMore}>View More</button>
           </div>
         )}
       </main>
