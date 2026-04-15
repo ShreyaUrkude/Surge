@@ -359,7 +359,8 @@ background-color: #F5F5F5;}
 
 .footerRow {
   display: flex;
-
+  justify-content: space-between;
+  align-items: center;
   margin-top: 15px;
 }
 
