@@ -1,6 +1,13 @@
 .main {
   display: flex;
-  padding: 136px 125px 32px 125px;
+  padding:
+    clamp(80px, 8vw, 136px)
+    /* Top: scales between 80px and 136px */
+    clamp(40px, 6.5vw, 125px)
+    /* Side Padding: scales between 40px and 125px */
+    32px
+    /* Bottom: stays fixed (or clamp if you prefer) */
+    clamp(40px, 6.5vw, 125px);
   background-color: #fff;
 }
 
@@ -116,19 +123,23 @@
   margin: 0;
   cursor: pointer;
 }
+
 .btn {
   display: flex;
   gap: 8px;
-  align-items: center; /* Keeps active and inactive dots vertically aligned */
+  align-items: center;
+  /* Keeps active and inactive dots vertically aligned */
   justify-content: flex-end;
-  min-height: 20px; /* Ensure the height doesn't jump when the dot changes */
+  min-height: 20px;
+  /* Ensure the height doesn't jump when the dot changes */
 }
 
 .dotImg {
   cursor: pointer;
   display: block;
   object-fit: contain;
-  transition: all 0.3s ease; /* Makes the swap feel smooth */
+  transition: all 0.3s ease;
+  /* Makes the swap feel smooth */
 }
 
 /* Core Embla Structure */
@@ -144,10 +155,13 @@
 }
 
 .embla__slide {
-  flex: 0 0 100%; /* Force each slide to be exactly 100% width */
-  min-width: 100%; /* Ensure it doesn't shrink */
+  flex: 0 0 100%;
+  /* Force each slide to be exactly 100% width */
+  min-width: 100%;
+  /* Ensure it doesn't shrink */
   display: flex;
-  justify-content: center; /* Centers your 1670px content on large screens */
+  justify-content: center;
+  /* Centers your 1670px content on large screens */
 }
 
 /* Fix for your existing MainContainer inside the slide */
@@ -155,7 +169,8 @@
   display: flex;
   align-items: stretch;
   width: 100%;
-  max-width: 1670px; /* Your design width */
+  max-width: 1670px;
+  /* Your design width */
   /* Remove overflow: hidden if it's cutting off shadows/edges */
 }
 
@@ -164,7 +179,7 @@
   background-color: #F5F5F5;
   display: flex;
   padding: 60px 125px;
-  flex: 1; 
+  flex: 1;
   min-width: 0;
 }
 

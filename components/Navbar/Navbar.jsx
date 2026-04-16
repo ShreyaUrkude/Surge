@@ -3,22 +3,34 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation"; 
+import { usePathname } from "next/navigation";
 import styles from "./Navbar.module.css";
 import logo from "./logo.png";
 import NavbarShop from "./NavbarShop";
 import { useCart } from "@/app/_context/CartContext";
 
 export default function Navbar() {
-  const pathname = usePathname(); 
+  const pathname = usePathname();
   const { isCartOpen, openCart, closeCart } = useCart();
   const [isShopOpen, setIsShopOpen] = useState(false);
+  const timeoutRef = useRef(null);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
 
   const lastScrollY = useRef(0);
+  const handleMouseEnter = () => {
+    // Clear any existing timer so it stays open
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsShopOpen(true);
+  };
 
+  const handleMouseLeave = () => {
+    // Wait 300ms before closing (gives user a "grace period")
+    timeoutRef.current = setTimeout(() => {
+      setIsShopOpen(false);
+    }, 800);
+  };
   // ── Scroll hide/show ──────────────────────────────────────────
   useEffect(() => {
     const handleScroll = () => {
@@ -36,11 +48,11 @@ export default function Navbar() {
 
   const isActive = (path) => pathname === path;
 
- 
+
   const isParentActive = (path) => pathname.startsWith(path);
 
   const handleShopClick = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     setIsShopOpen(!isShopOpen);
   };
 
@@ -53,148 +65,149 @@ export default function Navbar() {
   };
 
   return (
-    <header className={`${styles.navbar} ${hidden ? styles.navbarHidden : ""}`}>
-      <div className={styles.logo}>
-        <Link href="/" className={styles.logoLink}>
-          <Image src={logo} alt="Logo" width={89} height={25} priority />
-        </Link>
-      </div>
+    <>
+      <div
+        className={`${styles.navOverlay} ${menuOpen ? styles.active : ""}`}
+        onClick={() => setMenuOpen(false)}
+      />
+      <header className={`${styles.navbar} ${hidden ? styles.navbarHidden : ""}`}>
+        <div className={styles.logo}>
+          <Link href="/" className={styles.logoLink}>
+            <Image src={logo} alt="Logo" width={89} height={25} priority />
+          </Link>
+        </div>
 
-      <div className={styles.hamburger} onClick={() => setMenuOpen(!menuOpen)}>
-        <span className={menuOpen ? styles.lineOpen : ""}></span>
-        <span className={menuOpen ? styles.lineOpen : ""}></span>
-        <span className={menuOpen ? styles.lineOpen : ""}></span>
-      </div>
-<div className={styles.cartIconMobile} onClick={() => openCart()}>
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="9" cy="21" r="1"></circle>
-      <circle cx="20" cy="21" r="1"></circle>
-      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-    </svg>
-  </div>
-      <div className={`${styles.navWrapper} ${menuOpen ? styles.active : ""}`}>
-        <nav className={styles.menuCenter}>
-          
-          <div className={styles.shopTrigger}>
-            <Link 
-              href="/shop" 
-              className={`${styles.navLink} ${isParentActive("/shop") ? styles.activeRed : ""}`} 
-              onClick={handleShopClick}
-            >
-              Our Shop 
-              <span className={`${styles.arrow} ${isShopOpen ? styles.arrowUp : ""}`}>
-                <svg width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6.0625 0L0.000322342 6.75H12.1247L6.0625 0Z" fill="currentColor"/>
-                </svg>
-              </span>
-            </Link>
+        <div className={styles.hamburger} onClick={() => setMenuOpen(!menuOpen)}>
+          <span className={menuOpen ? styles.lineOpen : ""}></span>
+          <span className={menuOpen ? styles.lineOpen : ""}></span>
+          <span className={menuOpen ? styles.lineOpen : ""}></span>
+        </div>
 
-            {isShopOpen && (
-              <div className={styles.dropdownWrapper}>
-                <div className={styles.desktopOnly}>
-                  <NavbarShop onClose={() => setIsShopOpen(false)} />
+        <div className={`${styles.navWrapper} ${menuOpen ? styles.active : ""}`}>
+          <nav className={styles.menuCenter}>
+
+            <div className={styles.shopTrigger}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}>
+              <Link
+                href="/shop"
+                className={`${styles.navLink} ${isParentActive("/shop") ? styles.activeRed : ""}`}
+                onClick={handleShopClick}
+              >
+                Our Shop
+                <span className={`${styles.arrow} ${isShopOpen ? styles.arrowUp : ""}`}>
+                  <svg width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.0625 0L0.000322342 6.75H12.1247L6.0625 0Z" fill="currentColor" />
+                  </svg>
+                </span>
+              </Link>
+
+              {isShopOpen && (
+                <div className={`${styles.dropdownWrapper} ${isShopOpen ? styles.dropdownOpen : ""}`}>
+
+                  <div className={styles.desktopOnly}>
+                    <NavbarShop onClose={() => setIsShopOpen(false)} />
+                  </div>
+
+                  <div className={styles.mobileOnly}>
+                    <ul className={styles.linkStack}>
+                      <li>
+                        <Link href="/shop/coffee-beans" className={isActive("/shop/coffee-beans") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
+                          Coffee beans
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/shop/coffee-dripbags" className={isActive("/shop/coffee-dripbags") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
+                          Coffee Drip bags
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/shop/coffee-capsules" className={isActive("/shop/coffee-capsules") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
+                          Coffee Capsules
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/shop/merchandise" className={isActive("/shop/Merchandise") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
+                          Merchandise
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/shop/Equipments" className={isActive("/shop/Equipments") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
+                          Equipments
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
+              )}
+            </div>
 
+            <div className={styles.mobileLine}></div>
+            <Link href="/about-us" className={`${styles.navLink} ${isActive("/about-us") ? styles.activeRed : ""}`}>About Us</Link>
+            <div className={styles.mobileLine}></div>
+            <Link href="/events" className={`${styles.navLink} ${isActive("/events") ? styles.activeRed : ""}`}>Events</Link>
+            <div className={styles.mobileLine}></div>
+            <Link href="/ourmenu" className={`${styles.navLink} ${isActive("/ourmenu") ? styles.activeRed : ""}`}>Cafe Menu</Link>
+          </nav>
+
+          <nav className={styles.menuRight}>
+            <div className={styles.mobileLine}></div>
+            <Link href="/contact" className={isActive("/contact") ? styles.activeRed : ""}>Contact Us</Link>
+            <div className={styles.mobileLine}></div>
+            <Link href="/blogs" className={isActive("/blogs") ? styles.activeRed : ""}>Blogs</Link>
+
+            <div className={styles.mobileLine}></div>
+            {/* 3. Updated Cart Trigger */}
+            <span
+              onClick={() => (isCartOpen ? closeCart() : openCart())}
+              className={`${styles.navLink} ${isCartOpen ? styles.activeRed : ""}`}
+              style={{ cursor: "pointer" }}
+            >
+              Cart
+            </span>
+            <div className={styles.mobileLine}></div>
+            <Link href="/Login" className={isActive("/Login") ? styles.activeRed : ""}>Login</Link>
+            <div className={styles.mobileLine}></div>
+
+            <div className={styles.accountTrigger}>
+              <Link
+                href="/account/profile"
+                className={`${styles.navLink} ${isParentActive("/account") ? styles.activeRed : ""}`}
+                onClick={handleAccountClick}
+              >
+                / Account
+                <span className={`${styles.arrow} ${isAccountOpen ? styles.arrowUp : ""}`}>
+                  <svg width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.0625 0L0.000322342 6.75H12.1247L6.0625 0Z" fill="currentColor" />
+                  </svg>
+                </span>
+              </Link>
+
+              {isAccountOpen && (
                 <div className={styles.mobileOnly}>
-                  <ul className={styles.linkStack}>
+                  <ul className={styles.accountStack}>
                     <li>
-                      <Link href="/shop/coffee-beans" className={isActive("/shop/coffee-beans") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
-                        Coffee beans
-                      </Link>
+                      <Link href="/account/profile" className={isActive("/account/profile") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Profile</Link>
                     </li>
                     <li>
-                      <Link href="/shop/coffee-dripbags" className={isActive("/shop/coffee-dripbags") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
-                        Coffee Drip bags
-                      </Link>
+                      <Link href="/account/orders" className={isActive("/account/orders") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Orders</Link>
                     </li>
                     <li>
-                      <Link href="/shop/coffee-capsules" className={isActive("/shop/coffee-capsules") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
-                        Coffee Capsules
-                      </Link>
+                      <Link href="/account/manage-subscription" className={isActive("/account/manage-subscription") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Manage Subscription</Link>
                     </li>
                     <li>
-                      <Link href="/shop/merchandise" className={isActive("/shop/Merchandise") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
-                        Merchandise
-                      </Link>
+                      <Link href="/account/wishlist" className={isActive("/account/wishlist") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Wishlist</Link>
                     </li>
                     <li>
-                      <Link href="/shop/Equipments" className={isActive("/shop/Equipments") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
-                        Equipments
-                      </Link>
+                      <Link href="/account/logout" onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Logout</Link>
                     </li>
                   </ul>
                 </div>
-              </div>
-            )}
-          </div>
-
-          <div className={styles.mobileLine}></div>
-          <Link href="/about-us" className={`${styles.navLink} ${isActive("/about-us") ? styles.activeRed : ""}`}>About Us</Link>
-          <div className={styles.mobileLine}></div>
-          <Link href="/events" className={`${styles.navLink} ${isActive("/events") ? styles.activeRed : ""}`}>Events</Link>
-          <div className={styles.mobileLine}></div>
-          <Link href="/ourmenu" className={`${styles.navLink} ${isActive("/ourmenu") ? styles.activeRed : ""}`}>Cafe Menu</Link>
-        </nav>
-
-        <nav className={styles.menuRight}>
-          <div className={styles.mobileLine}></div>
-          <Link href="/contact" className={isActive("/contact") ? styles.activeRed : ""}>Contact Us</Link>
-          <div className={styles.mobileLine}></div>
-          <Link href="/blogs" className={isActive("/blogs") ? styles.activeRed : ""}>Blogs</Link>
-
-       <div className={styles.mobileLine}></div>
-          {/* 3. Updated Cart Trigger */}
-          <span
-            onClick={() => (isCartOpen ? closeCart() : openCart())}
-            className={`${styles.navLink} ${isCartOpen ? styles.activeRed : ""}`}
-            style={{ cursor: "pointer" }}
-          > 
-            Cart 
-          </span>     
-          
-          
-          <div className={styles.mobileLine}></div>
-          <Link href="/Login" className={isActive("/Login") ? styles.activeRed : ""}>Login</Link>
-          <div className={styles.mobileLine}></div>
-
-          <div className={styles.accountTrigger}>
-            <Link 
-              href="/account/profile" 
-              className={`${styles.navLink} ${isParentActive("/account") ? styles.activeRed : ""}`} 
-              onClick={handleAccountClick}
-            >
-              / Account 
-              <span className={`${styles.arrow} ${isAccountOpen ? styles.arrowUp : ""}`}>
-                <svg width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6.0625 0L0.000322342 6.75H12.1247L6.0625 0Z" fill="currentColor"/>
-                </svg>
-              </span>
-            </Link>
-
-            {isAccountOpen && (
-              <div className={styles.mobileOnly}>
-                <ul className={styles.accountStack}>
-                  <li>
-                    <Link href="/account/profile" className={isActive("/account/profile") ? styles.activeRed : ""} onClick={() => {setIsAccountOpen(false); setMenuOpen(false);}}>Profile</Link>
-                  </li>
-                  <li>
-                    <Link href="/account/orders" className={isActive("/account/orders") ? styles.activeRed : ""} onClick={() => {setIsAccountOpen(false); setMenuOpen(false);}}>Orders</Link>
-                  </li>
-                  <li>
-                    <Link href="/account/manage-subscription" className={isActive("/account/manage-subscription") ? styles.activeRed : ""} onClick={() => {setIsAccountOpen(false); setMenuOpen(false);}}>Manage Subscription</Link>
-                  </li>
-                  <li>
-                    <Link href="/account/wishlist" className={isActive("/account/wishlist") ? styles.activeRed : ""} onClick={() => {setIsAccountOpen(false); setMenuOpen(false);}}>Wishlist</Link>
-                  </li>
-                  <li>
-                    <Link href="/account/logout" onClick={() => {setIsAccountOpen(false); setMenuOpen(false);}}>Logout</Link>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-        </nav>
-      </div>
-    </header>
+              )}
+            </div>
+          </nav>
+        </div>
+      </header>
+    </>
   );
 }
