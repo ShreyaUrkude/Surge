@@ -7,7 +7,8 @@ import { useCart } from "@/app/_context/CartContext";
 import coffeebag from './c.png'
 import Link from "next/link";
 
-const cartData = {
+
+const initialCartData = {
   products: [
     {
       product_id: 1,
@@ -29,20 +30,48 @@ const cartData = {
 };
 
 const CartSideBar = () => {
- 
   const { isCartOpen, closeCart } = useCart();
   const [isMounted, setIsMounted] = useState(false);
+ 
+  const [cartData, setCartData] = useState(initialCartData);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
 
+  // Handle Delete
+  const handleDelete = (id) => {
+    const updatedProducts = cartData.products.filter(p => p.product_id !== id);
+    updateTotals(updatedProducts);
+  };
+
+
+  const handleQuantity = (id, delta) => {
+    const updatedProducts = cartData.products.map(p => {
+      if (p.product_id === id) {
+        const newQty = Math.max(1, p.quantity + delta); // Prevent quantity < 1
+        return { ...p, quantity: newQty };
+      }
+      return p;
+    });
+    updateTotals(updatedProducts);
+  };
+
+  // Sync Subtotal and Total
+  const updateTotals = (products) => {
+    const newSubtotal = products.reduce((acc, p) => acc + (p.price * p.quantity), 0);
+    setCartData({
+      products,
+      subtotal: newSubtotal,
+      total: newSubtotal + 10 
+    });
+  };
+
   if (!isMounted || !isCartOpen) return null;
 
   return (
     <>
-      {/* Overlay click par closeCart function call hoga */}
       <div className={styles.overlay} onClick={closeCart} />
       
       <aside className={`${styles.sidebar} ${isCartOpen ? styles.open : ""}`}>
@@ -67,19 +96,23 @@ const CartSideBar = () => {
                 <div className={styles.prodInfo}>
                   <div className={styles.prodHeader}>
                     <h5>{item.name}</h5>
-                    <button className={styles.removeIconBtn}>
+                    {/* LOGIC: Delete Button */}
+                    <button className={styles.removeIconBtn} onClick={() => handleDelete(item.product_id)}>
                       <TrashIcon />
                     </button>
                   </div>
 
                   <div className={styles.prodFooter}>
                     <div className={styles.qtyControls}>
-                      <button><PlusIcon /></button>
+                     
+                      <button onClick={() => handleQuantity(item.product_id, 1)}><PlusIcon /></button>
                       <span>{item.quantity}</span>
-                      <button><MinusIcon /></button>
+                     
+                      <button onClick={() => handleQuantity(item.product_id, -1)}><MinusIcon /></button>
                     </div>
                     <span className={styles.price}>
-                      AED {item.price.toFixed(2)}
+                      {/* LOGIC: Price updates per line item */}
+                      AED {(item.price * item.quantity).toFixed(2)}
                     </span>
                   </div>
                 </div>
@@ -91,7 +124,8 @@ const CartSideBar = () => {
         <div className={styles.footer}>
           <div className={styles.subtotalRow}>
             <span>Subtotal</span>
-            <span>AED {cartData.total.toFixed(2)}</span>
+            {/* LOGIC: Subtotal updates dynamically */}
+            <span>AED {cartData.subtotal.toFixed(2)}</span>
           </div>
           <Link href="/checkout" className={styles.checkoutLink} onClick={closeCart}>
             <button className={styles.checkoutBtn}>Checkout</button>
@@ -105,7 +139,6 @@ const CartSideBar = () => {
   );
 };
 
-// Icons components...
 const CloseIcon = () => (
   <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M1.4 14.5954L0 13.1359L5.6 7.29772L0 1.45954L1.4 0L7 5.83818L12.6 0L14 1.45954L8.4 7.29772L14 13.1359L12.6 14.5954L7 8.75727L1.4 14.5954Z" fill="#414343"/>

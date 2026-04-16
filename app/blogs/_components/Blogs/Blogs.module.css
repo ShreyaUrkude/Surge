@@ -89,6 +89,12 @@
   max-width: 440px;
   margin: 0;
 }
+.linkWrapper {
+  text-decoration: none; 
+  color: inherit;       
+  display: inline-block;
+}
+
 
 
 .bottom {

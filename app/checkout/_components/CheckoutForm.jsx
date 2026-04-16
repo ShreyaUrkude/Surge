@@ -9,7 +9,7 @@ import ShippingAddressSection from "./ShippingAddressSection";
 import BillingAddressSection from "./BillingAddressSection";
 import { PaymentCardSection, PaymentButtonSection } from "./PaymentSection";
 import OrderSummary from "./OrderSummary";
-import OrderSuccess from "../success/Page";
+
 
 // TODO: replace with Surge's actual cart context
 const useCart = () => ({ openCart: () => { }, isBeansApplied: false, appliedCoupon: null });

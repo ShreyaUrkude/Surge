@@ -1,19 +1,22 @@
 "use client";
 import React, { useCallback, useEffect, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import Autoplay from 'embla-carousel-autoplay'; // Import the autoplay plugin
+import Autoplay from 'embla-carousel-autoplay';
 import Image from "next/image";
 import styles from './Blogs.module.css';
 
-// Your Assets
+
+// Assets
 import oneImg from './one.png';
 import square from './square.png';
 import squaretwo from './square2.png';
 import squarethree from './square3.png';
 
-const BLOG_DATA = [
+
+ const BlogData = [
   {
     id: 1,
+  
     image: oneImg,
     readTime: "6 min read",
     title: <>The craft behind every cup:<br /> Inside surge’s coffee journey</>,
@@ -21,6 +24,7 @@ const BLOG_DATA = [
   },
   {
     id: 2,
+  
     image: oneImg,
     readTime: "4 min read",
     title: <>Ethical Sourcing:<br /> Beyond the Bean</>,
@@ -28,6 +32,7 @@ const BLOG_DATA = [
   },
   {
     id: 3,
+   
     image: oneImg,
     readTime: "5 min read",
     title: <>Roasting Mastery:<br /> Science meets Art</>,
@@ -36,9 +41,7 @@ const BLOG_DATA = [
 ];
 
 export default function Blogs() {
-  // Initialize Autoplay with 4 second delay
   const autoplayOptions = { delay: 3000, stopOnInteraction: false };
-
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 50, align: 'start' }, [Autoplay(autoplayOptions)]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -57,14 +60,12 @@ export default function Blogs() {
     if (emblaApi) emblaApi.scrollTo(index);
   }, [emblaApi]);
 
-  // Array of your dot assets for easy mapping
-  const dotAssets = [square, squaretwo, squarethree];
-
   return (
     <div className={styles.main}>
       <div className={styles.embla} ref={emblaRef}>
         <div className={styles.embla__container}>
-          {BLOG_DATA.map((blog) => (
+          {/* FIX: Yahan 'BlogData' use karein, 'BLOG_DATA' nahi */}
+          {BlogData.map((blog) => (
             <div className={styles.embla__slide} key={blog.id}>
               <div className={styles.MainContainer}>
 
@@ -96,19 +97,19 @@ export default function Blogs() {
                     </div>
 
                     <div className={styles.bottom}>
-                      <h2 className={styles.read}>
-                        Read More
-                        <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
-                          <path d="M0.350207 7.7921L7.56828 0.499646M7.56828 0.499646V7.06285M7.56828 0.499646H1.07201" stroke="#C4754E" />
-                        </svg>
-                      </h2>
+                     
+                        <h2 className={styles.read}>
+                          Read More
+                          <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+                            <path d="M0.350207 7.7921L7.56828 0.499646M7.56828 0.499646V7.06285M7.56828 0.499646H1.07201" stroke="#C4754E" />
+                          </svg>
+                        </h2>
+                     
 
-                      {/* Clean dots using only your assets */}
                       <div className={styles.btn}>
-                        {BLOG_DATA.map((_, i) => {
-                          // Determine which image to show based on if it's currently selected
+                        {/* FIX: Yahan bhi 'BlogData' map karein */}
+                        {BlogData.map((_, i) => {
                           const imageSource = i === selectedIndex ? squarethree : (i === 1 ? squaretwo : square);
-
                           return (
                             <Image
                               key={i}
