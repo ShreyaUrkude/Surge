@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styles from "./WhislistComponents.module.css";
 import Image from "next/image";
 import zeroWish from "./zeroWish.png";
-import cof from "./cof.png"; 
+import cof from "./cof.png";
 import { useRouter } from "next/navigation";
 import Link from "next/link"; // For the "View Cart" button in popup
 
@@ -44,6 +44,39 @@ const WishlistComponents = () => {
           inStock: true,
         }
       }
+    }, 
+    {
+      id: "wish_02",
+      product: {
+        value: {
+          id: "prod_02",
+          name: "Indonesia Meriah",
+          tagline: "Anaerobic Natural",
+          slug: "indonesia-meriah-anaerobic",
+          description: "Floral, fruity, complex",
+          regularPrice: 80.00,
+          salePrice: 65.00,
+          productImage: cof,
+          categories: { slug: "limited-edition" },
+          inStock: true,
+        }
+      }
+    },{
+      id: "wish_02",
+      product: {
+        value: {
+          id: "prod_02",
+          name: "Indonesia Meriah",
+          tagline: "Anaerobic Natural",
+          slug: "indonesia-meriah-anaerobic",
+          description: "Floral, fruity, complex",
+          regularPrice: 80.00,
+          salePrice: 65.00,
+          productImage: cof,
+          categories: { slug: "limited-edition" },
+          inStock: true,
+        }
+      }
     },
     {
       id: "wish_03",
@@ -65,7 +98,7 @@ const WishlistComponents = () => {
   ]);
 
   const [loading, setLoading] = useState(false);
-  
+
   // New States for "Added to Cart" checking
   const [addingId, setAddingId] = useState(null); // Tracks which specific button is "Adding..."
   const [showPopup, setShowPopup] = useState(false);
@@ -85,7 +118,7 @@ const WishlistComponents = () => {
     setTimeout(() => {
       setAddingId(null);
       setShowPopup(true);
-      
+
       // Auto-hide popup after 4 seconds
       setTimeout(() => setShowPopup(false), 4000);
     }, 800);
@@ -133,7 +166,7 @@ const WishlistComponents = () => {
                     <p className={styles.Description}>{product.description}</p>
                     <div className={styles.PriceRow}>
                       <span className={styles.CurrentPrice}>AED {product.salePrice.toFixed(2)}</span>
-                      <button 
+                      <button
                         className={styles.AddToCartBtn}
                         onClick={() => handleAddToCart(product)}
                         disabled={isAdding}
@@ -180,7 +213,7 @@ const WishlistComponents = () => {
             </div>
           </div>
 
-          <button 
+          <button
             onClick={() => router.push('/cart')}
             style={{
               width: '100%',

@@ -7,7 +7,6 @@ import { useCart } from "@/app/_context/CartContext";
 import coffeebag from './c.png'
 import Link from "next/link";
 
-
 const initialCartData = {
   products: [
     {
@@ -32,13 +31,11 @@ const initialCartData = {
 const CartSideBar = () => {
   const { isCartOpen, closeCart } = useCart();
   const [isMounted, setIsMounted] = useState(false);
-
   const [cartData, setCartData] = useState(initialCartData);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
 
   // Handle Delete
   const handleDelete = (id) => {
@@ -46,11 +43,10 @@ const CartSideBar = () => {
     updateTotals(updatedProducts);
   };
 
-
   const handleQuantity = (id, delta) => {
     const updatedProducts = cartData.products.map(p => {
       if (p.product_id === id) {
-        const newQty = Math.max(1, p.quantity + delta); // Prevent quantity < 1
+        const newQty = Math.max(1, p.quantity + delta);
         return { ...p, quantity: newQty };
       }
       return p;
@@ -58,7 +54,6 @@ const CartSideBar = () => {
     updateTotals(updatedProducts);
   };
 
-  // Sync Subtotal and Total
   const updateTotals = (products) => {
     const newSubtotal = products.reduce((acc, p) => acc + (p.price * p.quantity), 0);
     setCartData({
@@ -68,15 +63,18 @@ const CartSideBar = () => {
     });
   };
 
-  if (!isMounted || !isCartOpen) return null;
+ 
+  if (!isMounted) return null;
 
   return (
     <>
-      <div
-        className={`${styles.overlay} ${isCartOpen ? styles.overlayVisible : ""}`}
-        onClick={closeCart}
+    
+      <div 
+        className={`${styles.overlay} ${isCartOpen ? styles.overlayVisible : ""}`} 
+        onClick={closeCart} 
       />
-
+      
+      {/* Sidebar: Smoothly slides from right */}
       <aside className={`${styles.sidebar} ${isCartOpen ? styles.open : ""}`}>
         <div className={styles.header}>
           <div className={styles.headerTitle}>
@@ -99,7 +97,6 @@ const CartSideBar = () => {
                 <div className={styles.prodInfo}>
                   <div className={styles.prodHeader}>
                     <h5>{item.name}</h5>
-                    {/* LOGIC: Delete Button */}
                     <button className={styles.removeIconBtn} onClick={() => handleDelete(item.product_id)}>
                       <TrashIcon />
                     </button>
@@ -107,14 +104,11 @@ const CartSideBar = () => {
 
                   <div className={styles.prodFooter}>
                     <div className={styles.qtyControls}>
-
                       <button onClick={() => handleQuantity(item.product_id, 1)}><PlusIcon /></button>
                       <span>{item.quantity}</span>
-
                       <button onClick={() => handleQuantity(item.product_id, -1)}><MinusIcon /></button>
                     </div>
                     <span className={styles.price}>
-                      {/* LOGIC: Price updates per line item */}
                       AED {(item.price * item.quantity).toFixed(2)}
                     </span>
                   </div>
@@ -127,7 +121,6 @@ const CartSideBar = () => {
         <div className={styles.footer}>
           <div className={styles.subtotalRow}>
             <span>Subtotal</span>
-            {/* LOGIC: Subtotal updates dynamically */}
             <span>AED {cartData.subtotal.toFixed(2)}</span>
           </div>
           <Link href="/checkout" className={styles.checkoutLink} onClick={closeCart}>
@@ -142,6 +135,7 @@ const CartSideBar = () => {
   );
 };
 
+// Icons (Same as before)
 const CloseIcon = () => (
   <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M1.4 14.5954L0 13.1359L5.6 7.29772L0 1.45954L1.4 0L7 5.83818L12.6 0L14 1.45954L8.4 7.29772L14 13.1359L12.6 14.5954L7 8.75727L1.4 14.5954Z" fill="#414343" />

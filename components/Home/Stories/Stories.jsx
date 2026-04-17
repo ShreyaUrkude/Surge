@@ -15,7 +15,6 @@ const AboutSection = () => {
   const total = IMAGES.length;
   const [centerIndex, setCenterIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState(null);
-  const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
 
   // Parallax offset animated with requestAnimationFrame for smoothness
   // Each slot gets its own animated value: [left, center, right]
@@ -26,17 +25,13 @@ const AboutSection = () => {
 
   // ── Smooth parallax animation loop ────────────────────────────────
   const animateParallax = useCallback(() => {
-    let needsUpdate = false;
-
     for (let i = 0; i < 3; i++) {
       const target = parallaxTargets.current[i];
       const current = parallaxCurrent.current[i];
       const diff = target - current;
 
-      if (Math.abs(diff) > 0.1) {
-        // Ease toward target (lower = smoother/slower)
-        parallaxCurrent.current[i] += diff * 0.04;
-        needsUpdate = true;
+      if (Math.abs(diff) > 0.05) {
+        parallaxCurrent.current[i] += diff * 0.12;
       } else {
         parallaxCurrent.current[i] = target;
       }
@@ -47,35 +42,27 @@ const AboutSection = () => {
       }
     }
 
-    if (needsUpdate) {
-      rafRef.current = requestAnimationFrame(animateParallax);
-    }
+    rafRef.current = requestAnimationFrame(animateParallax);
   }, []);
 
   // ── Kick off parallax whenever centerIndex changes ────────────────
   useEffect(() => {
-    // When rotating forward, images conceptually move LEFT,
-    // so we shift the parallax layer to the RIGHT (positive) to create depth,
-    // then ease it back to 0.
-    const shift = direction * PARALLAX_PX;
-
-    // Set all three slots to the same initial offset
+    // Nudge the current position forward, then let it ease back to 0.
+    // This creates a single smooth drift in one direction — no back-and-forth.
     for (let i = 0; i < 3; i++) {
-      parallaxCurrent.current[i] = shift;
-      parallaxTargets.current[i] = 0; // ease back to neutral
+      parallaxCurrent.current[i] += PARALLAX_PX;
+      parallaxTargets.current[i] = 0;
     }
 
-    // Start animation
     cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(animateParallax);
 
     return () => cancelAnimationFrame(rafRef.current);
-  }, [centerIndex, direction, animateParallax]);
+  }, [centerIndex, animateParallax]);
 
   // ── Auto-rotate ───────────────────────────────────────────────────
   useEffect(() => {
     const interval = setInterval(() => {
-      setDirection(1);
       setCenterIndex((prev) => {
         setPrevIndex(prev);
         return (prev + 1) % total;
