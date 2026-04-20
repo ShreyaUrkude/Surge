@@ -22,7 +22,7 @@ useLayoutEffect(() => {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: `+=${cards.length * 100}%`,
+          end: `+=${cards.length * 120}%`,
           pin: true,
           scrub: 1,
           anticipatePin: 1,
@@ -52,6 +52,7 @@ useLayoutEffect(() => {
           index - 1
         );
       });
+      tl.to({}, { duration: 1 });
     }, containerRef);
 
     return () => ctx.revert();
@@ -89,9 +90,7 @@ useLayoutEffect(() => {
           >
             <h1 className={styles.text}>Our Mission</h1>
             <p className={styles.content}>
-              To deliver consistently exceptional coffee experiences while
-              staying true to our local heritage, elevating every cup with
-              purpose, pride, and precision.
+          To deliver consistently exceptional coffee experiences while staying true  to our local heritage, elevating every cup with purpose, pride, and  precision.
             </p>
             <div className={styles.number}>01</div>
           </div>
@@ -103,9 +102,7 @@ useLayoutEffect(() => {
           >
             <h1 className={styles.text}>Our Vision </h1>
             <p className={styles.content}>
-              To become the leading Emirati specialty coffee brand recognized
-              for excellence, authenticity, and innovation both locally and
-              beyond.
+             To become the leading Emirati specialty coffee brand recognized for  excellence, authenticity, and innovation both locally and beyond
             </p>
             <div className={styles.number}>02</div>
           </div>
@@ -117,9 +114,7 @@ useLayoutEffect(() => {
           >
             <h1 className={styles.text}>Sugre Approach</h1>
             <p className={styles.content}>
-              At Surge, we blend global specialty coffee standards with Dubai’s
-              local spirit. Every cup is crafted with premium beans, served with
-              consistency, and designed to bring people together.
+             At Surge, we blend global specialty coffee standards with Dubai’s local spirit. Every cup is crafted with premium beans, served with consistency, and designed to bring people together because coffee is more than a drink, it’s a daily experience.
             </p>
             <div className={styles.number}>03</div>
           </div>
