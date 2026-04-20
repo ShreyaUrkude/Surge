@@ -273,7 +273,7 @@
 
   .accountStack {
     list-style: none;
-    padding: 10px 0 10px 15px;
+    padding: 15px 0 10px 15px;
     display: flex;
     margin: 0;
     flex-direction: column;

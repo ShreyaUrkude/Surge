@@ -275,228 +275,72 @@
 
   .selectedSection {
 
-
-
     height: 100vh;
-
-   width: 100%;
-
+    width: 100%;
     display: flex;
-
-    padding: 60px 20px 0;
-
-
-
+    padding: 0px 20px 0;
     flex-direction: column;
-
-
-
-    overflow: hidden; /* Bahar ka scroll band */
-
-
+    overflow: hidden;
+    /* Bahar ka scroll band */
 
     background: #fff;
-
-
-
     position: relative;
-
-
-
   }
-
-
-
-
-
-
 
   .menuContainer {
-
-
-
     display: flex;
-
-
-
+    /* gap:30px; */
     flex-direction: column;
-
- 
-
     flex: 1;
-
-
-
     position: relative;
-
-
-
     overflow: hidden;
-
-
-
   }
-
-
 
   .categoryTitle {
-
     font-size: 22px;
-
     margin-bottom: 20px;
-
     color: #C4754E;
-
     flex-shrink: 0;
-
   }
-
-
-
-
-
-
-
 
   .imageWrapper {
-
-
-
     width: 100%;
-
-
-
-    z-index: 10;         
-
-
-
-    background: #ffffff;  
-
-
-
-    padding-bottom: 20px;
-
-
-
+    z-index: 10;
+    background: #ffffff;
+    padding-bottom: 40px;
     position: relative;
-
-
-
-    order: -1;            /* Image ko hamesha list ke upar rakhega */
-
-
-
+    order: -1;
     flex-shrink: 0;
-
-
-
   }
-
-
-
-
-
-
 
   .menuImage {
-
-
-
     width: 100%;
-
-
-
     height: auto;
-
-
-
     aspect-ratio: 16 / 9;
-
-
-
     object-fit: cover;
-
-
-
     display: block;
-
-
-
   }
-
-
-
-
-
-
-
- 
-
-
 
   .itemList {
-
-
-
     width: 100%;
-
-
-
     position: relative;
-
-
-
-    z-index: 5;           /* Image ke niche (piche) rahega */
-
-
-
+    z-index: 5;
     padding-top: 10px;
-
-
-
-  
-
-
-
-    pointer-events: none; 
-
-
-
+    pointer-events: none;
   }
-
-
-
-
-
-
 
   .menuItem {
-
-
-
     padding: 16px 0;
-
-
-
     border-bottom: 1px solid #414343;
-
-
-
-    background: #fff; /* Card ka color */
-
-
-
+    background: #fff;
+    /* Card ka color */
   }
 
-.menuItem:hover {
-  background-color: #F5F5F5;
+  .menuItem:hover {
+    background-color: #F5F5F5;
+  }
 
+  .activeItem {
+    background-color: #F5F5F5;
+  }
 }
-
-.activeItem {
-  background-color: #F5F5F5;
-
-}
-
-}
-

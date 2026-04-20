@@ -8,6 +8,7 @@ import styles from "./Navbar.module.css";
 import logo from "./logo.png";
 import NavbarShop from "./NavbarShop";
 import { useCart } from "@/app/_context/CartContext";
+import { useSession } from "next-auth/react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -17,7 +18,7 @@ export default function Navbar() {
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
-
+  const { data: session } = useSession();
   const lastScrollY = useRef(0);
   const handleMouseEnter = () => {
     // Clear any existing timer so it stays open
@@ -131,11 +132,11 @@ export default function Navbar() {
                           Merchandise
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link href="/shop/Equipments" className={isActive("/shop/Equipments") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
                           Equipments
                         </Link>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </div>
@@ -166,45 +167,46 @@ export default function Navbar() {
               Cart
             </span>
             <div className={styles.mobileLine}></div>
-            <Link href="/Login" className={isActive("/Login") ? styles.activeRed : ""}>Login</Link>
-            <div className={styles.mobileLine}></div>
+            {!session ? (
+              <Link href="/auth" className={isActive("/Login") ? styles.activeRed : ""}>Login</Link>
+            ) : (
+              <div className={styles.accountTrigger}>
+                <Link
+                  href="/account/profile"
+                  className={`${styles.navLink} ${isParentActive("/account") ? styles.activeRed : ""}`}
+                  onClick={handleAccountClick}
+                >
+                  Account
+                  <span className={`${styles.arrow} ${isAccountOpen ? styles.arrowUp : ""}`}>
+                    <svg width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6.0625 0L0.000322342 6.75H12.1247L6.0625 0Z" fill="currentColor" />
+                    </svg>
+                  </span>
+                </Link>
 
-            <div className={styles.accountTrigger}>
-              <Link
-                href="/account/profile"
-                className={`${styles.navLink} ${isParentActive("/account") ? styles.activeRed : ""}`}
-                onClick={handleAccountClick}
-              >
-                / Account
-                <span className={`${styles.arrow} ${isAccountOpen ? styles.arrowUp : ""}`}>
-                  <svg width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6.0625 0L0.000322342 6.75H12.1247L6.0625 0Z" fill="currentColor" />
-                  </svg>
-                </span>
-              </Link>
-
-              {isAccountOpen && (
-                <div className={styles.mobileOnly}>
-                  <ul className={styles.accountStack}>
-                    <li>
-                      <Link href="/account/profile" className={isActive("/account/profile") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Profile</Link>
-                    </li>
-                    <li>
-                      <Link href="/account/orders" className={isActive("/account/orders") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Orders</Link>
-                    </li>
-                    <li>
-                      <Link href="/account/manage-subscription" className={isActive("/account/manage-subscription") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Manage Subscription</Link>
-                    </li>
-                    <li>
-                      <Link href="/account/wishlist" className={isActive("/account/wishlist") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Wishlist</Link>
-                    </li>
-                    <li>
-                      <Link href="/account/logout" onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Logout</Link>
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </div>
+                {isAccountOpen && (
+                  <div className={styles.mobileOnly}>
+                    <ul className={styles.accountStack}>
+                      <li>
+                        <Link href="/account/profile" className={isActive("/account/profile") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Profile</Link>
+                      </li>
+                      <li>
+                        <Link href="/account/orders" className={isActive("/account/orders") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Orders</Link>
+                      </li>
+                      <li>
+                        <Link href="/account/manage-subscription" className={isActive("/account/manage-subscription") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Manage Subscription</Link>
+                      </li>
+                      <li>
+                        <Link href="/account/wishlist" className={isActive("/account/wishlist") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Wishlist</Link>
+                      </li>
+                      <li>
+                        <Link href="/account/logout" onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Logout</Link>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
           </nav>
         </div>
       </header>
