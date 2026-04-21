@@ -51,7 +51,7 @@
 }
 
 .Filter:hover {
-  background-color: #6e736a;
+  background-color: #C4754E;
 }
 
 .Filter:hover svg path {
@@ -63,6 +63,7 @@
   height: 45px;
   font-family: var(--font-raleway);
   font-size: 16px;
+ 
   color: var(--text-secondary);
   font-weight: 400;
   border: 1px solid var(--text-secondary);
@@ -73,6 +74,7 @@
   font-size: 16px;
   color: var(--text-secondary);
   font-weight: 400;
+   padding-left: 16px;
 }
 
 .Filter {

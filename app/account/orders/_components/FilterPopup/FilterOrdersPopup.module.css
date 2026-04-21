@@ -24,7 +24,7 @@
     color: var(--text-primary);
     margin: 0 0 30px 0;
     letter-spacing: 0%;
-    text-transform: uppercase;
+    
 }
 
 .body {
@@ -44,6 +44,7 @@
     font-size: 16px;
     font-weight: 400;
      color: var(--text-primary);
+     color: #414343;
     
 }
 
@@ -107,28 +108,29 @@
     flex: 1;
     padding: 14px 48px;
     background: transparent;
-    border: 1.5px solid #6C7A5F;
-    color: #6C7A5F;
-    font-family: var(--lato), sans-serif;
+    border: 1.5px solid #C4754E;
+    color: #C4754E;
+    font-family: var(--font-raleway);
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 600;
     cursor: pointer;
     transition: background 0.2s;
 }
 
 .cancelBtn:hover {
-    background: #f8f8f8;
+    background-color: #C4754E;
+    color: white;
 }
 
 .applyBtn {
     flex: 1;
     padding: 14px 48px;
-    background: #6C7A5F;
+    background: #C4754E;
     border: none;
     color: #fff;
-    font-family: var(--lato), sans-serif;
-    font-size: 15px;
-    font-weight: 700;
+    font-family: var(--font-raleway);
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
     transition: opacity 0.2s;
 }

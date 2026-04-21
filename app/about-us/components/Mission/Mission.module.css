@@ -223,105 +223,81 @@
 }
 
 
+
+
+
 @media (min-width: 325px) and (max-width: 900px) {
   .landContainer {
-    display: block; 
-    width: 100%;
-    height: auto !important; 
+    display: flex;
+    flex-direction: column;
+    height: auto;
     min-height: 100vh;
-    padding: 40px 20px; 
-    background-color: #ffffff;
-    overflow-y: visible !important;
-    overflow-x: hidden;
-    box-sizing: border-box;
+    padding: 40px 20px;
+    gap: 30px;
+    align-items: center;
   }
 
-
   .right {
-    width: 100%;
-    height: auto;
     display: block;
-    margin-bottom: 40px;
-    padding: 0 10px;
+    height: auto;
+    width: 100%;
+    flex: none;
   }
 
   .product {
-    display: none !important; 
+    display: none !important;
   }
 
   .textcontent {
-    position: relative; 
+    position: relative;
     padding: 0;
+    text-align: left;
     width: 100%;
   }
 
-  .storytitle {
-    color: #414343;
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-
-  .story {
-    color: #414343;
-    font-size: 16px;
-    line-height: 1.5;
-  }
+  .storytitle { color: #414343; font-size: 22px; }
+  .story { color: #414343; font-size: 16px; }
 
 
   .left {
     width: 100%;
-    height: auto;
-    display: block;
-    padding: 0 !important;
+    height: 420px; 
+   
+    position: relative;
+    flex: none;
+    
   }
-
-  .cardcontainer {
+.cardcontainer {
+ padding-right: 30px;
+  width: 100%;
+  position: relative;
+}
+  .card {
+    position: absolute; 
+    top: 50%;
+   
+    transform: translate(-50%, -50%); 
+    
+    width: 85% !important; 
+    height: 380px !important; /* REDUCED CARD HEIGHT */
+    
+    padding: 30px !important; 
     display: flex;
     flex-direction: column;
-    gap: 161px; 
-    width: 100%;
-  }
-
- 
-  .card, 
-  .card:nth-child(1), 
-  .card:nth-child(2), 
-  .card:nth-child(3) {
-    position: relative !important; 
-    top: auto !important;
-    left: auto !important;
-    transform: none !important; 
-    
-    width: 100% !important; 
-    max-width: 100% !important; 
-    height: 420px !important; 
-    
-    padding: 40px !important; 
     box-sizing: border-box;
-    
-    display: flex;
-    flex-direction: column;
-    opacity: 1 !important;
-    visibility: visible !important;
    
   }
 
-  .text {
-    font-size: 26px;
-    color: #C4754E;
-    margin-bottom: 10px;
-  }
+  
+  .card:nth-child(1) { z-index: 10;  height: 380px !important;   }
+  .card:nth-child(2) { z-index: 20;  height: 380px !important;   }
+  .card:nth-child(3) { z-index: 30;  height: 380px !important;   }
 
-  .content {
-    font-size: 15px;
-    line-height: 1.6;
-    color: #414343;
-    opacity: 1 !important;
-  }
-
-  .number {
-    font-size: 55px;
-    margin-top: auto;
-    align-self: flex-end;
+  .text { font-size: 22px; line-height: 1.2; }
+  .content { font-size: 14px; margin-top: 10px; }
+  .number { 
+    font-size: 45px; 
+    margin-top: auto; 
+    line-height: 1;
   }
 }

@@ -21,9 +21,13 @@
     gap: 15px;
     align-items: center;
 }
-
+.statusIcon {
+  margin-bottom: 10px; /* Precision adjustment for icon top alignment */
+  flex-shrink: 0;
+}
 .statusIcon {
     display: flex;
+  
     align-items: center;
     justify-content: center;
 }

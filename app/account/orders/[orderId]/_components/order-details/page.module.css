@@ -30,12 +30,18 @@
     align-items: flex-start; 
     justify-content: space-between;
     cursor: pointer;
+  
 }
+.divider {
+  height: 1px;
+  background-color: #818681;
+  margin: 0 25px; }
 
 .Left {
     display: flex;
     flex-direction: column; 
     gap: 4px;
+   
 }
 
 .Left h1 {

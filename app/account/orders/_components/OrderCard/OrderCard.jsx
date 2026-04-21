@@ -1,17 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import styles from "./OrderCard.module.css";
 import { formatImageUrl } from "@/lib/imageUtils";
 import { getStatusConfig, formatDate } from "@/app/account/orders/_components/GetStatus";
 import { useRouter } from 'next/navigation';
-import toast from "react-hot-toast";
 
 const OrderCard = ({ order, handleCancelButton }) => {
   if (!order) return null;
   const router = useRouter();
   
+  // order.deliveryStatus ya order.status dono ko handle kar raha hai
   const config = getStatusConfig(order.deliveryStatus || order.status, order);
+  
+  // Multiple formats of items handling
   const items = order.docs || order.items || order.line_items || [];
   const visibleItems = items.slice(0, 2);
   const remainingCount = Math.max(0, items.length - 2);
@@ -24,12 +26,26 @@ const OrderCard = ({ order, handleCancelButton }) => {
           <div className={styles.iconWrapper}>{config.icon}</div>
           <div className={styles.statusTexts}>
             <h3 style={{ color: config.color }}>{config.label}</h3>
-            <p>{config.date}</p>
+            <p className={styles.statusDate}>{config.date}</p>
+            
+            {/* Display Cancellation/Refund Reason */}
+            {config.reason && (
+              <p className={styles.reasonText}>
+                <span></span> {config.reason}
+              </p>
+            )}
+
+            {/* Display Refund Amount Info */}
+            {config.refundedAmount && (
+              <p className={styles.refundText}>
+                {config.refundedAmount}
+              </p>
+            )}
           </div>
         </div>
         <div className={styles.metaGroup}>
-          <p>Order Date: <span>{formatDate(order.date_created || order.createdAt)}</span></p>
-          <p>Order ID: <span>#{order.id}</span></p>
+          <p>Order Date: <span>{formatDate(order.date_created || order.createdAt || order.updatedAt)}</span></p>
+          <p>Order ID: <span>#{order.id || order.invoiceId}</span></p>
         </div>
       </div>
 
@@ -38,7 +54,7 @@ const OrderCard = ({ order, handleCancelButton }) => {
       {/* INSET BOX FOR ITEMS */}
       <div className={styles.itemsBox}>
         <div className={styles.itemsBoxHeader}>
-          <span>{items.length} Items</span>
+          <span>{items.length} {items.length === 1 ? 'Item' : 'Items'}</span>
           <div className={styles.detailsLink} onClick={() => router.push(`/account/orders/${order.id}`)}>
             Order details 
             <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,14 +69,15 @@ const OrderCard = ({ order, handleCancelButton }) => {
               <div className={styles.imageContainer}>
                 <Image
                   src={formatImageUrl(item.productImage?.url || item.product?.productImage?.url) || "/order.png"}
-                  alt="Coffee"
+                  alt={item.product?.name || "Product"}
                   width={60}
                   height={60}
+                  className={styles.productImage}
                 />
               </div>
               <div className={styles.productDetails}>
                 <h4>{item.product?.name || item.name}</h4>
-                <p>{item.product?.variants?.[0]?.variantName || "1kg"}</p>
+                <p>{item.variantName || item.product?.variants?.[0]?.variantName || "Standard"}</p>
               </div>
             </div>
           ))}
@@ -70,15 +87,21 @@ const OrderCard = ({ order, handleCancelButton }) => {
         </div>
       </div>
 
-      {/* FOOTER ACTIONS */}
-      {config.showCancel && (
+      {/* FOOTER ACTIONS & SUBSCRIPTION TEXT */}
+      {(config.showCancel || config.bottomText) && (
         <div className={styles.cardFooter}>
-          <button 
-            className={styles.cancelButton} 
-            onClick={() => handleCancelButton(order.id)}
-          >
-            Cancel Order
-          </button>
+          {config.bottomText && (
+            <p className={styles.bottomText}>{config.bottomText}</p>
+          )}
+          
+          {config.showCancel && (
+            <button 
+              className={styles.cancelButton} 
+              onClick={() => handleCancelButton(order.id)}
+            >
+              Cancel Order
+            </button>
+          )}
         </div>
       )}
     </div>
