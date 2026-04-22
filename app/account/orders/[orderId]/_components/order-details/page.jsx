@@ -22,19 +22,21 @@ export default function OrderDetails({ order }) {
       <h1>Order price</h1>
       <div className={styles.container}>
         <div className={styles.Top} onClick={() => setIsOpen(!isOpen)} style={{ cursor: 'pointer' }}>
+         
           <div className={styles.Left}>
             <h1>AED {Math.round(total)}</h1>
             {savings > 0 && (
               <p className={styles.savingsBadge}>You saved AED {Math.round(savings)}</p>
             )}
           </div>
+
           <div className={`${styles.toggleIcon} ${isOpen ? styles.open : ""}`}>
             <svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8.44336 9.75L16.8871 0H-0.000388145L8.44336 9.75Z" fill="#6E736A" />
             </svg>
           </div>
         </div>
-
+ <div className={styles.divider}></div>
         <div className={`${styles.detailsWrapper} ${isOpen ? styles.open : ""}`}>
           <div className={styles.detailsContent}>
             <div className={styles.detailRow}>

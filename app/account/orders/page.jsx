@@ -16,24 +16,58 @@ const MOCK_ORDERS = [
     id: "2864297643",
     invoiceId: "#2864297643",
     orderTotal: 250,
-    deliveryStatus: "placed", // UI shows 'Order Placed'
+    deliveryStatus: "placed", // Order Placed
     createdAt: "2025-12-17T10:42:00Z",
     deliveringBy: "Dec 28, 2025",
     items: [
       { product: { name: "Indonesia Meriah Anaerobic Natural", weight: "1kg" } },
-      { product: { name: "Indonesia Meriah Anaerobic Natural", weight: "1kg" } },
       { product: { name: "Brazil Santos Dark Roast", weight: "500g" } },
+    ]
+  },
+  {
+    id: "2864297645",
+    invoiceId: "#2864297645",
+    orderTotal: 85,
+    deliveryStatus: "shipped", // In Progress
+    createdAt: "2026-04-20T14:20:00Z",
+    deliveringBy: "Apr 25, 2026",
+    items: [
+      { product: { name: "Colombia Huila", weight: "250g" } }
     ]
   },
   {
     id: "2864297644",
     invoiceId: "#2864297644",
     orderTotal: 120,
-    deliveryStatus: "delivered", // UI shows 'Delivered'
+    deliveryStatus: "delivered", // Delivered
     createdAt: "2025-12-10T08:30:00Z",
     deliveredOn: "Dec 15, 2025",
     items: [
       { product: { name: "Ethiopia Yirgacheffe", weight: "1kg" } }
+    ]
+  },
+{
+    id: "2864297646",
+    invoiceId: "#2864297646",
+    orderTotal: 45,
+    deliveryStatus: "cancelled",
+    createdAt: "2026-03-01T09:00:00Z",
+    cancelledOn: "2026-03-02T10:00:00Z",
+  
+    items: [
+      { product: { name: "Cold Brew Pack", weight: "5pk" } }
+    ]
+  },
+  {
+    id: "2864297647",
+    invoiceId: "#2864297647",
+    orderTotal: 190,
+    deliveryStatus: "refunded",
+    createdAt: "2026-02-15T11:00:00Z",
+    returnedOn: "2026-02-20T11:00:00Z",
+  
+    items: [
+      { product: { name: "Espresso Roast", weight: "1kg" } }
     ]
   }
 ];

@@ -103,6 +103,7 @@
 
 @media (max-width: 768px) {
   .cardcontainer {
+    display: grid;
     flex-wrap: wrap;
     gap: 20px;
   }

@@ -21,7 +21,7 @@ export default function FilterOrdersPopup({
   return (
     <div className={styles.overlay}>
       <div className={styles.popup}>
-        <h2 className={styles.title}>FILTER ORDERS</h2>
+        <h2 className={styles.title}>FILTERS ORDERS</h2>
         <div className={styles.body}>
           {/* Status Column */}
           <div className={styles.column}>

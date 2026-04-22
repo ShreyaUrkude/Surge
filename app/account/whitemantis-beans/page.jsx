@@ -6,7 +6,7 @@ import styles from './page.module.css';
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import beansZero from "./beansZero.png"
-import coinsbanner from './banner.png'
+import coinsbanner from './bg.png'
 const QUESTIONS = [
     {
         question: "What are Surge Beans and how do they work?",
@@ -153,10 +153,11 @@ const WhiteMantisBeans = () => {
                                 <h2>500</h2>
                                 <p>Surge Beans</p>
                             </div>
-                            <p className={styles.validityText}>
+                           
+                        </div>
+                         <p className={styles.validityText}>
                                 Surge Beans are valid for 12 months from the date they're earned.
                             </p>
-                        </div>
                     </div>
 
 
