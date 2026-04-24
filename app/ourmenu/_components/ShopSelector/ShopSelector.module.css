@@ -1,0 +1,114 @@
+.shopSelectorContainer {
+  padding: 30px 20px;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.headerRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.selectorTitle {
+  font-size: var(--fs-22);
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: var(--font-montserrat);
+  margin: 0;
+}
+
+.selectorSubtitle {
+  font-size: var(--fs-14);
+  color: var(--text-secondary);
+  font-family: var(--font-raleway);
+  margin: 0;
+}
+
+.shopList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.shopButton {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 25px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  background: #fdfdfd;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.shopButton:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.activeShop {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white !important;
+  box-shadow: 0 8px 20px rgba(196, 117, 78, 0.2);
+}
+
+.shopIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(196, 117, 78, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  color: var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.activeShop .shopIcon {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.shopInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.shopName {
+  font-family: var(--font-montserrat);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.shopAddress {
+  font-family: var(--font-raleway);
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+@media (min-width: 768px) {
+  .shopSelectorContainer {
+    padding: 40px 50px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .shopSelectorContainer {
+    padding: 50px 80px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .shopSelectorContainer {
+    padding: 50px 250px;
+  }
+}

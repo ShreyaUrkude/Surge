@@ -8,10 +8,7 @@ export const formatDate = (dateString) => {
   });
 };
 
-export const getStatusConfig = (status, order) => {
-  console.log(order);
-
-  // Handle Pickup Ready state separately as it's a priority flag
+export const getStatusConfig = (status, order) => {  // Handle Pickup Ready state separately as it's a priority flag
   if (order?.deliveryOption === "pickup" && order?.isPickupReady && status !== "delivered") {
     return {
       label: "Pickup Ready",

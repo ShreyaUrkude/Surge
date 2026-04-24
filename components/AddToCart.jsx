@@ -1,6 +1,6 @@
-'use client';
+"use client";
 import React, { useState } from "react";
-import { useCart } from '../_context/CartContext';
+import { useCart } from "../_context/CartContext";
 
 const AddToCart = ({ product }) => {
   const { addItem } = useCart();
@@ -15,21 +15,21 @@ const AddToCart = ({ product }) => {
 
     // Check if product prop is provided
     if (!product) {
-      console.error('Product prop is required for AddToCart component');
+      console.error("Product prop is required for AddToCart component");
       return;
     }
 
     setLoading(true);
     try {
       await addItem(product.product_id, product.quantity || 1, {
-        name: product.name, variation_id: product.variation_id,
+        name: product.name,
+        variation_id: product.variation_id,
         description: product.description,
         image: product.image,
         tagline: product.tagline,
       });
-     
     } catch (err) {
-      console.error('Add to cart error', err);
+      console.error("Add to cart error", err);
     } finally {
       setLoading(false);
     }

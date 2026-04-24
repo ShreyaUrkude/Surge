@@ -1,8 +1,6 @@
 "use client";
 import styles from "./page.module.css";
 import React, { useState, useEffect, Suspense } from "react";
-import Image from "next/image";
-import Logo from "./logo.png";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { signIn, useSession } from "next-auth/react";
@@ -85,8 +83,8 @@ function AuthPageContent() {
         } catch (e) {
           setError(
             e.response?.data?.message ||
-            e.message ||
-            "Failed to complete sign-in",
+              e.message ||
+              "Failed to complete sign-in",
           );
           setLoading(false);
         }
@@ -111,9 +109,12 @@ function AuthPageContent() {
 
     sessionStorage.setItem("email", email);
 
+    console.log(email);
+    console.log(axiosClient);
+
     try {
       // STEP 1: Validate email and check user status
-      const signupRes = await axiosClient.post("api/otp/send-web", {
+      const signupRes = await axiosClient.post("/api/otp/send-web", {
         email,
       });
       console.log(signupRes);
@@ -135,8 +136,8 @@ function AuthPageContent() {
         router.push(verifyUrl);
       }
     } catch (e) {
-      console.log("Full error:", e);           // see the raw error
-      console.log("Response:", e.response);   // check if response exists
+      console.log("Full error:", e); // see the raw error
+      console.log("Response:", e.response); // check if response exists
       setError(e.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
@@ -296,13 +297,15 @@ function AuthPageContent() {
         </div>
       </div> */}
 
-
       <div className={styles.Main}>
         <div className={styles.card}>
           <div className={styles.UpperTop}>
             <div className={styles.headingBlock}>
               <h3>Login / Sign Up</h3>
-              <p>We’ll send a one-time password (OTP) to this email address to securely verify your account.</p>
+              <p>
+                We’ll send a one-time password (OTP) to this email address to
+                securely verify your account.
+              </p>
             </div>
 
             <div className={styles.inputBlock}>
@@ -335,10 +338,11 @@ function AuthPageContent() {
             </button>
           </div>
 
-
           <div className={styles.divider}>
             <span className={styles.line} />
-            <div className={styles.textor}><p>or continue with</p></div>
+            <div className={styles.textor}>
+              <p>or continue with</p>
+            </div>
             <span className={styles.line} />
           </div>
 
@@ -349,12 +353,30 @@ function AuthPageContent() {
               className={styles.googleButton}
               aria-label="Sign in with Google"
             >
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <g clipPath="url(#clip0_3069_17144)">
-                  <path d="M23.9995 12.0386C23.9995 11.0554 23.9178 10.3378 23.7411 9.59375H12.25V14.0317H18.995C18.8591 15.1346 18.1248 16.7956 16.4928 17.9117L16.47 18.0603L20.1032 20.8105L20.355 20.835C22.6667 18.7488 23.9995 15.6794 23.9995 12.0386Z" fill="#4285F4" />
-                  <path d="M12.2383 23.9139C15.5428 23.9139 18.3169 22.8508 20.3432 21.0172L16.4811 18.0939C15.4476 18.7981 14.0605 19.2898 12.2383 19.2898C9.00175 19.2898 6.25478 17.2037 5.27556 14.3203L5.13203 14.3322L1.35409 17.189L1.30469 17.3232C3.31731 21.2297 7.45141 23.9139 12.2383 23.9139Z" fill="#34A853" />
-                  <path d="M5.27634 14.3228C5.01797 13.5787 4.86844 12.7814 4.86844 11.9576C4.86844 11.1338 5.01797 10.3365 5.26275 9.59244L5.25591 9.43397L1.43062 6.53125L1.30547 6.58942C0.475969 8.21052 0 10.0309 0 11.9576C0 13.8843 0.475969 15.7047 1.30547 17.3258L5.27634 14.3228Z" fill="#FBBC05" />
-                  <path d="M12.2383 4.62403C14.5365 4.62403 16.0867 5.59401 16.9707 6.40461L20.4248 3.10928C18.3034 1.1826 15.5428 0 12.2383 0C7.45141 0 3.31731 2.68406 1.30469 6.59056L5.26197 9.59359C6.25478 6.7102 9.00175 4.62403 12.2383 4.62403Z" fill="#EB4335" />
+                  <path
+                    d="M23.9995 12.0386C23.9995 11.0554 23.9178 10.3378 23.7411 9.59375H12.25V14.0317H18.995C18.8591 15.1346 18.1248 16.7956 16.4928 17.9117L16.47 18.0603L20.1032 20.8105L20.355 20.835C22.6667 18.7488 23.9995 15.6794 23.9995 12.0386Z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M12.2383 23.9139C15.5428 23.9139 18.3169 22.8508 20.3432 21.0172L16.4811 18.0939C15.4476 18.7981 14.0605 19.2898 12.2383 19.2898C9.00175 19.2898 6.25478 17.2037 5.27556 14.3203L5.13203 14.3322L1.35409 17.189L1.30469 17.3232C3.31731 21.2297 7.45141 23.9139 12.2383 23.9139Z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M5.27634 14.3228C5.01797 13.5787 4.86844 12.7814 4.86844 11.9576C4.86844 11.1338 5.01797 10.3365 5.26275 9.59244L5.25591 9.43397L1.43062 6.53125L1.30547 6.58942C0.475969 8.21052 0 10.0309 0 11.9576C0 13.8843 0.475969 15.7047 1.30547 17.3258L5.27634 14.3228Z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M12.2383 4.62403C14.5365 4.62403 16.0867 5.59401 16.9707 6.40461L20.4248 3.10928C18.3034 1.1826 15.5428 0 12.2383 0C7.45141 0 3.31731 2.68406 1.30469 6.59056L5.26197 9.59359C6.25478 6.7102 9.00175 4.62403 12.2383 4.62403Z"
+                    fill="#EB4335"
+                  />
                 </g>
                 <defs>
                   <clipPath id="clip0_3069_17144">
@@ -390,12 +412,30 @@ function AuthPageContent() {
               className={styles.googleButton}
               aria-label="Sign in with Apple"
             >
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <g clipPath="url(#clip0_5492_20142)">
-                  <path d="M14.137 0H9.86301C4.41582 0 0 4.41582 0 9.86301V14.137C0 19.5842 4.41582 24 9.86301 24H14.137C19.5842 24 24 19.5842 24 14.137V9.86301C24 4.41582 19.5842 0 14.137 0Z" fill="#1E4BC6" />
-                  <path d="M19.7255 12.0073C19.7255 7.74031 16.2664 4.28125 11.9995 4.28125C7.7325 4.28125 4.27344 7.74031 4.27344 12.0073C4.27344 16.2742 7.7325 19.7333 11.9995 19.7333C16.2664 19.7333 19.7255 16.2742 19.7255 12.0073Z" fill="white" />
-                  <path d="M13.7649 8.87853C13.7649 7.87988 12.9553 7.07031 11.9567 7.07031C10.958 7.07031 10.1484 7.87988 10.1484 8.87853C10.1484 9.87718 10.958 10.6868 11.9567 10.6868C12.9553 10.6868 13.7649 9.87718 13.7649 8.87853Z" fill="#6D90FF" />
-                  <path d="M11.9517 11.6719C13.9119 11.6719 15.5577 13.0174 16.0162 14.8351C15.2063 16.0886 13.6922 16.9321 11.9577 16.9321C10.217 16.9321 8.69837 16.0826 7.89062 14.8218C8.35384 13.0108 9.99635 11.6719 11.9517 11.6719Z" fill="#1E4BC6" />
+                  <path
+                    d="M14.137 0H9.86301C4.41582 0 0 4.41582 0 9.86301V14.137C0 19.5842 4.41582 24 9.86301 24H14.137C19.5842 24 24 19.5842 24 14.137V9.86301C24 4.41582 19.5842 0 14.137 0Z"
+                    fill="#1E4BC6"
+                  />
+                  <path
+                    d="M19.7255 12.0073C19.7255 7.74031 16.2664 4.28125 11.9995 4.28125C7.7325 4.28125 4.27344 7.74031 4.27344 12.0073C4.27344 16.2742 7.7325 19.7333 11.9995 19.7333C16.2664 19.7333 19.7255 16.2742 19.7255 12.0073Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M13.7649 8.87853C13.7649 7.87988 12.9553 7.07031 11.9567 7.07031C10.958 7.07031 10.1484 7.87988 10.1484 8.87853C10.1484 9.87718 10.958 10.6868 11.9567 10.6868C12.9553 10.6868 13.7649 9.87718 13.7649 8.87853Z"
+                    fill="#6D90FF"
+                  />
+                  <path
+                    d="M11.9517 11.6719C13.9119 11.6719 15.5577 13.0174 16.0162 14.8351C15.2063 16.0886 13.6922 16.9321 11.9577 16.9321C10.217 16.9321 8.69837 16.0826 7.89062 14.8218C8.35384 13.0108 9.99635 11.6719 11.9517 11.6719Z"
+                    fill="#1E4BC6"
+                  />
                 </g>
                 <defs>
                   <clipPath id="clip0_5492_20142">
@@ -403,14 +443,8 @@ function AuthPageContent() {
                   </clipPath>
                 </defs>
               </svg>
-
-
-
             </button>
-
-
           </div>
-
         </div>
       </div>
     </>

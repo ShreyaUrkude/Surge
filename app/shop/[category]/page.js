@@ -3,15 +3,29 @@ import Listing from "./_components/Listing/Listing";
 // import NavigationStrip from "./_components/NavigationStrip/NavigationStrip";
 
 export default async function ShopCategory({ params }) {
-    const { category } = await params;
+  const { category } = await params;
 
-    console.log(category)
+  const apiUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+  const res = await fetch(
+    `${apiUrl}/api/web-categories?sort=createdAt&select[slug]=true&depth=0&limit=100`,
+    {
+      cache: "no-store",
+    },
+  );
 
-    return (
-        <>
-            <Landing category={category} />
-            {/* <NavigationStrip /> */}
-            <Listing category={category} />
-        </>
-    );
+  if (!res.ok) notFound();
+
+  const data = await res.json();
+  const categories = data.docs ?? [];
+  const match = categories.find((cat) => cat.slug === category);
+
+  if (!match) notFound();
+
+  return (
+    <>
+      <Landing category={category} />
+      {/* <NavigationStrip /> */}
+      <Listing category={category} />
+    </>
+  );
 }

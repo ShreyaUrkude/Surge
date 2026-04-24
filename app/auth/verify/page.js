@@ -94,8 +94,6 @@ function Otp() {
         redirect: false,
       });
 
-      console.log("NextAuth SignIn Response:", res);
-
       if (res?.error) {
         setError("Login failed. Please try again.");
         setLoading(false);
@@ -106,7 +104,7 @@ function Otp() {
 
       if (verifyData.isNewUser) {
         router.push(
-          `/auth/create-profile?redirect=${encodeURIComponent(redirectParam)}`
+          `/auth/create-profile?redirect=${encodeURIComponent(redirectParam)}`,
         );
       } else {
         router.push(redirectParam);
@@ -132,7 +130,7 @@ function Otp() {
     setResending(true);
 
     try {
-      const signupRes = await axiosClient.post("api/otp/send-web", {
+      const signupRes = await axiosClient.post("/api/otp/send-web", {
         email: userEmail,
       });
       const json = signupRes.data;
@@ -203,8 +201,7 @@ function Otp() {
             <span className={styles.timerRow}>
               {countdown > 0 ? (
                 <p className={styles.timerText}>
-                  Resend in{" "}
-                  <span>00:{String(countdown).padStart(2, "0")}</span>
+                  Resend in <span>00:{String(countdown).padStart(2, "0")}</span>
                 </p>
               ) : (
                 <button

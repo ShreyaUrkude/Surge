@@ -24,7 +24,7 @@ export default function Listing({ category }) {
     const [totalProducts, setTotalProducts] = useState(0);
     const mobileFiltersRef = useRef(null);
     const categoryName = category.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-    // --- FETCH ---
+
     useEffect(() => {
         const fetchProducts = async () => {
             setLoading(true);

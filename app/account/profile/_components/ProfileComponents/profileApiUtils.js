@@ -1,7 +1,6 @@
 import axiosClient from "@/lib/axios";
 
 export const updateProfileAPI = async (userId, payload) => {
-  console.log(payload);
   try {
     const res = await axiosClient.patch(`/api/users/${userId}`, payload);
     const data = res.data;
@@ -49,7 +48,6 @@ export const removeProfileImageAPI = async (userId) => {
 };
 
 export const saveAddressAPI = async (userId, addressPayload) => {
-  console.log(addressPayload);
   try {
     const res = await axiosClient.post(
       `/api/users/${userId}/addresses`,
@@ -123,12 +121,10 @@ export const updateAddressAPI = async (userId, addressPayload) => {
 };
 
 export const deleteAddressAPI = async (userId, addressId) => {
-  console.log("addressId :", addressId);
   try {
     const res = await axiosClient.delete(`/api/users/${userId}/addresses`, {
       data: { addressId },
     });
-    console.log("deleteAddressAPI response:", res.data);
     return { success: true };
   } catch (error) {
     console.error(
