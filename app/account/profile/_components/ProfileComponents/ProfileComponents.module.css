@@ -252,6 +252,10 @@
   z-index: 10;
   max-height: 200px;
   overflow-y: auto;
+ 
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.3s ease, 
+                visibility 0.3s;
 }
 
 .OptionItem {
@@ -1338,7 +1342,15 @@
   /* Thoda chota aur clean look ke liye */
   height: auto;
 }
+.SaveBtn, .pfbtn, .AddAddressBtn, .buttons {
+    transition: background-color 0.3s ease, transform 0.1s active, opacity 0.3s ease;
+}
 
+
+
+.SaveBtn:active {
+    transform: scale(0.98); 
+}
 /* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .main {
@@ -1447,6 +1459,7 @@
 
   .DeletePopupActions button {
     padding: 13px 48px;
+    
   }
 
   .DeletePopup {
@@ -1465,6 +1478,7 @@
 
   .DeleteAccount {
     gap: 16px;
+    
   }
 
   .DeleteAccount h4 {
@@ -1473,6 +1487,7 @@
 
   .DeleteAccount button {
     font-size: 14px;
+    
   }
 
   .main1 {
