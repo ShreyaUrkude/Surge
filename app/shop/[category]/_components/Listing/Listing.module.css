@@ -84,6 +84,7 @@
     flex-direction: column;
     gap: 12px;
     background-color: #F5F5F5;
+    transition: max-height 0.4s ease-in-out, opacity 0.3s ease, padding 0.3s ease;
 }
 
 .optionLabel {
@@ -207,7 +208,7 @@
     left: 0;
     width: 100%;
     background: white;
-
+transition: all 0.3s ease-in-out;
     z-index: 1000;
     background-color: #F5F5F5;
 }
@@ -247,6 +248,8 @@
 .activeSortBox {
     border-color: transparent;
     background-color: #F5F5F5;
+       transition: transform 0.3s ease;
+    
 }
 
 .activeItem .optionText {

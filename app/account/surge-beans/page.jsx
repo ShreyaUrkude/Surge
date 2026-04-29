@@ -349,7 +349,7 @@ const WhiteMantisBeans = () => {
                                                     transition: "transform 0.3s ease",
                                                 }}
                                             >
-                                                <svg width="18" height="18" viewBox="0 0 18 18">
+                                                <svg width="14" height="14" viewBox="0 0 18 18">
                                                     <path
                                                         d="M8 18V10H0V8H8V0H10V8H18V10H10V18H8Z"
                                                         fill="#6E736A"
