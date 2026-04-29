@@ -168,7 +168,7 @@ const PersonalInfoForm = ({
                 style={{ cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}
               >
                 <span style={{ textTransform: "capitalize" }}>
-                  {profile.gender || "Select Gender"}
+                  {profile.gender || "Gender"}
                 </span>
                 <svg
                   width="17"
