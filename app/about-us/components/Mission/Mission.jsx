@@ -22,7 +22,7 @@ export default function Mission() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: `+=${cards.length * 100}%`,
+       end: window.innerWidth < 900 ? "+=150%" : `+=${cards.length * 100}%`,
           pin: true,
           scrub: 1,
           anticipatePin: 1,

@@ -9,6 +9,7 @@
     min-height: 100svh;
     box-sizing: border-box;
     margin-top: 100px;
+    
 }
 
 .sidebar {
@@ -16,6 +17,11 @@
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
+  position: sticky;
+    top: 120px;
+    align-self: flex-start;
+    height: auto;
+
 }
 
 

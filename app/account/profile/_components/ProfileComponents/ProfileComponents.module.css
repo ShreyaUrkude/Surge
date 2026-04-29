@@ -155,11 +155,11 @@
   font-family: inherit;
   font-size: inherit;
   background: transparent;
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 .Field input:enabled {
-  color: #2f362a;
+  color:var(--text-primary);
 }
 
 /* --- Custom Gender Dropdown --- */
@@ -186,6 +186,7 @@
 .OptionItem {
   padding: 12px 16px;
   cursor: pointer;
+ 
   font-size: 16px;
   color: var(--text-secondary);
   transition: background 0.2s;
@@ -236,12 +237,14 @@
 
 .CustomOptionsList {
   position: absolute;
-  top: calc(100% + 11px);
+  top: calc(100% + 3px);
   /* Moves it exactly below the Field padding */
   /* left: -12px;
-  right: -10px; */
+  right: -10px; 
   /* Counteracts the Field padding to align with border */
-  width: calc(100% + 23px);
+  width: calc(99% );
+      left: -0px;
+       
   /* Makes it flush with the outer Field border */
   background: #ffffff;
   border: 1px solid #e2e4df;
