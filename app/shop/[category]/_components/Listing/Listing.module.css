@@ -208,7 +208,7 @@
     left: 0;
     width: 100%;
     background: white;
-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     z-index: 1000;
     background-color: #F5F5F5;
 }
@@ -248,8 +248,8 @@ transition: all 0.3s ease-in-out;
 .activeSortBox {
     border-color: transparent;
     background-color: #F5F5F5;
-       transition: transform 0.3s ease;
-    
+    transition: transform 0.3s ease;
+
 }
 
 .activeItem .optionText {
@@ -263,7 +263,7 @@ transition: all 0.3s ease-in-out;
 }
 
 .sortArrow {
-   transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
     color: #c9805d;
 }
 
@@ -643,6 +643,14 @@ transition: all 0.3s ease-in-out;
 
     }
 
+    .details {
+        display: flex;
+        flex-direction: column;
+        margin-top: 16px;
+        gap: 5px;
+
+    }
+
     .sortWrapper {
         min-width: unset;
         width: auto;
@@ -665,7 +673,7 @@ transition: all 0.3s ease-in-out;
     }
 
     .mobileText {
-        display: inline-block;
+        display: none;
         white-space: nowrap;
         background-color: #C4754E;
         color: #ffffff;

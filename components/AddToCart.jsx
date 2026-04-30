@@ -46,7 +46,7 @@ const AddToCart = ({ product, quantity: propQuantity, onSuccess }) => {
         fontWeight: 400,
         border: "none",
         padding: "12px clamp(24px, 5vw, 61.5px)",
-
+        width:"100%",
         whiteSpace: "nowrap",
         cursor: loading ? "wait" : "pointer",
         transition: "background-color 0.2s ease",
