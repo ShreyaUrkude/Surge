@@ -567,10 +567,10 @@
 }
 
 .fixerOne p {
-  font-size: var(--fs-16);
-  font-weight: 400;
+  font-size: var(--fs-18);
+  font-weight: 500;
   color: #414343;
-  font-family: var(--font-raleway);
+  font-family: var(--font-montserrat);
   margin-bottom: 16px;
   line-height: normal;
 }
@@ -751,6 +751,7 @@
   z-index: 10;
   max-height: 200px;
   overflow-y: auto;
+   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .optionItem {
