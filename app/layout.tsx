@@ -22,12 +22,12 @@ export default async function RootLayout({
 }) {
   let categories = [];
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/web-categories?sort=createdAt&select[slug]=true&select[title]=true&select[image]=true&depth=2&limit=100`,
-      {
-        next: { revalidate: 3600 }, // Cache for 1 hour
-      },
-    );
+   const res = await fetch(
+  `${process.env.NEXT_PUBLIC_SERVER_URL}/api/web-categories?sort=createdAt...`, // <--- Yahan URL kharab ho raha hai
+  {
+    next: { revalidate: 3600 },
+  },
+);
     const data = await res.json();
     categories = data.docs || [];
   } catch (error) {
