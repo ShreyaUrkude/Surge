@@ -23,7 +23,7 @@ export default async function RootLayout({
   let categories = [];
   try {
    const res = await fetch(
-  `${process.env.NEXT_PUBLIC_SERVER_URL}/api/web-categories?sort=createdAt...`, // <--- Yahan URL kharab ho raha hai
+  `${process.env.NEXT_PUBLIC_SERVER_URL}/api/web-categories?sort=createdAt...`, 
   {
     next: { revalidate: 3600 },
   },
