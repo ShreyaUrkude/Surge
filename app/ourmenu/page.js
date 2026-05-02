@@ -10,9 +10,9 @@ export default function ShopCoffeeBeans() {
       <Ourmenu />
       <Suspense fallback={<div>Loading...</div>}>
         <ShopSelector />
+        <Allmenu />
+        <Details />
       </Suspense>
-      <Allmenu />
-      <Details />
     </>
   );
 }

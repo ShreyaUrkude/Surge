@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import axiosClient from "@/lib/axios";
 
-export default function OrderSuccess() {
+function OrderSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const orderId = searchParams.get('id');
@@ -179,5 +179,13 @@ export default function OrderSuccess() {
 
       </div>
     </div>
+  );
+}
+
+export default function OrderSuccess() {
+  return (
+    <Suspense fallback={<div className={styles.Wrapper}><p>Loading...</p></div>}>
+      <OrderSuccessContent />
+    </Suspense>
   );
 }
