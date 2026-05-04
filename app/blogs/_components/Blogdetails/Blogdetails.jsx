@@ -30,10 +30,7 @@ export default function BlogDetail({ slug }) {
           </p>
           <p className={styles.activePage}>{blog.title}</p>
         </nav>
-
-
         <div className={styles.headerHeroGap}>
-
           <header className={styles.header}>
             <h1 className={styles.mainTitle}>
               {mainTitle}:
@@ -77,8 +74,6 @@ export default function BlogDetail({ slug }) {
 
                     <Image src={blog.img} alt="Coffee beans drying" width={910} height={346} />
                   </div>
-
-
                   <p className={styles.text}>
                     In the world of specialty coffee, the flavors in your cup are shaped long before
                     the roasting process begins. One of the most fascinating contributors to these
@@ -89,15 +84,12 @@ export default function BlogDetail({ slug }) {
                     beds or patios and left to dry under the sun for several weeks. During this
                     time, the sugars and compounds from the fruit slowly interact with the beans inside.
                   </p>
-
                   <p className={styles.text}>
                     This extended contact between the coffee bean and its surrounding fruit is what
                     gives naturally processed coffees their distinct sweetness and fruit-forward profile.
                     Depending on the region and variety, you may notice notes of berries, tropical
                     fruits, dried fruit, or even wine-like characteristics.
                   </p>
-
-
                   <p className={styles.text}>
                     However, natural processing is also one of the most challenging techniques for
                     producers. Farmers must carefully monitor temperature, humidity, and airflow
