@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -8,6 +8,44 @@ import logo from "./Footer.png";
 
 export default function Footer({ categories }) {
   const pathname = usePathname();
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState(null);
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleSubscribe(e) {
+    e.preventDefault();
+    setIsLoading(true);
+    setMessage(null);
+
+    try {
+      const base = process.env.NEXT_PUBLIC_SERVER_URL || process.env.PAYLOAD_PUBLIC_SERVER_URL || "";
+      const res = await fetch(`${base}/api/newsletters`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (res.status === 201) {
+        setIsError(false);
+        setMessage("You're subscribed! Thanks for joining.");
+        setEmail("");
+      } else if (res.status === 400) {
+        setIsError(true);
+        setMessage(data?.message || "Invalid email or already subscribed.");
+      } else {
+        setIsError(true);
+        setMessage("Something went wrong. Please try again.");
+      }
+    } catch {
+      setIsError(true);
+      setMessage("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   if (pathname?.startsWith("/auth")) return null;
 
@@ -108,18 +146,25 @@ export default function Footer({ categories }) {
                 and craft behind every cup, and become part of a growing
                 community united by a shared love for quality coffee.
               </p>
-              <form className={styles.subscribeForm}>
+              <form className={styles.subscribeForm} onSubmit={handleSubscribe}>
                 <input
                   type="email"
                   placeholder="Email address"
                   className={styles.input}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   suppressHydrationWarning
                 />
-                <button type="submit" className={styles.subscribeBtn}>
-                  Subscribe
+                <button type="submit" className={styles.subscribeBtn} disabled={isLoading}>
+                  {isLoading ? "Subscribing..." : "Subscribe"}
                 </button>
               </form>
+              {message && (
+                <p className={isError ? styles.errorMsg : styles.successMsg}>
+                  {message}
+                </p>
+              )}
             </div>
           </div>
 
