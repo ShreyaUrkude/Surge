@@ -87,7 +87,7 @@
 }
 
 .optionsList {
-      padding: 0;
+      padding: 10px 10px 0 10pupx;
     display: flex;
     flex-direction: column;
     min-height: 0;
