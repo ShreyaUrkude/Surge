@@ -91,7 +91,7 @@ export default function Location() {
         </div>
 
         <div className={styles.emailFooter}>
-        Didn’t see the right role? Send Email at <br /> <br />
+        Didn’t see the right role? Send Email at <br /> 
           <a href="mailto:hello@surge.ae" className={styles.emailLink}>
             hello@surge.ae
           </a>

@@ -212,7 +212,7 @@ export default function Listing({ category }) {
                                 <span className={styles.sortValue}>{selectedSort}</span>
                             </div>
 
-                            <div className={`${styles.dropdownMenu} ${showSort ? styles.showDropdown : ''}`}>
+                          <div className={`${styles.dropdownMenu} ${showSort ? styles.showDropdown : ''}`}>
                                 {SORT_OPTIONS.map((option) => (
                                     <div
                                         key={option}

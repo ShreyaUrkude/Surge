@@ -80,12 +80,13 @@
 }
 
 .active p {
-  color: #818686 !important;
+  color:var(--primary-color) !important;
+  
   font-weight: 500 !important;
 }
 
 .active svg path {
-  fill: #818686 !important;
+  fill: #C4754E !important;
 }
 
 .Bottom a {
@@ -104,7 +105,7 @@
   font-size: 16px;
   margin: 0;
   font-weight: 400;
-  color: var(--text-primary);
+  color: var(--primary-color);
   cursor: pointer;
 }
 

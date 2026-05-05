@@ -77,12 +77,14 @@
   align-items: flex-end;
   height: 70px;
   width: 100%;
+  color: #C4754E;
 }
 
 .cupImage {
   height: 100%;
   width: auto;
   display: block;
+  
 }
 
 .cardBox {

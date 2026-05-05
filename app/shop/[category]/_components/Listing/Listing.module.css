@@ -160,15 +160,15 @@ margin-bottom: 16px;
     background: #ffffff;
     cursor: pointer;
     display: inline-grid;
-   
+   accent-color: #C4754E;
     transition: background-color 0.2s ease, border-color 0.2s ease;
 
 
 }
 
 .checkboxCustom:checked {
-    background-color: #6c7a5f;
-    border-color: #6c7a5f;
+    background-color: #C4754E;
+    border-color: #C4754E;
 }
 
 
@@ -236,7 +236,10 @@ margin-bottom: 16px;
     border: 1px solid #818686;
     cursor: pointer;
     gap: 16px;
-
+  transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
 
 }
 
@@ -258,7 +261,6 @@ margin-bottom: 16px;
     color: #c9805d;
 
 }
-
 .dropdownMenu {
     position: absolute;
     left: 0;
@@ -267,20 +269,29 @@ margin-bottom: 16px;
     background-color: #F5F5F5;
     top: 100%; 
 
+   display: grid;
+    grid-template-rows: 0fr; 
+    transition: grid-template-rows 0.4s ease, opacity 0.3s ease;
     opacity: 0;
-    visibility: hidden;
-    transition: 
     
-        transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
-        filter 0.5s ease, 
-        visibility 0.5s;
+    transition: 
+        grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.2s ease,
+        filter 0.5s ease,
+        transform 0.5s ease;
+  
+    overflow: hidden;
 }
 
 .showDropdown {
+    grid-template-rows: 1fr;
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);   
-  
+}
+
+
+.dropdownMenu > div {
+    min-height: 0;
 }
 
 .dropdownItem {
@@ -293,9 +304,9 @@ margin-bottom: 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-  
-  
+     
 }
+
 .dropdownItem:hover {
     background-color: #f8f8f8;
 }
