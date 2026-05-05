@@ -4,7 +4,7 @@ import React from "react";
 import styles from "../ProfileComponents.module.css";
 import AddressCard from "./AddressCard";
 import Image from "next/image";
-import AddressZero from "./AddressZero.png";
+import AddressZero from "./NoAddressGif.gif";
 
 const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
  
@@ -111,7 +111,7 @@ const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
             src={AddressZero}
             alt="No addresses"
             width={200}
-            height={135}
+            height={180}
           />
           <div className={styles.NoAddressP}>
             <p style={{ color: "black", marginTop: "20px" }}>

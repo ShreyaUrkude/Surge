@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import NoCoupons from "./NoCoupons.gif"
 import styles from "./coupanPopup.module.css";
 
 const couponsData = [

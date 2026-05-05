@@ -7,7 +7,7 @@ import { useCart } from "@/app/_context/CartContext";
 import { useRouter } from "next/navigation";
 import { formatImageUrl } from "@/lib/imageUtils";
 import Link from "next/link";
-import cartZero from "./cartZero.png";
+import cartZero from "./Empty cart-optimize.gif";
 
 const CartSideBar = () => {
   const {
@@ -103,7 +103,7 @@ const CartSideBar = () => {
           <div className={styles.itemList}>
             {isCartEmpty ? (
               <div className={styles.EmptyState}>
-                <Image src={cartZero} alt="No products" width={145} height={160} />
+                <Image src={cartZero} alt="No products" width={160} height={160} />
                 <h4>Your Cart is empty</h4>
                 <p>Explore our curated coffee collections.</p>
                 <button
