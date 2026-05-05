@@ -212,6 +212,18 @@
 
 .subscribeBtn:hover { opacity: 0.85; }
 
+.successMsg {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #4caf50;
+}
+
+.errorMsg {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #e53e3e;
+}
+
 .linkColumns {
   display: flex;
   flex: 1;
