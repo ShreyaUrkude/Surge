@@ -87,6 +87,7 @@
   
 }
 
+
 .cardBox {
   background-color: #c4754e;
   padding: 30px 19px;
@@ -94,7 +95,16 @@
   flex-direction: column;
   justify-content: flex-end;
   gap: 8px;
-  align-self: end;
+  align-self: end; 
+  transition: height 0.4s ease, padding 0.4s ease; 
+  height: 131px; 
+  cursor: pointer;
+}
+
+
+.cardBox:hover {
+  height: 245px;
+  padding-bottom: 40px; 
 }
 
 .cardText {
