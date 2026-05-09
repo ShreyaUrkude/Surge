@@ -219,12 +219,13 @@
   .cardBox {
     height: 131px;
   }
+ 
 }
 
 
 @media (max-width: 380px) {
   .container {
-    padding: 40px 16px;
+    padding: 0 20px;
   }
 
   .mainTitle {

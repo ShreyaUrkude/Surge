@@ -263,7 +263,7 @@
 }
 
 
-@media (min-width: 325px) and (max-width: 767px) {
+@media (min-width: 320px) and (max-width: 767px) {
   .exploreSection {
     padding: 0 20px; 
     background-color: #fff;

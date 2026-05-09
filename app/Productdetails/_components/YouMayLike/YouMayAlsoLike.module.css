@@ -25,17 +25,15 @@
 }
 
 .imageWrapper {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  /* No background color — image sits on page bg */
-  overflow: hidden;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1; 
+    overflow: hidden;
 }
 
 .productImage {
-
-  object-fit: contain;
-  /* No padding needed without a bg box */
+    object-fit: cover; 
+   
 }
 
 .wishlistBtn {

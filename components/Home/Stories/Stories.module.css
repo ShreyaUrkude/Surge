@@ -307,6 +307,10 @@
 }
 
 @media (max-width: 550px) {
+   .sectionContainer {
+    padding: 80px 20px;
+  }
+
   .textStack {
     width: 100%;
     max-width: 320px;

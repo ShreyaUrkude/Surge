@@ -83,7 +83,50 @@
 .activeCard {
   transform: translateY(-5px);
 }
+.zeroState {
+  grid-column: 1 / -1; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  border-radius: 12px;
+  text-align: center;
+}
 
+.zeroStateContent h3 {
+  font-size: 24px;
+  margin: 8px 0 0;
+  color: var(--text--primary);
+}
+
+.zeroStateContent p {
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+
+.zeroIcon {
+  font-size: 50px;
+}
+
+.clearBtn {
+  background: #C4754E;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.clearBtn:hover {
+  opacity: 0.9;
+}
+
+.loadingState {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+}
 
 @media (min-width: 768px) {
   .menuSection {

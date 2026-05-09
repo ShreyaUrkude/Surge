@@ -149,102 +149,57 @@ font-family: var(--font-raleway);
 }
 
 
-
-
-
 @media (max-width: 767px) {
-
   .shopSection {
-
-    padding: 60px 20px;
-
+    padding: 80px 20px 0;
   }
-
-
 
   .grid {
-
     grid-template-columns: 1fr;
-
     gap: 15px;
-
   }
-
-
 
   .label {
-
     position: absolute;
-
     bottom: 0;
-
+    left: 0;
+    width: 100%;
+    padding: 20px;
     background-color: transparent;
-
-    transform: none;
-
-    transition: none;
-
+    transform: none !important;
+    transition: none !important;  
   }
-
-
 
   .hoverContent {
-
-    opacity: 1;
-
-    transition: none;
-
+    max-height: none !important; 
+    opacity: 1 !important;  
+    transition: none !important;
+    margin-top: 5px;
+    padding: 0;
+    overflow: visible;
   }
-
-
 
   .categoryName {
-
     font-size: var(--fs-20);
-
     color: var(--text-primary);
-
     font-weight: 600;
-
   }
-
-
 
   .card:hover .bgImage,
-
   .card:active .bgImage {
-
-    transform: none;
-
-  }
-
-  .hoverContent{
-
-    margin:0;
-
-    padding:0;
-
+    transform: none !important; 
   }
 
   .mobileDescription {
-
     font-size: var(--fs-14);
-
     color: var(--text-primary);
     font-family: var(--font-raleway);
-
     width: 85%;
-
     margin-bottom: 20px;
-
     font-weight: 500;
-
     margin-top: 0;
-
     line-height: 1.3;
-
     padding-top: 8px;
-
+    opacity: 1;
   }
-
 }
