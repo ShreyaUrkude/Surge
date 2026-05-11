@@ -296,9 +296,9 @@ export default function Listing({ category }) {
                                                 className={styles.productImg}
                                             />
                                         </div>
-                                        <div className={styles.details}>
+                                        <div className={`${styles.details} ${!notes ? styles.detailsSpaced : ''}`}>
                                             <h3 className={styles.name}>{name}</h3>
-                                            <p className={styles.notes}>{notes}</p>
+                                            {notes && <p className={styles.notes}>{notes}</p>}
                                             <div className={styles.footerRow}>
                                                 <span className={styles.priceTag}>{price}</span>
                                                 {(item.variants?.length > 0 && (item.productHighlights?.length > 0 || item.subCategories?.length > 0)) ? (

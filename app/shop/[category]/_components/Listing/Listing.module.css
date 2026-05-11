@@ -453,7 +453,11 @@
     flex-direction: column;
     margin-top: 16px;
     gap: 8px;
+}
 
+.detailsSpaced {
+    justify-content: space-between;
+    flex: 1;
 }
 
 .name {
