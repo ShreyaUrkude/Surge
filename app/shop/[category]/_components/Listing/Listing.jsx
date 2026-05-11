@@ -6,7 +6,7 @@ import Link from 'next/link';
 import AddToCart from '@/components/AddToCart';
 import axiosClient from '@/lib/axios';
 import { formatImageUrl } from '@/lib/imageUtils';
-import coffeeImg from './coffee.png'; 
+import coffeeImg from './coffee.png';
 import { useWishlist } from '@/app/_context/WishlistContext';
 import prodZero from './prodZero.png';
 import ProductPopup from '../AddToCartPopup/AddToCartPopup';
@@ -225,32 +225,32 @@ export default function Listing({ category }) {
                                 </svg>
                             </div>
 
-  <div className={`${styles.dropdownMenu} ${showSort ? styles.showDropdown : ''}`}>
-    <div className={styles.dropdownInner}>
-      {SORT_OPTIONS.map((option) => (
-        <div
-          key={option}
-          className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`}
-          onClick={() => {
-            setSelectedSort(option);
-            setShowSort(false);
-          }}
-        >
-          <span className={styles.optionText}>{option}</span>
-          <span className={styles.radioCircle}></span>
-        </div>
-      ))}
-    </div>
-  </div>
-</div>
-</div>
-</header>
+                            <div className={`${styles.dropdownMenu} ${showSort ? styles.showDropdown : ''}`}>
+                                <div className={styles.dropdownInner}>
+                                    {SORT_OPTIONS.map((option) => (
+                                        <div
+                                            key={option}
+                                            className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`}
+                                            onClick={() => {
+                                                setSelectedSort(option);
+                                                setShowSort(false);
+                                            }}
+                                        >
+                                            <span className={styles.optionText}>{option}</span>
+                                            <span className={styles.radioCircle}></span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
 
 
                 {loading && products.length === 0 && (
                     <div className={styles.stateMsgContainer}><p className={styles.stateMsg}>Loading products...</p></div>
                 )}
-                
+
                 {error && (
                     <div className={styles.stateMsgContainer}><p className={styles.errorMsg}>{error}</p></div>
                 )}
@@ -260,7 +260,7 @@ export default function Listing({ category }) {
                     {!loading && filteredProducts.length === 0 ? (
                         <div className={styles.noProducts}>
                             <div className={styles.noProductsIcon}>
-                              
+
                                 <Image src={prodZero} alt="No products" width={140} height={150} />
                             </div>
                             <h3>Nothing Brewing here</h3>
@@ -301,7 +301,7 @@ export default function Listing({ category }) {
                                             <p className={styles.notes}>{notes}</p>
                                             <div className={styles.footerRow}>
                                                 <span className={styles.priceTag}>{price}</span>
-                                                {(item.variants?.length > 0 || item.subCategories?.length > 0) ? (
+                                                {(item.variants?.length > 0 && (item.productHighlights?.length > 0 || item.subCategories?.length > 0)) ? (
                                                     <button
                                                         className={styles.buyBtn}
                                                         onClick={(e) => { e.preventDefault(); e.stopPropagation(); setPopupProduct(item); }}
@@ -310,6 +310,7 @@ export default function Listing({ category }) {
                                                     </button>
                                                 ) : (
                                                     <AddToCart
+                                                        className={styles.buyBtn}
                                                         product={{
                                                             productId: item.id,
                                                             name: item.name,
@@ -317,11 +318,31 @@ export default function Listing({ category }) {
                                                             image: imageUrl,
                                                             tagline: item.tagline,
                                                             quantity: 1,
-                                                            variationId: null
+                                                            variationId: item.variants?.[0]?.id || null
                                                         }}
                                                     />
                                                 )}
-                                                <span className={styles.mobileText}>Shop Now</span>
+                                                {(item.variants?.length > 0 && (item.productHighlights?.length > 0 || item.subCategories?.length > 0)) ? (
+                                                    <button
+                                                        className={styles.mobileText}
+                                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setPopupProduct(item); }}
+                                                    >
+                                                        Add to Cart
+                                                    </button>
+                                                ) : (
+                                                    <AddToCart
+                                                        className={styles.mobileText}
+                                                        product={{
+                                                            productId: item.id,
+                                                            name: item.name,
+                                                            description: item.description,
+                                                            image: imageUrl,
+                                                            tagline: item.tagline,
+                                                            quantity: 1,
+                                                            variationId: item.variants?.[0]?.id || null
+                                                        }}
+                                                    />
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -360,8 +381,8 @@ export default function Listing({ category }) {
                             {renderFilters()}
                         </div>
                         <div className={styles.MobileFilterFooter}>
-                             <button onClick={handleClearFilters} className={styles.mobileResetBtn}>Reset</button>
-                             <button onClick={() => setIsMobileFilterOpen(false)} className={styles.mobileApplyBtn}>Apply</button>
+                            <button onClick={handleClearFilters} className={styles.mobileResetBtn}>Reset</button>
+                            <button onClick={() => setIsMobileFilterOpen(false)} className={styles.mobileApplyBtn}>Apply</button>
                         </div>
                     </div>
                 </>

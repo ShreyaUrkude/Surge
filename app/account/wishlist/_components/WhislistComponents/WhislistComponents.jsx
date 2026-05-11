@@ -10,8 +10,8 @@ import { formatImageUrl } from "@/lib/imageUtils";
 import {
   getSortedVariants,
 } from "@/app/_utils/productVariants";
+import ProductPopup from "@/app/shop/[category]/_components/AddToCartPopup/AddToCartPopup";
 // import SubscriptionPopup from "@/app/shop/[category]/_components/Listing/_components/SubscriptionPopup";
-// import AddToCartPopup from "@/app/_components/AddToCartPopup/AddToCartPopup";
 
 const WishlistComponents = () => {
   const router = useRouter();
@@ -28,6 +28,7 @@ const WishlistComponents = () => {
 
   const [addingId, setAddingId] = useState(null);
   const [activeProduct, setActiveProduct] = useState(null);
+  const [popupProduct, setPopupProduct] = useState(null);
 
 
   useEffect(() => {
@@ -211,22 +212,35 @@ const WishlistComponents = () => {
                     <p className={styles.Description}>{product.description}</p>
                     <div className={styles.PriceRow}>
                       <span className={styles.CurrentPrice}>{getVariationPrice(item, product)}</span>
-                      <button
-                        className={styles.AddToCartBtn}
-                        onClick={() => handleAddToCart(product, item.id)}
-                        disabled={isAdding}
-                        style={{ opacity: isAdding ? 0.7 : 1, cursor: isAdding ? 'not-allowed' : 'pointer' }}
-                      >
-                        {isAdding ? "Adding..." : "Add to Cart"}
-                      </button>
+                      {(product.variants?.length > 0 && (product.productHighlights?.length > 0 || product.subCategories?.length > 0)) ? (
+                        <button
+                          className={styles.AddToCartBtn}
+                          onClick={() => setPopupProduct(product)}
+                        >
+                          Add to Cart
+                        </button>
+                      ) : (
+                        <button
+                          className={styles.AddToCartBtn}
+                          onClick={() => handleAddToCart(product, item.id)}
+                          disabled={isAdding}
+                          style={{ opacity: isAdding ? 0.7 : 1, cursor: isAdding ? 'not-allowed' : 'pointer' }}
+                        >
+                          {isAdding ? "Adding..." : "Add to Cart"}
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
               );
-            })}
+            })} 
           </div>
         )}
       </div>
+
+      {popupProduct && (
+        <ProductPopup product={popupProduct} onClose={() => setPopupProduct(null)} />
+      )}
 
       {/* <SubscriptionPopup
         showSubscribePopup={showSubscribePopup}

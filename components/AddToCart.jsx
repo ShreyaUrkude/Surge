@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useCart } from "@/app/_context/CartContext";
 
-const AddToCart = ({ product, quantity: propQuantity, onSuccess }) => {
+const AddToCart = ({ product, quantity: propQuantity, onSuccess, className }) => {
   const { addToCart } = useCart();
   const [loading, setLoading] = useState(false);
 
@@ -38,8 +38,11 @@ const AddToCart = ({ product, quantity: propQuantity, onSuccess }) => {
     <button
       onClick={handleAddToCart}
       disabled={loading}
-      style={{
-        // width: "100%",
+      className={className}
+      style={className ? {
+        cursor: loading ? "wait" : "pointer",
+        opacity: loading ? 0.6 : 1,
+      } : {
         backgroundColor: "#C4754E",
         color: "#ffffff",
         fontSize: "16px",
@@ -52,12 +55,6 @@ const AddToCart = ({ product, quantity: propQuantity, onSuccess }) => {
         cursor: loading ? "wait" : "pointer",
         transition: "background-color 0.2s ease",
         opacity: loading ? 0.6 : 1,
-      }}
-      onMouseEnter={(e) => {
-        if (!loading) e.target.style.backgroundColor = "#C4754E";
-      }}
-      onMouseLeave={(e) => {
-        if (!loading) e.target.style.backgroundColor = "#C4754E";
       }}
     >
       {loading ? "Adding..." : "Add to Cart"}

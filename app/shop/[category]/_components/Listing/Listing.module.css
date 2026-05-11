@@ -222,8 +222,19 @@
   transform: rotate(180deg);
 }
 
-
-
+.clearBtn{
+    background-color: var(--primary-color);
+    color:white;
+    border:none;
+    outline:none;
+    padding:12px 14px;
+}
+.sidebarHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
 .sortWrapper {
     position: relative;
     z-index: 100;
@@ -516,11 +527,17 @@
 
 .headerActions {
     display: flex;
-    justify-content: right;
-    gap: 15px;
+    justify-content: space-between;
     align-items: center;
 }
-
+.clearBtn{
+    background-color: var(--primary-color);
+    color:white;
+    border:none;
+    outline:none;
+    padding:12px 14px;
+    font-family: var(--font-raleway);
+}
 .mobileFilterBtn {
     display: none;
     align-items: center;
@@ -776,7 +793,7 @@
     }
 
     .mobileText {
-        display: none;
+        display: block;
         white-space: nowrap;
         background-color: #C4754E;
         color: #ffffff;
@@ -785,6 +802,9 @@
         font-family: var(--font-raleway);
         font-weight: 500;
         font-size: 14px;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
     }
 
 }
@@ -888,15 +908,8 @@
         max-width: fit-content;
 
     }
-
-
-
-
     .productGrid {
         grid-template-columns: repeat(2, 1fr);
         column-gap: 20px;
     }
-
-
-
 }

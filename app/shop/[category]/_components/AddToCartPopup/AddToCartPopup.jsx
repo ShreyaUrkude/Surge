@@ -51,20 +51,15 @@ function CustomSelect({ label, placeholder, options, value, onChange }) {
 export default function ProductPopup({ product, onClose }) {
     const { addToCart } = useCart();
 
-    // Weight — comes from variants[]
     const variants = product?.variants || [];
     const [selectedVariant, setSelectedVariant] = useState(variants[0] || null);
 
-    // Roast profile — product.roastProfile (array of strings) or []
-    const roastOptions = product?.roastProfile || [];
-    const [selectedRoast, setSelectedRoast] = useState(roastOptions[0] || "");
-
-    // Grind option — product.grindOption (array of strings) or []
-    const grindOptions = product?.grindOption || [];
-    const [selectedGrind, setSelectedGrind] = useState(grindOptions[0] || "");
-
-    // Highlights
+    // Build selects dynamically from productHighlights
     const highlights = product?.productHighlights || [];
+    const highlightSelections = Object.fromEntries(
+        highlights.map((h) => [h.sectionTitle, h.items?.[0]?.point || ""])
+    );
+    const [selectedHighlights, setSelectedHighlights] = useState(highlightSelections);
 
     const [quantity, setQuantity] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -74,6 +69,10 @@ export default function ProductPopup({ product, onClose }) {
         : product?.regularPrice
             ? `AED ${product.regularPrice}`
             : "";
+
+    const handleSelect = (sectionTitle, value) => {
+        setSelectedHighlights((prev) => ({ ...prev, [sectionTitle]: value }));
+    };
 
     const handleAddToCart = async () => {
         if (loading) return;
@@ -88,8 +87,7 @@ export default function ProductPopup({ product, onClose }) {
                 tagline: product.tagline,
                 quantity,
                 variationId: selectedVariant?.id || "",
-                roastProfile: selectedRoast,
-                grindOption: selectedGrind,
+                ...selectedHighlights,
             });
             onClose();
         } catch (err) {
@@ -99,9 +97,17 @@ export default function ProductPopup({ product, onClose }) {
         }
     };
 
+    // Split highlights into pairs for 2-column rows
+    const highlightPairs = highlights.reduce((rows, h, i) => {
+        if (i % 2 === 0) rows.push([h]);
+        else rows[rows.length - 1].push(h);
+        return rows;
+    }, []);
+
     return (
         <div className={styles.overlay} onClick={onClose}>
             <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
+
                 {/* Header */}
                 <div className={styles.popupHeader}>
                     <div>
@@ -115,89 +121,42 @@ export default function ProductPopup({ product, onClose }) {
                     </button>
                 </div>
 
-                {/* Selects row */}
+                {/* Row 1 — Weight + Quantity */}
                 <div className={styles.row}>
-                    {/* Weight — from variants */}
                     {variants.length > 0 && (
                         <CustomSelect
                             label="Weight"
                             placeholder="Select Weight"
                             options={variants.map((v) => `${v.variantName}g`)}
                             value={selectedVariant ? `${selectedVariant.variantName}g` : ""}
-                            onChange={(val) =>
-                                setSelectedVariant(
-                                    variants.find((v) => `${v.variantName}g` === val)
-                                )
-                            }
+                            onChange={(val) => setSelectedVariant(variants.find((v) => `${v.variantName}g` === val))}
                         />
                     )}
-
-                    {/* Roast Profile */}
-                    {roastOptions.length > 0 && (
-                        <CustomSelect
-                            label="Roast Profile"
-                            placeholder="Select Roast"
-                            options={roastOptions}
-                            value={selectedRoast}
-                            onChange={setSelectedRoast}
-                        />
-                    )}
-
-                    {/* Grind Option */}
-                    {grindOptions.length > 0 && (
-                        <CustomSelect
-                            label="Grind Option"
-                            placeholder="Select Grind"
-                            options={grindOptions}
-                            value={selectedGrind}
-                            onChange={setSelectedGrind}
-                        />
-                    )}
-
-                    {/* Quantity — static stepper */}
                     <div className={styles.field}>
                         <label className={styles.fieldLabel}>Quantity</label>
                         <div className={styles.qtyControl}>
-                            <button
-                                type="button"
-                                className={styles.qtyBtn}
-                                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                                aria-label="Decrease"
-                            >−</button>
+                            <button type="button" className={styles.qtyBtn} onClick={() => setQuantity((q) => Math.max(1, q - 1))} aria-label="Decrease">−</button>
                             <div className={styles.qtyValue}>{String(quantity).padStart(2, "0")}</div>
-                            <button
-                                type="button"
-                                className={styles.qtyBtn}
-                                onClick={() => setQuantity((q) => Math.min(99, q + 1))}
-                                aria-label="Increase"
-                            >+</button>
+                            <button type="button" className={styles.qtyBtn} onClick={() => setQuantity((q) => Math.min(99, q + 1))} aria-label="Increase">+</button>
                         </div>
                     </div>
                 </div>
 
-                {/* Product Highlights */}
-                {/* Product Highlights */}
-                {highlights.length > 0 && (
-                    <div className={styles.highlights}>
-                        {highlights.map((section) => (
-                            <details key={section.id} className={styles.highlightDropdown}>
-                                <summary className={styles.highlightSummary}>
-                                    {section.sectionTitle}
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.chev}>
-                                        <path d="M6 9l6 6 6-6" />
-                                    </svg>
-                                </summary>
-                                <ul className={styles.highlightList}>
-                                    {(section.items || []).map((item) => (
-                                        <li key={item.id} className={styles.highlightItem}>
-                                            {item.point}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </details>
+                {/* Dynamic highlight rows — 2 per row */}
+                {highlightPairs.map((pair, rowIdx) => (
+                    <div className={styles.row} key={rowIdx}>
+                        {pair.map((section) => (
+                            <CustomSelect
+                                key={section.id}
+                                label={section.sectionTitle}
+                                placeholder={`Select ${section.sectionTitle}`}
+                                options={[...new Set(section.items?.map((i) => i.point) || [])]}
+                                value={selectedHighlights[section.sectionTitle] || ""}
+                                onChange={(val) => handleSelect(section.sectionTitle, val)}
+                            />
                         ))}
                     </div>
-                )}
+                ))}
 
                 {/* CTA */}
                 <button
@@ -208,6 +167,7 @@ export default function ProductPopup({ product, onClose }) {
                 >
                     {loading ? "Adding..." : "Add to Cart"}
                 </button>
+
             </div>
         </div>
     );

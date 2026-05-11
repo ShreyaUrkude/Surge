@@ -1,11 +1,8 @@
 .Main {
   display: flex;
-
   height: 100%;
-
   padding-left: clamp(40px,
-      calc(40px + (370 * ((100vw - 320px) / 1120))),
-      410px);
+      calc(40px + (370 * ((100vw - 320px) / 1120))),350px);
   padding-bottom: 100px;
  
   
