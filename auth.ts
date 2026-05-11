@@ -114,37 +114,65 @@ export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
           if (account.provider === "google") {
             token.googleIdToken = account.id_token;
             token.isGoogleLogin = true;
+            token.email = user.email;
+
+            const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || process.env.PAYLOAD_PUBLIC_SERVER_URL;
+            if (serverUrl && account.id_token) {
+              try {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 10000);
+                const backendRes = await fetch(`${serverUrl}/api/website/google-auth`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ googleToken: account.id_token }),
+                  signal: controller.signal,
+                });
+                clearTimeout(timeout);
+                const data = await backendRes.json();
+                if (data.success && data.token && data.user) {
+                  token.id = String(data.user.id);
+                  token.firstName = data.user.firstName ?? "";
+                  token.lastName = data.user.lastName ?? "";
+                  token.profileImage = data.user.profileImage ?? null;
+                  token.stripeCustomerId = data.user.stripeCustomerId ?? null;
+                  token.payloadToken = data.token;
+                  token.isNewUser = data.isNewUser ?? false;
+                  token.success = true;
+                }
+              } catch (err) {
+                console.error("[GoogleAuth] Server-side exchange failed:", err);
+              }
+            }
+          } else {
+            // if (account.provider === "apple") {
+            //   token.appleIdToken = account.id_token;
+            //   token.isAppleLogin = true;
+            // }
+
+            token.id = user.id;
+            token.firstName = user.firstName;
+            token.lastName = user.lastName;
+
+            // if (account.provider === "apple") {
+            //   const appleName = user.name as any;
+            //   if (appleName) {
+            //     if (typeof appleName === "string") {
+            //       const parts = appleName.trim().split(/\s+/);
+            //       token.firstName = parts[0] || token.firstName;
+            //       token.lastName = parts.slice(1).join(" ") || token.lastName;
+            //     } else if (typeof appleName === "object") {
+            //       token.firstName = appleName.firstName || appleName.givenName || token.firstName;
+            //       token.lastName = appleName.lastName || appleName.familyName || token.lastName;
+            //     }
+            //   }
+            // }
+            token.profileImage = user.profileImage;
+            token.stripeCustomerId = user.stripeCustomerId;
+            token.payloadToken = user["paylaod-token"];
+            token.email = user.email;
+            token.isNewUser = user.isNewUser;
+            token.success = user.success;
           }
-          // if (account.provider === "apple") {
-          //   token.appleIdToken = account.id_token;
-          //   token.isAppleLogin = true;
-          // }
-
-          token.id = user.id;
-          token.firstName = user.firstName;
-          token.lastName = user.lastName;
-
-          // if (account.provider === "apple") {
-          //   // Apple sends name only on first sign-in via user.name (not firstName/lastName)
-          //   // Override after the generic assignment since user.firstName is undefined for Apple
-          //   const appleName = user.name as any;
-          //   if (appleName) {
-          //     if (typeof appleName === "string") {
-          //       const parts = appleName.trim().split(/\s+/);
-          //       token.firstName = parts[0] || token.firstName;
-          //       token.lastName = parts.slice(1).join(" ") || token.lastName;
-          //     } else if (typeof appleName === "object") {
-          //       token.firstName = appleName.firstName || appleName.givenName || token.firstName;
-          //       token.lastName = appleName.lastName || appleName.familyName || token.lastName;
-          //     }
-          //   }
-          // }
-          token.profileImage = user.profileImage;
-          token.stripeCustomerId = user.stripeCustomerId;
-          token.payloadToken = user["paylaod-token"];
-          token.email = user.email;
-          token.isNewUser = user.isNewUser;
-          token.success = user.success;
         }
         return token;
       },

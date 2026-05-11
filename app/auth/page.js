@@ -1,6 +1,6 @@
 "use client";
 import styles from "./page.module.css";
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { signIn, useSession } from "next-auth/react";
@@ -14,6 +14,7 @@ function AuthPageContent() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const googleCallbackHandled = useRef(false);
 
   // useEffect(() => {
   //   if (status === "authenticated") {
@@ -24,82 +25,81 @@ function AuthPageContent() {
   // Handle social OAuth callbacks (Google & Apple)
   useEffect(() => {
     async function handleSocialCallback() {
-      if (status === "authenticated" && session?.user?.email) {
-        const fromParam = searchParams.get("from");
-        const isFromGoogle =
-          fromParam === "google" ||
-          (!fromParam &&
-            window.location.href.includes("callbackUrl") &&
-            session?.isGoogleLogin);
-        // const isFromApple = fromParam === "apple";
-        const isFromApple = false;
+      if (googleCallbackHandled.current) return;
 
-        if (!isFromGoogle && !isFromApple) return;
+      const fromParam = searchParams.get("from");
+      const isFromGoogle =
+        fromParam === "google" ||
+        (!fromParam &&
+          window.location.href.includes("callbackUrl") &&
+          session?.isGoogleLogin);
+      // const isFromApple = fromParam === "apple";
 
-        setLoading(true);
+      if (!isFromGoogle) return;
+      if (status === "loading") return;
+      if (status !== "authenticated" || !session?.user?.email) return;
 
-        // Clear any stale token from a previous login session immediately.
-        // This prevents the old email-user token from leaking into the
-        // Google auth exchange as an Authorization header.
-        try {
-          Cookies.remove("payload-token", { path: "/" });
-        } catch (_) {}
+      googleCallbackHandled.current = true;
+      setLoading(true);
 
-        try {
-          let res;
-          if (isFromGoogle) {
-            res = await axiosClient.post("/api/website/google-auth", {
-              googleToken: session.googleIdToken,
-            });
-            // } else {
-            //   const applePayload = { appleToken: session.appleIdToken };
-            //   if (session.user?.firstName) applePayload.firstName = session.user.firstName;
-            //   if (session.user?.lastName) applePayload.lastName = session.user.lastName;
-            //   res = await axiosClient.post("/api/website/apple-auth", applePayload);
-          }
+      const redirectParam = searchParams.get("redirect") || "/";
+      const payloadToken = session?.user?.["paylaod-token"];
 
-          if (!res.data.success) {
-            throw new Error(res.data.message || "Social login failed");
-          }
+      if (payloadToken) {
+        // Normal path: server-side exchange in JWT callback already populated the session
+        Cookies.set("payload-token", payloadToken, { expires: 7 });
+        window.location.href = session.user?.isNewUser
+          ? `/auth/create-profile?redirect=${encodeURIComponent(redirectParam)}`
+          : redirectParam;
+        return;
+      }
 
-          if (res.data.token) {
-            Cookies.set("payload-token", res.data.token, { expires: 7 });
-          }
+      // Fallback path: server-side exchange missed, retry client-side
+      try {
+        Cookies.remove("payload-token", { path: "/" });
+        const res = await axiosClient.post("/api/website/google-auth", {
+          googleToken: session?.googleIdToken,
+        });
 
-          // Update NextAuth session with the correct backend user ID and data
-          if (res.data.user) {
-            await update({
-              user: {
-                id: res.data.user.id,
-                email: res.data.user.email,
-                firstName: res.data.user.firstName,
-                lastName: res.data.user.lastName,
-                profileImage: res.data.user.profileImage,
-                stripeCustomerId: res.data.user.stripeCustomerId,
-                "paylaod-token": res.data.token,
-              },
-            });
-          }
-
-          const redirectParam = searchParams.get("redirect") || "/";
-          if (res.data.isNewUser) {
-            window.location.href = `/auth/create-profile?redirect=${encodeURIComponent(redirectParam)}`;
-          } else {
-            window.location.href = redirectParam;
-          }
-        } catch (e) {
-          setError(
-            e.response?.data?.message ||
-              e.message ||
-              "Failed to complete sign-in",
-          );
-          setLoading(false);
+        if (!res.data.success) {
+          throw new Error(res.data.message || "Social login failed");
         }
+
+        if (res.data.token) {
+          Cookies.set("payload-token", res.data.token, { expires: 7 });
+        }
+
+        // Update NextAuth session since server-side exchange was missed
+        if (res.data.user) {
+          await update({
+            user: {
+              id: res.data.user.id,
+              email: res.data.user.email,
+              firstName: res.data.user.firstName,
+              lastName: res.data.user.lastName,
+              profileImage: res.data.user.profileImage,
+              stripeCustomerId: res.data.user.stripeCustomerId,
+              "paylaod-token": res.data.token,
+            },
+          });
+        }
+
+        window.location.href = res.data.isNewUser
+          ? `/auth/create-profile?redirect=${encodeURIComponent(redirectParam)}`
+          : redirectParam;
+      } catch (e) {
+        googleCallbackHandled.current = false; // allow retry on error
+        setError(
+          e.response?.data?.message ||
+            e.message ||
+            "Failed to complete sign-in",
+        );
+        setLoading(false);
       }
     }
 
     handleSocialCallback();
-  }, [status, session, searchParams, router]);
+  }, [status, session, searchParams]);
 
   async function handleContinue(e) {
     e.preventDefault();
