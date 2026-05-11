@@ -793,7 +793,7 @@
   top: 100%;
   width: 100%;
   background: #fff;
-  border: 1px solid #2f362a4d;
+
   z-index: 10;
   max-height: 200px;
   overflow-y: auto;
@@ -1401,7 +1401,7 @@
     transform: scale(0.98); 
 }
 /* ── Responsive ───────────────────────────────────────────────── */
-@media (max-width: 640px) {
+@media (max-width: 640px)  {
   .main {
     /* padding-left: 24px;
     padding-right: 24px;
@@ -1614,5 +1614,93 @@
 @media (min-width:1000px) and (max-width:1400) {
   .main {
     padding-left: 40px;
+  }
+}
+
+
+
+
+
+
+
+@media (max-width: 320px) {
+  .main {
+    padding: 20px 0; 
+  }
+
+  .MainContainer {
+    max-width: 100%;
+    gap: 20px;
+  }
+
+  .Name, .Name1, .Row, .divide {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important; 
+    gap: 10px; 
+    width: 100%;
+  }
+
+  .Field {
+    padding: 20px 5px 10px;
+    font-size: 14px; 
+  }
+
+  .underlineSelect {
+    justify-content: space-between;
+  }
+
+  .underlineSelect svg {
+    margin-left: 0 !important; 
+  }
+
+ 
+  .TopLeft img {
+    max-width: 120px;
+    max-height: 120px;
+  }
+
+  .pfbtn, .pfrembtn {
+    width: 100%;
+    max-width: 100%;
+  }
+
+ 
+  .popup, .Popup, .DeletePopup, .main1 {
+    width: 92%;
+    padding: 20px 15px;
+    box-sizing: border-box;
+  }
+
+  
+  .PopupActions, .DeletePopupActions, .footerActions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .PopupActions button, 
+  .DeletePopupActions button, 
+  .footerActions button {
+    width: 100% !important;
+    padding: 12px 5px;
+  }
+
+
+  .CustomSelectTrigger {
+    gap: 0;
+    justify-content: space-between;
+  }
+
+ .AddressHeader h4 {
+  font-size: 18px;
+ }
+  .div2 .input {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .buttons {
+    padding: 13px 20px;
+    width: 100%;
   }
 }

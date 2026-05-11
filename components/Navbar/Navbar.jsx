@@ -149,9 +149,13 @@ export default function Navbar({ categories = [] }) {
             </div>
 
             <div className={styles.mobileLine}></div>
-            <Link href="/about-us" className={`${styles.navLink} ${isActive("/about-us") ? styles.activeRed : ""}`}>
-              About Us
-            </Link>
+          <Link 
+  href="/about-us" 
+  prefetch={false} 
+  className={`${styles.navLink} ${isActive("/about-us") ? styles.activeRed : ""}`}
+>
+  About Us
+</Link>
             <div className={styles.mobileLine}></div>
             <Link href="/events" className={`${styles.navLink} ${isActive("/events") ? styles.activeRed : ""}`}>
               Events

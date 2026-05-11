@@ -10,7 +10,7 @@ import desserts from "./pastry.png";
 import axiosClient from "@/lib/axios";
 import { useState, useEffect } from "react";
 import { formatImageUrl } from "@/lib/imageUtils";
-
+import noMenuImg from './orderZero.png';
 export default function Menu() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -25,13 +25,11 @@ export default function Menu() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Fetch Categories
         const catRes = await axiosClient.get("/api/app-categories");
         if (catRes.status === 200 && catRes.data.docs) {
           setCategories(catRes.data.docs);
         }
 
-        // Fetch products if shopId exists to know which categories have items
         if (shopId) {
           const prodRes = await axiosClient.get(
             `/api/shop/${shopId}/menu-items?page=1&limit=100`
@@ -58,7 +56,6 @@ export default function Menu() {
     ? categories.filter((cat) => availableCategoryIds.has(cat.id))
     : categories;
 
-
   const handleCategoryClick = (categoryId) => {
     const params = new URLSearchParams(searchParams.toString());
     if (params.get("category") === String(categoryId)) {
@@ -67,6 +64,11 @@ export default function Menu() {
       params.set("category", categoryId);
     }
     router.push(`?${params.toString()}`, { scroll: false });
+  };
+
+  // Helper to clear filters
+  const clearFilters = () => {
+    router.push('?', { scroll: false });
   };
 
   return (
@@ -86,11 +88,31 @@ export default function Menu() {
 
       <div className={styles.menuGrid}>
         {loading ? (
-          <p>Loading categories...</p>
+          <div className={styles.loadingState}>
+            <p>Loading categories...</p>
+          </div>
+        ) : displayedCategories.length === 0 ? (
+          /* --- ZERO STATE SECTION --- */
+          <div className={styles.zeroState}>
+            <div className={styles.zeroStateContent}>
+              <div className={styles.zeroIcon}><Image 
+    src={noMenuImg} 
+    alt="No items found" 
+    width={120} 
+    height={120} 
+    priority 
+  /></div>
+              <h3>No Categories Found</h3>
+              <p>We couldn't find any menu categories for this selection.</p>
+              {shopId && (
+                <button onClick={clearFilters} className={styles.clearBtn}>
+                  Show All Categories
+                </button>
+              )}
+            </div>
+          </div>
         ) : (
           displayedCategories.map((category) => {
-            // Mapping logic for static images
-
             let categoryImage = desserts;
             const slug = category.slug.toLowerCase();
 
@@ -101,16 +123,16 @@ export default function Menu() {
             } else if (slug.includes("breakfast")) {
               categoryImage = breakfast;
             }
+            
             return (
               <div
                 key={category.id}
                 className={styles.card}
                 onClick={() => handleCategoryClick(category.id)}
               >
-
                 <div className={styles.imageWrapper}>
                   <Image
-                    src={formatImageUrl(category.image.url) || categoryImage}
+                    src={formatImageUrl(category.image?.url) || categoryImage}
                     alt={category.title}
                     width={382}
                     height={507}
@@ -126,4 +148,3 @@ export default function Menu() {
     </section>
   );
 }
-

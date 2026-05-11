@@ -69,14 +69,15 @@ export default function Location() {
                 </div>
 
                 {/* Pin Icon */}
-                <div className={styles.markerPin}>
-                  <Image 
-                    src={markerIcon} 
-                    alt="map marker" 
-                    width={27} 
-                    height={34} 
-                  />
-                </div>
+               <div className={styles.markerPin}>
+  <Image 
+    src={markerIcon} 
+    alt="map marker" 
+    fill 
+    sizes="41px"
+    style={{ objectFit: 'contain' }} 
+  />
+</div>
               </div>
             ))}
           </div>

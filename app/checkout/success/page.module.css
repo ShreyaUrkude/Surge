@@ -58,7 +58,7 @@
 /* ── Confirmation banner ── */
 .ConfirmBanner {
   border-bottom: 0.5px solid #818686;
-  padding: 20px 18px;
+  padding: 16px 16px;
   background-color: var(--cards-bg);
 }
 
@@ -112,7 +112,7 @@
   grid-column: 1 / -1;
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 1px solid var(--text-secondary);
+
 }
 
 .CellLabel {
@@ -253,6 +253,7 @@
 }
 
 .TotalRow p {
+  font-weight: 400;;
   margin: 0;
   font-family: var(--font-raleway);
   font-size: var(--fs-16);

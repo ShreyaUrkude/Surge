@@ -1,15 +1,41 @@
-'use client';
-import React from "react";
+"use client";
+
 import Image from "next/image";
 import styles from "./ProductDetails.module.css";
 import { formatImageUrl } from "@/lib/imageUtils";
+import React, { useState } from "react"; // useState add kiya
 import { getStatusConfig, formatDate } from "@/app/account/orders/_components/GetStatus";
+import axiosClient from "@/lib/axios"; // axios import kiya
+import toast from "react-hot-toast"; // toast import kiya
 
 const ProductDetail = ({ order }) => {
   if (!order) return null;
 
+  const [rating, setRating] = useState(order.orderRating || 0);
+  const [hover, setHover] = useState(0);
+
   const config = getStatusConfig(order.deliveryStatus || order.status, order);
   const items = order.items || order.line_items || [];
+
+  // Rating handle karne ka logic
+  const handleRating = async (score) => {
+    const newRating = rating === score ? 0 : score;
+    setRating(newRating);
+    try {
+      await axiosClient.patch(`/api/web-orders/${order.id}`, {
+        orderRating: newRating,
+      });
+      if (newRating > 0) {
+        toast.success(`Order rated ${newRating} stars!`);
+      } else {
+        toast.success("Rating cleared.");
+      }
+    } catch (error) {
+      console.error("Error updating order rating:", error);
+      setRating(order.orderRating || 0);
+      toast.error("Failed to update rating.");
+    }
+  };
 
   return (
     <div className={styles.orderCard}>
@@ -22,6 +48,13 @@ const ProductDetail = ({ order }) => {
               {config.label}
             </p>
             <p className={styles.orderDateSub}>{config.date}</p>
+            
+            {/* Reason text add kiya (Cancellations ke liye) */}
+            {config.reason && (
+              <p className={styles.reasonText} style={{ fontSize: '12px', marginTop: '4px' }}>
+                {config.reason}
+              </p>
+            )}
           </div>
         </div>
         
@@ -38,7 +71,6 @@ const ProductDetail = ({ order }) => {
             const itemImg = item.productImage?.url || item.product?.productImage?.url;
             const itemName = item.product?.name || item.name || "Coffee Product";
             
-            // Logic to find weight/variant name
             const weight = item.product?.variants?.find(v => v.id === item.variantID)?.variantName 
                            || item.product?.weight;
 
@@ -58,7 +90,7 @@ const ProductDetail = ({ order }) => {
                   <div className={styles.itemMeta}>
                     {weight && (
                       <>
-                        <span>{weight}{!isNaN(weight) ? 'kg' : ''}</span>
+                        <span>{weight}{!isNaN(weight) ? 'g' : ''}</span>
                         <span className={styles.Separator}>|</span>
                       </>
                     )}
@@ -71,19 +103,45 @@ const ProductDetail = ({ order }) => {
         </div>
       </div>
 
-      {/* FOOTER SECTION: Rate This Order */}
-      <div className={styles.rateOrderFooter}>
-        <span className={styles.rateOrderText}>Rate This Order</span>
-        <div className={styles.stars}>
-          {/* Using Unicode stars for simplicity, replace with Icons if preferred */}
-          {[...Array(5)].map((_, i) => (
-            <span key={i}><svg width="18" height="16" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M5.95118 13.3984L9.28162 11.5191L12.6121 13.4231L11.7398 9.86232L14.6738 7.48848L10.8147 7.16702L9.28162 3.80408L7.74856 7.14229L3.88948 7.46375L6.82344 9.86232L5.95118 13.3984ZM3.54586 16.5007L5.06069 10.3987L0 6.29587L6.67701 5.75384L9.28162 0L11.8862 5.75384L18.5632 6.29587L13.5026 10.3987L15.0174 16.5007L9.28162 13.2633L3.54586 16.5007Z" fill="white"/>
-</svg>
-</span>
-          ))}
+      {/* FOOTER SECTION: Rate This Order (Same as OrderCard logic) */}
+      {config.rating && (
+        <div className={styles.rateOrderFooter}>
+          <span className={styles.rateOrderText}>Rate This Order</span>
+          <div className={styles.stars}>
+            {[1, 2, 3, 4, 5].map((starNumber) => {
+              const isActive = starNumber <= (hover || rating);
+              return (
+                <button
+                  key={starNumber}
+                  className={styles.starButton}
+                  onClick={() => handleRating(starNumber)}
+                  onMouseEnter={() => setHover(starNumber)}
+                  onMouseLeave={() => setHover(0)}
+                  type="button"
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px' }}
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="-1 -1 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <polygon
+                      points="9,0.5 11.5,6.5 18,7.2 13.2,11.5 14.7,17.5 9,14.2 3.3,17.5 4.8,11.5 0,7.2 6.5,6.5"
+                      fill={isActive ? "white" : "transparent"}
+                      stroke="white"
+                      strokeWidth="1.2"
+                      strokeLinejoin="round"
+                      style={{ transition: "fill 0.2s ease" }}
+                    />
+                  </svg>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* MOBILE METADATA */}
       <div className={`${styles.orderMobileMeta} ${config.noBottom ? styles.orderMobileMetaNoBorder : ""}`}>

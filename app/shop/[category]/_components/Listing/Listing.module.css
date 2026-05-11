@@ -555,6 +555,23 @@
     animation: slideIn 0.3s ease;
 }
 
+.popupOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 300;
+}
+
+.popupWrapper {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 301;
+    padding: 20px;
+}
+
 .MobileFilterOverlay {
     position: fixed;
     inset: 0;

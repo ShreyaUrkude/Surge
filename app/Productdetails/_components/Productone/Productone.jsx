@@ -196,9 +196,9 @@ export default function ProductOne({ initialProduct }) {
 
               <div className={styles.actionRow}>
                 <div className={styles.quantityPicker}>
-                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>−</button>
+                  <button >−</button>
                   <span>{quantity.toString().padStart(2, '0')}</span>
-                  <button onClick={() => setQuantity(quantity + 1)}>+</button>
+                  <button >+</button>
                 </div>
                 <AddToCart
                   product={{
