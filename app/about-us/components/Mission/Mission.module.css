@@ -265,7 +265,7 @@ body {
 
 
 
-@media (min-width: 325px) and (max-width: 900px) {
+@media (min-width: 320px) and (max-width: 900px) {
   .landContainer {
     display: flex;
     flex-direction: column;
