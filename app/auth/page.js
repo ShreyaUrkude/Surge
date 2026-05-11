@@ -116,6 +116,9 @@ function AuthPageContent() {
 
     sessionStorage.setItem("email", email);
 
+    // Clear any stale token so it isn't sent as Authorization header to a public endpoint
+    try { Cookies.remove("payload-token", { path: "/" }); } catch (_) {}
+
     console.log(email);
     console.log(axiosClient);
 
