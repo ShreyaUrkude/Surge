@@ -8,7 +8,7 @@ import axiosClient from '@/lib/axios';
 import { formatImageUrl } from '@/lib/imageUtils';
 import coffeeImg from './coffee.png'; 
 import { useWishlist } from '@/app/_context/WishlistContext';
-import prodZero from './prodZero.png';
+import prodZero from './Noproducts.gif';
 const SORT_OPTIONS = ['Recommended', 'Price:High to Low', 'Price:Low to High', 'Popularity'];
 
 export default function Listing({ category }) {
@@ -252,10 +252,13 @@ export default function Listing({ category }) {
 
                 {/* PRODUCT GRID XERO  STATE */}
                <div className={styles.productGrid}>
- {!loading && filteredProducts.length === 0 ? (
+
+ {(!loading && (filteredProducts.length === 0 || true)) ?(
+
+
     <div className={styles.noProducts}>
       <div className={styles.noProductsIcon}>
-        <Image src={prodZero} alt="No products" width={140} height={150} priority />
+        <Image src={prodZero} alt="No products" width={200} height={200} priority />
       </div>
       <h3>Nothing Brewing here</h3>
       <p>Refine or clear filters to explore available selections.</p>

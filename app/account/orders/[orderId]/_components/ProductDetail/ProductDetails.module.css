@@ -23,8 +23,7 @@
     display: flex;
 
     justify-content: space-between;
-
-    padding: 16px 16px;
+padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
     background-color: #F5F5F5;
 
