@@ -25,7 +25,6 @@ export default function OrderSummary({
     applyCoupon,
     removeCoupon,
     appliedCoupon,
-    coinConfig,
   } = useCart();
 
   const { status } = useSession();
@@ -33,7 +32,6 @@ export default function OrderSummary({
   const [couponError, setCouponError] = useState("");
   const [showCoupons, setShowCoupons] = useState(false);
 
-  // Input field se apply karne ke liye
   const handleApplyCoupon = async () => {
     setCouponError("");
     const res = await applyCoupon(couponInput);
@@ -41,19 +39,16 @@ export default function OrderSummary({
     else setCouponInput("");
   };
 
-  // Popup se apply karne ke liye (Ye function zaroori hai)
   const handlePopupApply = async (coupon) => {
     setCouponError("");
     const res = await applyCoupon(coupon.code);
-    
     if (res.ok) {
       setCouponInput("");
-      // Success: Popup ko band karne se pehle 1.5s rukiye taaki user 'Applied' dekh sake
       setTimeout(() => setShowCoupons(false), 1500);
-      return true; // Popup ko batao ki success ho gaya
+      return true;
     } else {
       setCouponError(res.message);
-      return false; // Popup ko batao ki error hai
+      return false;
     }
   };
 
@@ -67,6 +62,16 @@ export default function OrderSummary({
       <div className={styles.RightTwo} data-lenis-prevent style={{ overflowY: "auto" }}>
         {product.map((item, idx) => {
           const isSubscription = checkoutMode === "subscription";
+          
+          // Dynamic logic to match CartSideBar (Tamara, good, ok)
+          const selections = item.customSelections || {};
+          const displaySelections = Object.entries(selections)
+            .filter(([, value]) => String(value).trim() !== "");
+          
+          const metaText = [item.tagline, ...displaySelections.map(([, value]) => value)]
+            .filter(Boolean)
+            .join(", ");
+
           return (
             <div className={`${styles.SummaryItem} ${isSubscription ? styles.SubSummaryItem : ""}`} key={item.id || idx}>
               <div className={styles.ItemImage}>
@@ -77,9 +82,19 @@ export default function OrderSummary({
                   <div className={styles.ItemName}>{item.name}</div>
                   <div className={styles.ItemName}>{item.weight}</div>
                 </div>
+                
                 <div className={styles.ItemQty}>×{item.quantity}</div>
+                
                 {item?.vId && <span>{item?.variantName}g</span>}
+
+                {/* UPDATED DYNAMIC METADATA: Matches image_3c0f76.png */}
+                {metaText && (
+                  <div style={{ marginTop: "4px", fontSize: "12px", color: "#666" }}>
+                    {metaText}
+                  </div>
+                )}
               </div>
+              
               {!isSubscription && (
                 <div className={styles.ItemPrice}>
                   AED {(parseFloat(item.price?.final_price || item.price) || 0).toFixed(0)}
