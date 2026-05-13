@@ -79,20 +79,20 @@ export default function OrderSummary({
               <div className={styles.ItemInfo} style={{ display: 'flex', flexDirection: 'column',  }}>
                 {/* Line 1: Name and Weight (Brazil Santa Ines, 250g) */}
                 <div className={styles.ItemMainRow} style={{ display: 'flex', alignItems: 'center',  }}>
-                  <div className={styles.ItemName} style={{ fontSize: '16px', fontWeight: '400', color: '#414343' }}>
+                  <div className={styles.ItemName} style={{ fontSize: '16px', fontWeight: '400', color: '#414343', fontFamily:"raleway" }}>
                     {item.name}{item.weight ? `, ${item.weight}g` : item.variantName ? `, ${item.variantName}g` : ''}
                   </div>
                 </div>
                 
                 {/* Line 2: Metadata (Expresso Roast, Whole bean, Whole) */}
                 {metaText && (
-                  <div style={{ fontSize: "12px", color: "#8E9191", lineHeight: '1.2' }}>
+                  <div style={{ fontSize: "12px",fontWeight: '500',color: "#818686",marginTop: '4px' , lineHeight: '1.2' }}>
                     {metaText}
                   </div>
                 )}
 
                 {/* Line 3: Quantity (2X) */}
-                <div style={{ fontSize: '16px', color: '#414343', marginTop: '8px' }}>
+                <div style={{ fontSize: '16px', color: '#414343', marginTop: '16px' }}>
                   {item.quantity}<span style={{ fontSize: '16px', color: '#414343' }}>x</span>
                 </div>
               </div>
