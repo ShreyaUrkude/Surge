@@ -136,12 +136,14 @@ function OrderSuccessContent() {
                 const itemPrice = Number(item.unitPrice ?? item.price ?? 0);
                 return (
                   <div className={styles.SummaryItem} key={idx}>
-                    <img
-                      src={imgUrl}
-                      alt={productName}
-                      width={72}
-                      height={72}
-                    />
+                   <div className={styles.SummaryItemImg}>
+    <img
+      src={imgUrl}
+      alt={productName}
+      width={92}
+      height={92}
+    />
+  </div>
                     <div className={styles.SummaryItemInfo}>
                       <p className={styles.SummaryItemName}>
                         {productName}
