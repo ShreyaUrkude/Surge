@@ -35,7 +35,7 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
             });
             setProducts(mapped);
             setLoading(false);
-        } else if (recommendedProducts) {
+        } else {
             setProducts([]);
             setLoading(false);
         }

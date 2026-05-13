@@ -9,10 +9,63 @@ import { Observer } from 'gsap/dist/Observer';
 
 import { formatImageUrl } from '@/lib/imageUtils';
 
+function CustomSelect({ label, placeholder, options, value, onChange }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  if (!options.length) return null;
+
+  return (
+    <div className={styles.dropdownField}>
+      <label className={styles.label}>{label}</label>
+      <div className={styles.customSelect} ref={ref}>
+        <button
+          type="button"
+          className={`${styles.selectTrigger} ${open ? styles.selectOpen : ''} ${value ? styles.selectHasValue : ''}`}
+          onClick={() => setOpen((current) => !current)}
+        >
+          <span>{value || placeholder}</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.selectChevron}>
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+
+        <div className={`${styles.selectMenu} ${open ? styles.selectMenuOpen : ''}`}>
+          {options.map((option) => (
+            <button
+              type="button"
+              key={option}
+              className={`${styles.selectOption} ${value === option ? styles.selectedOption : ''}`}
+              onClick={() => {
+                onChange(option);
+                setOpen(false);
+              }}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ProductOne({ initialProduct }) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedVariant, setSelectedVariant] = useState(null);
+  const [selectedHighlights, setSelectedHighlights] = useState({});
   const [isExpanded, setIsExpanded] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
@@ -55,29 +108,44 @@ export default function ProductOne({ initialProduct }) {
 
   useEffect(() => {
     if (initialProduct) {
+      const techSpecs = {
+        body: initialProduct.body || null,
+        aroma: initialProduct.aroma || null,
+        roast: initialProduct.roast || null,
+        altitude: initialProduct.altitude || null,
+        finish: initialProduct.finish || null,
+      };
+
       const mappedData = {
-        name: initialProduct.name,
-        price: initialProduct.salePrice || initialProduct.regularPrice,
+        name: initialProduct.name || initialProduct.title || "",
+        price: initialProduct.salePrice || initialProduct.regularPrice || null,
         notes: initialProduct.tastingNotes || "",
-        specs: {
-          origin: initialProduct.farm || "",
-          process: initialProduct.process || ""
-        },
+        specs: [
+          initialProduct.farm && { label: "Origin", value: initialProduct.farm },
+          ...(initialProduct.productHighlights || []).map(h => ({
+            label: h.sectionTitle,
+            value: h.items?.[0]?.point || "",
+            id: h.id || h.sectionTitle,
+          })),
+          initialProduct.process && { label: "Process", value: initialProduct.process },
+        ].filter(Boolean),
         desc: initialProduct.description || "",
-        image: formatImageUrl(initialProduct.productImage),
+        image: formatImageUrl(initialProduct.productImage || initialProduct.image),
         variants: initialProduct.variants || [],
         highlights: initialProduct.productHighlights || [],
-        techSpecs: {
-          body: initialProduct.body || "N/A",
-          aroma: initialProduct.aroma || "N/A",
-          roast: initialProduct.roast || "N/A",
-          altitude: initialProduct.altitude || "N/A",
-          finish: initialProduct.finish || "N/A"
-        }
+        techSpecs: Object.values(techSpecs).some(Boolean) ? techSpecs : null,
       };
 
       setProduct(mappedData);
       setSelectedVariant(initialProduct.variants?.[0] || null);
+      setSelectedHighlights(
+        Object.fromEntries(
+          (initialProduct.productHighlights || []).map((highlight) => [
+            highlight.sectionTitle,
+            highlight.items?.[0]?.point || '',
+          ])
+        )
+      );
       setLoading(false);
     }
   }, [initialProduct]);
@@ -91,6 +159,20 @@ export default function ProductOne({ initialProduct }) {
   const productImage = selectedVariant?.variantImage
     ? formatImageUrl(selectedVariant.variantImage)
     : product.image;
+
+  const handleHighlightSelect = (sectionTitle, value) => {
+    setSelectedHighlights((current) => ({
+      ...current,
+      [sectionTitle]: value,
+    }));
+  };
+
+  const highlightDropdowns = product.highlights
+    .map((section) => ({
+      ...section,
+      options: [...new Set(section.items?.map((item) => item.point).filter(Boolean) || [])],
+    }))
+    .filter((section) => section.sectionTitle && section.options.length > 0);
 
   return (
     <div className={styles.container}>
@@ -115,84 +197,116 @@ export default function ProductOne({ initialProduct }) {
             <div className={`${styles.card} ${isExpanded ? styles.card1Hide : styles.card1Show}`}>
               <div className={styles.headerGroup}>
                 <h1 className={styles.title}>{product.name}</h1>
-                <p className={styles.tastingNotes}>{product.notes}</p>
+                {product.notes && <p className={styles.tastingNotes}>{product.notes}</p>}
               </div>
 
               <hr className={styles.divider} />
 
-              <div className={styles.selectionGroup}>
-                <div className={styles.priceRow}>
-                  <span className={styles.buyLabel}>Buy at</span>
-                  <span className={styles.price}>AED {Math.round(displayPrice)}</span>
-                </div>
-
-                {product.variants.length > 0 && (
-                  <div className={styles.sizeSection}>
-                    <label className={styles.label}>Weight</label>
-                    <div className={styles.buttonGroup}>
-                      {product.variants.map((v) => (
-                        <button
-                          key={v.id || v.variantName}
-                          className={`${styles.sizeButton} ${selectedVariant?.variantName === v.variantName ? styles.activeSize : ''}`}
-                          onClick={() => setSelectedVariant(v)}
-                        >
-                          {v.variantName}g
-                        </button>
-                      ))}
+              {(displayPrice || product.variants.length > 0) && (
+                <div className={styles.selectionGroup}>
+                  {displayPrice && (
+                    <div className={styles.priceRow}>
+                      <span className={styles.buyLabel}>Buy at</span>
+                      <span className={styles.price}>AED {Math.round(displayPrice)}</span>
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
 
-              <div className={styles.actionRow}>
-                <div className={styles.quantityPicker}>
-                  <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
-                  <span style={{ margin: "0px 10px", fontFamily: "var(--font-raleway)" }}>{quantity.toString().padStart(2, '0')}</span>
-                  <button onClick={() => setQuantity(q => Math.min(5, q + 1))}>+</button>
+                  {product.variants.length > 0 && (
+                    <div className={styles.sizeSection}>
+                      <label className={styles.label}>Weight</label>
+                      <div className={styles.buttonGroup}>
+                        {product.variants.map((v) => (
+                          <button
+                            key={v.id || v.variantName}
+                            className={`${styles.sizeButton} ${selectedVariant?.variantName === v.variantName ? styles.activeSize : ''}`}
+                            onClick={() => setSelectedVariant(v)}
+                          >
+                            {v.variantName}g
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <AddToCart
-                  product={{
-                    productId: initialProduct.id,
-                    name: product.name,
-                    description: product.desc,
-                    image: productImage,
-                    tagline: product.notes,
-                    variationId: selectedVariant?.id || null,
-                  }}
-                  quantity={quantity}
-                />
-              </div>
+              )}
 
-              <hr className={styles.divider} />
-
-              <table className={styles.specsTable}>
-                <tbody>
-                  <tr><td>Origin</td><td className={styles.specValue}>{product.specs.origin}</td></tr>
-                  {product.highlights.map((h) => (
-                    <tr key={h.id || h.sectionTitle}>
-                      <td>{h.sectionTitle}</td>
-                      <td className={styles.specValue}>{h.items?.[0]?.point || ""}</td>
-                    </tr>
+              {highlightDropdowns.length > 0 && (
+                <div className={styles.highlightSelectGrid}>
+                  {highlightDropdowns.map((section) => (
+                    <CustomSelect
+                      key={section.id || section.sectionTitle}
+                      label={section.sectionTitle}
+                      placeholder={`Select ${section.sectionTitle}`}
+                      options={section.options}
+                      value={selectedHighlights[section.sectionTitle] || ''}
+                      onChange={(value) => handleHighlightSelect(section.sectionTitle, value)}
+                    />
                   ))}
-                  <tr><td>Process</td><td className={styles.specValue}>{product.specs.process}</td></tr>
-                </tbody>
-              </table>
+                </div>
+              )}
+
+              {displayPrice && (
+                <div className={styles.actionRow}>
+                  <div className={styles.quantityPicker}>
+                    <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
+                    <span style={{ margin: "0px 10px", fontFamily: "var(--font-raleway)" }}>{quantity.toString().padStart(2, '0')}</span>
+                    <button onClick={() => setQuantity(q => Math.min(5, q + 1))}>+</button>
+                  </div>
+                  <AddToCart
+                    product={{
+                      productId: initialProduct.id,
+                      name: product.name,
+                      description: product.desc,
+                      image: productImage,
+                      tagline: product.notes,
+                      variationId: selectedVariant?.id || null,
+                      ...selectedHighlights,
+                    }}
+                    quantity={quantity}
+                  />
+                </div>
+              )}
+
+              {product.specs.length > 0 && (
+                <>
+                  <hr className={styles.divider} />
+                  <table className={styles.specsTable}>
+                    <tbody>
+                      {product.specs.map((s) => (
+                        <tr key={s.id || s.label}>
+                          <td>{s.label}</td>
+                          <td className={styles.specValue}>{s.value}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </>
+              )}
             </div>
 
             {/* Card 2: Technical Specs / Description */}
-            <div className={`${styles.card} ${isExpanded ? styles.card2Show : styles.card2Hide}`}>
-              <p className={styles.description}>{product.desc}</p>
-              <hr className={styles.divider} />
-              <table className={styles.specsTables}>
-                <tbody>
-                  <tr><td className={styles.bulletLabel}><Dot /><p>Body</p></td><td>{product.techSpecs.body}</td></tr>
-                  <tr><td className={styles.bulletLabel}><Dot /><p>Aroma</p></td><td>{product.techSpecs.aroma}</td></tr>
-                  <tr><td className={styles.bulletLabel}><Dot /><p>Roast</p></td><td>{product.techSpecs.roast}</td></tr>
-                  <tr><td className={styles.bulletLabel}><Dot /><p>Altitude</p></td><td>{product.techSpecs.altitude}</td></tr>
-                  <tr><td className={styles.bulletLabel}><Dot /><p>Finish</p></td><td>{product.techSpecs.finish}</td></tr>
-                </tbody>
-              </table>
-            </div>
+            {(product.desc || product.techSpecs) && (
+              <div className={`${styles.card} ${isExpanded ? styles.card2Show : styles.card2Hide}`}>
+                {product.desc && <p className={styles.description}>{product.desc}</p>}
+                {product.techSpecs && (
+                  <>
+                    <hr className={styles.divider} />
+                    <table className={styles.specsTables}>
+                      <tbody>
+                        {Object.entries(product.techSpecs).map(([key, val]) =>
+                          val ? (
+                            <tr key={key}>
+                              <td className={styles.bulletLabel}><Dot /><p>{key.charAt(0).toUpperCase() + key.slice(1)}</p></td>
+                              <td>{val}</td>
+                            </tr>
+                          ) : null
+                        )}
+                      </tbody>
+                    </table>
+                  </>
+                )}
+              </div>
+            )}
 
           </div>
         </div>

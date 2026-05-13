@@ -13,6 +13,36 @@ import { addToCartToast } from "./_components/addToCartToast";
 
 const CartContext = createContext(null);
 
+const RESERVED_DETAIL_KEYS = new Set([
+  "productId",
+  "id",
+  "product",
+  "name",
+  "description",
+  "image",
+  "tagline",
+  "quantity",
+  "variationId",
+  "vId",
+  "variantId",
+]);
+
+const getCustomSelections = (details) => {
+  if (!details) return null;
+
+  const selections = Object.fromEntries(
+    Object.entries(details).filter(
+      ([key, value]) =>
+        !RESERVED_DETAIL_KEYS.has(key) &&
+        value !== null &&
+        value !== undefined &&
+        String(value).trim() !== "",
+    ),
+  );
+
+  return Object.keys(selections).length > 0 ? selections : null;
+};
+
 export function CartProvider({ children }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -173,7 +203,19 @@ export function CartProvider({ children }) {
 
   /** Apply a cart API response (items, subtotal, totalItems) to state */
   const applyCartResponse = (data) => {
-    setItems(data.items || []);
+    setItems((previousItems) =>
+      (data.items || []).map((item) => {
+        const previousItem = previousItems.find(
+          (previous) =>
+            String(previous.product) === String(item.product) &&
+            (previous.vId || null) === (item.vId || null),
+        );
+
+        return previousItem?.customSelections
+          ? { ...item, customSelections: previousItem.customSelections }
+          : item;
+      }),
+    );
     setCartTotals((prev) => ({
       ...prev,
       subtotal: Number(data.subtotal || 0),
@@ -214,6 +256,8 @@ export function CartProvider({ children }) {
   // ─── Add ─────────────────────────────────────────────────────────────────────
 
   const addToCart = async (product, quantity = 1, vId, details = null) => {
+    const customSelections = getCustomSelections(details);
+
     if (session?.user) {
       try {
         const res = await axiosClient.post("/api/website/cart", {
@@ -224,6 +268,16 @@ export function CartProvider({ children }) {
 
         const data = res.data;
         applyCartResponse(data);
+        if (customSelections) {
+          setItems((currentItems) =>
+            currentItems.map((item) =>
+              String(item.product) === String(product) &&
+                (item.vId || null) === (vId || null)
+                ? { ...item, customSelections }
+                : item,
+            ),
+          );
+        }
         // Show toast with the item that was just added/updated
         const added = (data.items || []).find(
           (i) =>
@@ -231,7 +285,7 @@ export function CartProvider({ children }) {
             (i.vId || null) === (vId || null),
         );
         if (added || details) {
-          addToCartToast({ ...(added || {}), ...(details || {}), quantity }, openCart);
+          addToCartToast({ ...(added || {}), ...(details || {}), customSelections, quantity }, openCart);
         }
       } catch (e) {
         console.error("Error adding to cart:", e);
@@ -242,7 +296,7 @@ export function CartProvider({ children }) {
       }
     } else {
       try {
-        await addItemToCart(product, quantity, vId);
+        await addItemToCart(product, quantity, vId, details);
         const cart = getCart();
         applyGuestCart();
         // Show toast with the item from the refreshed guest cart

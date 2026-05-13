@@ -55,27 +55,39 @@ export default async function ProductDetailPage({ params }) {
   const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
 
   let product = null;
+  let categoryData = null;
 
   try {
-    const response = await fetch(
-      `${serverUrl}/api/web-products?where[and][0][slug][equals]=${selectedSlug}&where[and][1][_status][equals]=published&where[and][2][categories.slug][equals]=${selectedCategory}&depth=2`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
+    const [productRes, categoryRes] = await Promise.all([
+      fetch(
+        `${serverUrl}/api/web-products?where[and][0][slug][equals]=${selectedSlug}&where[and][1][_status][equals]=published&where[and][2][categories.slug][equals]=${selectedCategory}&depth=2`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          next: { revalidate: 60 },
         },
-        next: { revalidate: 60 },
-      },
-    );
+      ),
+      fetch(
+        `${serverUrl}/api/web-categories?where[slug][equals]=${selectedCategory}&depth=2`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          next: { revalidate: 60 },
+        },
+      ),
+    ]);
 
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    if (!productRes.ok) {
+      throw new Error(`Error: ${productRes.status} ${productRes.statusText}`);
     }
 
-    const json = await response.json();
+    const json = await productRes.json();
     product = json.docs?.[0] || null;
 
-    console.log(product)
+    if (categoryRes.ok) {
+      const catJson = await categoryRes.json();
+      categoryData = catJson.docs?.[0] || null;
+    }
 
     if (!product) {
       console.warn(`Product not found for slug: ${selectedSlug}`);
@@ -89,7 +101,7 @@ export default async function ProductDetailPage({ params }) {
   return (
     <main>
       <Productone initialProduct={product} />
-      <Producttwo />
+      <Producttwo brewingGuide={categoryData?.brewingGuide} serverUrl={serverUrl} />
       <Image />
       <YouMayAlsoLike recommendedProducts={product.recommendedProducts} />
     </main>

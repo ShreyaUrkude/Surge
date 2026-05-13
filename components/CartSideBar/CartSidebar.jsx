@@ -6,8 +6,12 @@ import styles from "./CartSideBar.module.css";
 import { useCart } from "@/app/_context/CartContext";
 import { useRouter } from "next/navigation";
 import { formatImageUrl } from "@/lib/imageUtils";
-import Link from "next/link";
 import cartZero from "./Empty cart-optimize.gif";
+
+const getDisplaySelections = (item) => {
+  const selections = item.customSelections || {};
+  return Object.entries(selections).filter(([, value]) => String(value).trim() !== "");
+};
 
 const CartSideBar = () => {
   const {
@@ -17,7 +21,6 @@ const CartSideBar = () => {
     removeItem,
     updateQuantity,
     cartTotals,
-    loading,
   } = useCart();
 
   const router = useRouter();
@@ -119,6 +122,10 @@ const CartSideBar = () => {
             ) : (
               items.map((item) => {
                 const key = `${item.product}_${item.vId || ""}`;
+                const displaySelections = getDisplaySelections(item);
+                const metaText = [item.tagline, ...displaySelections.map(([, value]) => value)]
+                  .filter(Boolean)
+                  .join(", ");
                 return (
                   <div className={styles.productCard} key={key}>
                     <div className={styles.prodImageWrapper}>
@@ -134,10 +141,13 @@ const CartSideBar = () => {
                     <div className={styles.prodInfo}>
                       <div className={styles.prodHeader}>
                         <div className={styles.nameGroup}>
-                          <h5>{item.name}</h5>
-                          <p className={styles.tagline}>
-                            {item.tagline} {item.variantName ? `, ${item.variantName}` : ""}
-                          </p>
+                          <h5>
+                            <span className={styles.productNameText}>{item.name}</span>
+                            {item.variantName && (
+                              <span className={styles.productVariantText}>, {item.variantName}g</span>
+                            )}
+                          </h5>
+                          {metaText && <p className={styles.tagline}>{metaText}</p>}
                         </div>
                         <button className={styles.removeIconBtn} onClick={() => handleRemove(item.product, item.vId)}>
                           <TrashIcon />

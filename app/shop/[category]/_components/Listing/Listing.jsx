@@ -9,6 +9,7 @@ import { formatImageUrl } from '@/lib/imageUtils';
 import coffeeImg from './coffee.png';
 import { useWishlist } from '@/app/_context/WishlistContext';
 import prodZero from './Noproducts.gif';
+import ProductPopup from '@/app/shop/[category]/_components/AddToCartPopup/AddToCartPopup';;
 const SORT_OPTIONS = ['Recommended', 'Price:High to Low', 'Price:Low to High', 'Popularity'];
 
 export default function Listing({ category }) {

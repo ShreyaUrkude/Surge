@@ -2,11 +2,19 @@
 import { useState, Fragment } from 'react';
 import styles from './Product.module.css';
 
-export default function Producttwo({ brewingGuide }) {
+export default function Producttwo({ brewingGuide, serverUrl = '' }) {
   const tabs = brewingGuide?.tabs ?? [];
   const [activeTabId, setActiveTabId] = useState(tabs[0]?.id ?? '');
 
   const currentTab = tabs.find((tab) => tab.id === activeTabId) ?? tabs[0];
+
+  const resolveUrl = (url) => {
+    if (!url) return null;
+    if (url.startsWith('http')) return url;      // already absolute
+    return `${serverUrl}${url}`;                 // prepend backend origin
+  };
+
+  const videoUrl = resolveUrl(currentTab?.video?.url);
 
   return (
     <div className={styles.container}>
@@ -45,10 +53,10 @@ export default function Producttwo({ brewingGuide }) {
       </section>
 
       <section className={styles.imageSection}>
-        {currentTab?.video?.url && (
+        {videoUrl && (
           <video
-            key={currentTab.video.url}  
-            src={currentTab.video.url}
+            key={videoUrl}
+            src={videoUrl}
             autoPlay
             muted
             loop

@@ -4,6 +4,36 @@ import axiosClient from "@/lib/axios";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_SERVER_URL || "https://surge-backend-seven.vercel.app";
 
+const RESERVED_DETAIL_KEYS = new Set([
+  "productId",
+  "id",
+  "product",
+  "name",
+  "description",
+  "image",
+  "tagline",
+  "quantity",
+  "variationId",
+  "vId",
+  "variantId",
+]);
+
+const getCustomSelections = (details) => {
+  if (!details) return null;
+
+  const selections = Object.fromEntries(
+    Object.entries(details).filter(
+      ([key, value]) =>
+        !RESERVED_DETAIL_KEYS.has(key) &&
+        value !== null &&
+        value !== undefined &&
+        String(value).trim() !== "",
+    ),
+  );
+
+  return Object.keys(selections).length > 0 ? selections : null;
+};
+
 async function fetchCartProduct(productId, vid = null) {
   const res = await axiosClient.get(`/api/web-products/${productId}?depth=1`);
   const productDoc = await res.data;
@@ -73,9 +103,10 @@ const recalculate = (items) => {
 };
 
 // Add an item to the guest cart (fetches product details from Payload)
-export const addItemToCart = async (productId, quantity = 1, vid = null) => {
+export const addItemToCart = async (productId, quantity = 1, vid = null, details = null) => {
   const cart = getCart();
   const items = cart.items || [];
+  const customSelections = getCustomSelections(details);
 
   // Fetch latest product/variant data from Payload
   const productData = await fetchCartProduct(productId, vid || null);
@@ -105,7 +136,11 @@ export const addItemToCart = async (productId, quantity = 1, vid = null) => {
       throw new Error(`Only ${productData.stockQuantity} units available`);
     }
 
-    items[existingIndex].quantity = newQty;
+    items[existingIndex] = {
+      ...items[existingIndex],
+      quantity: newQty,
+      ...(customSelections ? { customSelections } : {}),
+    };
   } else {
     // Validate stock for new item
     if (productData.inStock === false) {
@@ -119,7 +154,11 @@ export const addItemToCart = async (productId, quantity = 1, vid = null) => {
       throw new Error(`Only ${productData.stockQuantity} units available`);
     }
 
-    items.push({ ...productData, quantity });
+    items.push({
+      ...productData,
+      quantity,
+      ...(customSelections ? { customSelections } : {}),
+    });
   }
 
   const { subtotal, totalItems } = recalculate(items);
