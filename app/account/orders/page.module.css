@@ -160,13 +160,13 @@ padding-bottom: clamp(40px, 7vw, 100px);
 @media (min-width: 375px) and (max-width: 639px) {
   .main {
     padding-left: 0px;
-    padding-right: 16px;
+  
     padding-bottom: 48px;
   }
 
   .container {
     width: 100%;
-    gap: 40px;
+    gap: 80px;
   }
 
   .Top {

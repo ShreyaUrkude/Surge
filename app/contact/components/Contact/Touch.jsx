@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react"; // Added useEffect and useRef
 import styles from "./Touch.module.css";
 import one from './get.webp';
 import whatsappIcon from './whatsapp.png';
@@ -18,9 +18,29 @@ export default function Touch() {
   
   // Custom Select States
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(""); // Isme value store hogi
+  const [selected, setSelected] = useState("");
 
-  // Updated Options Array (Object format zaroori hai label/value ke liye)
+  // Create a Ref for the dropdown container
+  const dropdownRef = useRef(null);
+
+  // --- ADDED: Click Outside Logic ---
+  useEffect(() => {
+    function handleClickOutside(event) {
+      // Agar click dropdownRef ke bahar hua hai, toh close kar do
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  // ----------------------------------
+
   const options = [
     { label: "Order issue", value: "Order issue" },
     { label: "Payment or refund", value: "Payment or refund" },
@@ -50,7 +70,7 @@ export default function Touch() {
         fullName: fullName.trim(),
         email: email.trim(),
         phone: phone.trim(),
-        inquiryType: selected, // Selected value yahan se jayegi
+        inquiryType: selected,
         message: message.trim(),
       };
 
@@ -67,7 +87,6 @@ export default function Touch() {
       } else {
         setResponseError(false);
         setResponseMessage("Thank you! Your message has been submitted.");
-        // Reset Form
         setFullName(""); 
         setEmail(""); 
         setPhone(""); 
@@ -136,13 +155,12 @@ export default function Touch() {
                   />
                 </div>
 
-                {/* Custom Select Box */}
-                <div className={styles.container}>
+                {/* Updated Container with Ref */}
+                <div className={styles.container} ref={dropdownRef}>
                   <div
                     className={`${styles.selectTrigger} ${isOpen ? styles.open : ""}`}
                     onClick={() => setIsOpen(!isOpen)}
                   >
-                    {/* Display selected label or default text */}
                     <span>
                         {selected ? options.find(o => o.value === selected)?.label : "Enquiry Type"}
                     </span>

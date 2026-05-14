@@ -9,7 +9,6 @@ const CancelOrderPopup = ({ onClose, onConfirm, orderId }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const MIN_CHAR_LIMIT = 10;
-
   const reasons = [
     "Changed my mind",
     "Ordered by mistake",
@@ -19,8 +18,7 @@ const CancelOrderPopup = ({ onClose, onConfirm, orderId }) => {
   ];
 
   const handleConfirm = async () => {
-    const finalReason =
-      selectedReason === "Other" ? `Other: ${otherReasonText}` : selectedReason;
+    const finalReason = selectedReason === "Other" ? otherReasonText : selectedReason;
 
     if (selectedReason === "Other" && otherReasonText.length < MIN_CHAR_LIMIT) {
       setError(`Please provide at least ${MIN_CHAR_LIMIT} characters.`);
@@ -28,19 +26,11 @@ const CancelOrderPopup = ({ onClose, onConfirm, orderId }) => {
     }
 
     setIsSubmitting(true);
-    await onConfirm(finalReason); // Parent ke function ko call karega
+    await onConfirm(finalReason); // Triggers API call in OrderCard
     setIsSubmitting(false);
   };
 
-  const isButtonDisabled = () => {
-    if (!selectedReason || isSubmitting) return true;
-    if (
-      selectedReason === "Other" &&
-      otherReasonText.trim().length < MIN_CHAR_LIMIT
-    )
-      return true;
-    return false;
-  };
+  const isButtonDisabled = !selectedReason || isSubmitting || (selectedReason === "Other" && otherReasonText.trim().length < MIN_CHAR_LIMIT);
 
   return (
     <div className={styles.PopupOverlay} onClick={onClose}>
@@ -53,9 +43,7 @@ const CancelOrderPopup = ({ onClose, onConfirm, orderId }) => {
         
         <div className={styles.content}>
           <h3>Cancel Order #{orderId}</h3>
-          <p className={styles.description}>
-            Please let us know why you're cancelling this order.
-          </p>
+          <p className={styles.description}>Please let us know why you're cancelling this order.</p>
 
           <div className={styles.reasonsContainer}>
             {reasons.map((reason, index) => (
@@ -84,11 +72,9 @@ const CancelOrderPopup = ({ onClose, onConfirm, orderId }) => {
                       value={otherReasonText}
                       disabled={isSubmitting}
                       onChange={(e) => setOtherReasonText(e.target.value)}
-                    ></textarea>
+                    />
                     {error && <p className={styles.errorMessage}>{error}</p>}
-                    <p className={styles.charCount}>
-                      {otherReasonText.length}/{MIN_CHAR_LIMIT} min characters
-                    </p>
+                    <p className={styles.charCount}>{otherReasonText.length}/{MIN_CHAR_LIMIT} min characters</p>
                   </div>
                 )}
               </div>
@@ -99,10 +85,10 @@ const CancelOrderPopup = ({ onClose, onConfirm, orderId }) => {
             <button className={styles.KeepBtn} onClick={onClose} disabled={isSubmitting}>
               Keep order
             </button>
-            <button
-              className={styles.CancelBtn}
-              onClick={handleConfirm}
-              disabled={isButtonDisabled()}
+            <button 
+              className={styles.CancelBtn} 
+              onClick={handleConfirm} 
+              disabled={isButtonDisabled}
             >
               {isSubmitting ? "Cancelling..." : "Cancel Order"}
             </button>

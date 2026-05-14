@@ -22,7 +22,7 @@ margin-top:0;
 
 .section {
   display: flex;
-  padding: 20px 25px;
+  padding: 16px 16px;
   gap: 15px;
   align-items: flex-start;
 }
@@ -92,6 +92,6 @@ padding-bottom: clamp(15px, 3vw, 35px);
   
 
     .title{
-        font-size: 20px;
+        font-size: 22px;
       
     }}

@@ -22,12 +22,18 @@ export default function Listing({ category }) {
     const [selectedSort, setSelectedSort] = useState('Recommended');
     const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
     const [popupProduct, setPopupProduct] = useState(null);
+
+    // Refs for outside click detection
+    const sortRef = useRef(null);
+    const mobileFiltersRef = useRef(null);
+
     const isInWishlist = (id) => {
         return wishlistItems.some(it => {
             const itemProductId = it.product?.value?.id || it.product?.id || it.product;
             return String(itemProductId) === String(id);
         });
     };
+
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -38,9 +44,23 @@ export default function Listing({ category }) {
     const [filterData, setFilterData] = useState([]);
     const [selectedFilters, setSelectedFilters] = useState([]);
 
-    const mobileFiltersRef = useRef(null);
     const categoryName = category?.title || category?.slug?.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
 
+    // Effect to handle clicking outside the Sort Dropdown
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (sortRef.current && !sortRef.current.contains(event.target)) {
+                setShowSort(false);
+            }
+        };
+
+        if (showSort) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showSort]);
 
     const handleClearFilters = () => {
         setSelectedFilters([]);
@@ -210,7 +230,9 @@ export default function Listing({ category }) {
                         <button className={styles.mobileFilterBtn} onClick={() => setIsMobileFilterOpen(true)}>
                             Filter {selectedFilters.length > 0 && `(${selectedFilters.length})`}
                         </button>
-                        <div className={styles.sortWrapper}>
+                        
+                        {/* Added ref={sortRef} to the wrapper */}
+                        <div className={styles.sortWrapper} ref={sortRef}>
                             <div
                                 className={`${styles.sortBox} ${showSort ? styles.activeSortBox : ''}`}
                                 onClick={() => setShowSort(!showSort)}
@@ -246,7 +268,6 @@ export default function Listing({ category }) {
                     </div>
                 </header>
 
-
                 {loading && products.length === 0 && (
                     <div className={styles.stateMsgContainer}><p className={styles.stateMsg}>Loading products...</p></div>
                 )}
@@ -255,25 +276,18 @@ export default function Listing({ category }) {
                     <div className={styles.stateMsgContainer}><p className={styles.errorMsg}>{error}</p></div>
                 )}
 
-                {/* PRODUCT GRID XERO  STATE */}
-               <div className={styles.productGrid}>
-
- 
- {!loading && filteredProducts.length === 0 ? (
-
-
-    <div className={styles.noProducts}>
-      <div className={styles.noProductsIcon}>
-        <Image src={prod} alt="No products" width={200} height={200} priority />
-      </div>
-      <h3>Nothing Brewing here</h3>
-      <p>Refine or clear filters to explore available selections.</p>
-      
-      {/* Button with Link */}
-      <Link href="/shop" className={styles.resetBtn}>
-        Explore All Products
-      </Link>
-    </div>
+                <div className={styles.productGrid}>
+                    {!loading && filteredProducts.length === 0 ? (
+                        <div className={styles.noProducts}>
+                            <div className={styles.noProductsIcon}>
+                                <Image src={prod} alt="No products" width={200} height={200} priority />
+                            </div>
+                            <h3>Nothing Brewing here</h3>
+                            <p>Refine or clear filters to explore available selections.</p>
+                            <Link href="/shop" className={styles.resetBtn}>
+                                Explore All Products
+                            </Link>
+                        </div>
                     ) : (
                         filteredProducts.map((item) => {
                             const imageUrl = formatImageUrl(item.productImage) || coffeeImg;
@@ -312,48 +326,18 @@ export default function Listing({ category }) {
                                             {notes && <p className={styles.notes}>{notes}</p>}
                                             <div className={styles.footerRow}>
                                                 <span className={styles.priceTag}>{price}.00</span>
-                                                {(item.variants?.length > 0 && (item.productHighlights?.length > 0 || item.subCategories?.length > 0)) ? (
-                                                    <button
-                                                        className={styles.buyBtn}
-                                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setPopupProduct(item); }}
-                                                    >
-                                                        Add to Cart
-                                                    </button>
-                                                ) : (
-                                                    <AddToCart
-                                                        className={styles.buyBtn}
-                                                        product={{
-                                                            productId: item.id,
-                                                            name: item.name,
-                                                            description: item.description,
-                                                            image: imageUrl,
-                                                            tagline: item.tagline,
-                                                            quantity: 1,
-                                                            variationId: item.variants?.[0]?.id || null
-                                                        }}
-                                                    />
-                                                )}
-                                                {(item.variants?.length > 0 && (item.productHighlights?.length > 0 || item.subCategories?.length > 0)) ? (
-                                                    <button
-                                                        className={styles.mobileText}
-                                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setPopupProduct(item); }}
-                                                    >
-                                                        Add to Cart
-                                                    </button>
-                                                ) : (
-                                                    <AddToCart
-                                                        className={styles.mobileText}
-                                                        product={{
-                                                            productId: item.id,
-                                                            name: item.name,
-                                                            description: item.description,
-                                                            image: imageUrl,
-                                                            tagline: item.tagline,
-                                                            quantity: 1,
-                                                            variationId: item.variants?.[0]?.id || null
-                                                        }}
-                                                    />
-                                                )}
+                                                <AddToCart
+                                                    className={styles.buyBtn}
+                                                    product={{
+                                                        productId: item.id,
+                                                        name: item.name,
+                                                        description: item.description,
+                                                        image: imageUrl,
+                                                        tagline: item.tagline,
+                                                        quantity: 1,
+                                                        variationId: item.variants?.[0]?.id || null
+                                                    }}
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -362,6 +346,7 @@ export default function Listing({ category }) {
                         })
                     )}
                 </div>
+
                 {!loading && hasNextPage && filteredProducts.length > 0 && (
                     <div className={styles.footer}>
                         <button className={styles.viewMoreBtn} onClick={handleViewMore} disabled={loading}>
@@ -371,6 +356,7 @@ export default function Listing({ category }) {
                 )}
             </main>
 
+            {/* Popups and Mobile Overlays handle click-to-close via the onClick on the overlay div */}
             {popupProduct && (
                 <>
                     <div className={styles.popupOverlay} onClick={() => setPopupProduct(null)} />
@@ -379,6 +365,7 @@ export default function Listing({ category }) {
                     </div>
                 </>
             )}
+
             {isMobileFilterOpen && (
                 <>
                     <div className={styles.MobileFilterOverlay} onClick={() => setIsMobileFilterOpen(false)} />
