@@ -152,6 +152,22 @@ export default function OrdersPage() {
       selectFields.forEach((field) =>
         params.append(`select[${field}]`, "true"),
       );
+      [
+        "id",
+        "product",
+        "productImage",
+        "name",
+        "variantName",
+        "variantID",
+        "quantity",
+        "customization",
+        "customizations",
+        "customSelections",
+        "selectedOptions",
+        "selectedVariant",
+      ].forEach((field) => {
+        params.append(`select[items][${field}]`, "true");
+      });
 
       const response = await axiosClient.get(
         `/api/web-orders?${params.toString()}`,

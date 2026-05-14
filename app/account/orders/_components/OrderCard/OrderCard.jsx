@@ -9,12 +9,86 @@ import { useState } from "react";
 import axiosClient from "@/lib/axios";
 import toast from "react-hot-toast";
 
+const getDisplaySelections = (item) => {
+  const values = [];
+  const addValue = (value) => {
+    if (value === null || value === undefined) return;
+    if (Array.isArray(value)) {
+      value.forEach(addValue);
+      return;
+    }
+    if (typeof value === "object") {
+      Object.values(value).forEach(addValue);
+      return;
+    }
+    const text = String(value).trim();
+    if (text) values.push(text);
+  };
+
+  addValue(item.customization);
+  addValue(item.customizations);
+  addValue(item.customSelections);
+  addValue(item.selectedOptions);
+  addValue(item.selectedVariant);
+
+  if (Array.isArray(item.meta_data)) {
+    item.meta_data.forEach((meta) => {
+      const key = String(meta?.key || "").toLowerCase();
+      if (key.includes("custom") || key.includes("option") || key.includes("grind")) {
+        addValue(meta?.value);
+      }
+    });
+  }
+
+  return [...new Set(values)];
+};
+
+const getProductId = (item) => {
+  const product = item.product;
+  if (product && typeof product === "object") return product.id;
+  return product || item.productId || item.id || "";
+};
+
+const getVariantId = (item) => item.variantID || item.variantId || item.vId || "";
+
+const getStoredOrderSelections = (orderId) => {
+  if (!orderId || typeof window === "undefined") return [];
+
+  try {
+    const stored = JSON.parse(localStorage.getItem("orderCustomSelections") || "{}");
+    return stored[orderId] || [];
+  } catch (error) {
+    console.error("Failed to read order selections", error);
+    return [];
+  }
+};
+
+const getStoredItemSelections = (storedSelections, item) => {
+  const productId = String(getProductId(item));
+  const variantId = String(getVariantId(item));
+
+  const match = storedSelections.find((selection) => {
+    const selectionProductId = String(selection.productId || "");
+    const selectionVariantId = String(selection.variantId || "");
+    return selectionProductId === productId && selectionVariantId === variantId;
+  });
+
+  if (!match) return [];
+  return Object.entries(match.customSelections || {}).filter(([, value]) => String(value).trim() !== "");
+};
+
 const OrderCard = ({ order, handleCancelButton }) => {
   if (!order) return null;
   const router = useRouter();
 
   const [rating, setRating] = useState(order.orderRating || 0);
   const [hover, setHover] = useState(0);
+  const orderStorageId = order.id || order.invoiceId;
+  const [storedSelections, setStoredSelections] = useState([]);
+
+  React.useEffect(() => {
+    setStoredSelections(getStoredOrderSelections(orderStorageId));
+  }, [orderStorageId]);
 
   const handleRating = async (score) => {
     const newRating = rating === score ? 0 : score;
@@ -89,22 +163,37 @@ const OrderCard = ({ order, handleCancelButton }) => {
         </div>
 
         <div className={styles.productList}>
-          {visibleItems.map((item, idx) => (
-            <div key={idx} className={styles.productRow}>
-              <div className={styles.imageContainer}>
-                <Image
-                  src={formatImageUrl(item.productImage?.url || item.product?.productImage?.url) || "/order.png"}
-                  alt={item.product?.name || item.name || "Product"}
-                  fill
-                  className={styles.productImage}
-                />
+          {visibleItems.map((item, idx) => {
+            const storedItemSelections = getStoredItemSelections(storedSelections, item);
+            const displaySelections = storedItemSelections.length > 0
+              ? storedItemSelections
+              : getDisplaySelections(item).map((value) => ["", value]);
+            const selectedText = displaySelections.map(([, value]) => value).join(", ");
+            const variantName = item.variantName || item.product?.variants?.[0]?.variantName || "";
+            const metaParts = [
+              variantName ? `${variantName}g` : "",
+              selectedText,
+            ].filter(Boolean);
+
+            return (
+              <div key={idx} className={styles.productRow}>
+                <div className={styles.imageContainer}>
+                  <Image
+                    src={formatImageUrl(item.productImage?.url || item.product?.productImage?.url) || "/order.png"}
+                    alt={item.product?.name || item.name || "Product"}
+                    fill
+                    className={styles.productImage}
+                  />
+                </div>
+                <div className={styles.productDetails}>
+                  <h4>{item.product?.name || item.name || "Product name"}</h4>
+                  {metaParts.length > 0 && (
+                    <p className={styles.selectedOptions}>{metaParts.join(" | ")}</p>
+                  )}
+                </div>
               </div>
-              <div className={styles.productDetails}>
-                <h4>{item.product?.name || item.name || "Product name"} {item.product.tagline}</h4>
-                <p>{item.variantName || item.product?.variants?.[0]?.variantName || ""}g | Qty: {item.quantity}</p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
           {remainingCount > 0 && (
             <p className={styles.moreText}>+ {remainingCount} more</p>
           )}

@@ -90,6 +90,7 @@
   display: flex;
   gap: 15px;
   margin-bottom: 15px;
+  min-width: 0;
 }
 
 .imageContainer {
@@ -113,6 +114,10 @@
   display: block;
 }
 
+.productDetails {
+  min-width: 0;
+}
+
 .productDetails h4 {
   font-family: var(--font-raleway);
   font-size: 16px;
@@ -121,17 +126,25 @@
   margin: 0;
 }
 
+.selectedOptions {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .productDetails p {
   font-family: var(--font-raleway);
   font-size: 16px;
-  color: #818686;
-  margin-top: 5px;
+  color: var(--text-primary);
+  margin-top: 8px;
+  margin-bottom:0px;
 }
 
 .moreText {
   font-family: var(--font-raleway);
   font-size: 14px;
-  color: #818686;
+  color: var(--text-primary);
   margin: 10px 0 0 0;
 }
 

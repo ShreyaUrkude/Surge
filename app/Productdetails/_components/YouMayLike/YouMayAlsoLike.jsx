@@ -1,10 +1,18 @@
 'use client';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import styles from './YouMayAlsoLike.module.css';
 import { formatImageUrl } from '@/lib/imageUtils';
 import { useCart } from '@/app/_context/CartContext';
 import ProductPopup from '@/app/shop/[category]/_components/AddToCartPopup/AddToCartPopup';
+
+const toSlug = (value) =>
+    String(value || '')
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
 
 export default function YouMayAlsoLike({ recommendedProducts }) {
     const { addToCart } = useCart();
@@ -17,6 +25,7 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
     useEffect(() => {
         if (recommendedProducts && recommendedProducts.length > 0) {
             const mapped = recommendedProducts.map((p) => {
+                const productSlug = p.slug || p.value?.slug || p.product?.slug || toSlug(p.name || p.title);
                 const price =
                     p.salePrice ||
                     p.regularPrice ||
@@ -29,7 +38,8 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
                     subtitle: p.tagline,
                     image: formatImageUrl(p.productImage),
                     price: price ? `AED ${price}` : '',
-                    slug: p.slug,
+                    slug: productSlug,
+                    categorySlug: p.categories?.slug || p.categories?.[0]?.slug || 'coffee-beans',
                     raw: p,
                 };
             });
@@ -92,9 +102,14 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
                           ))
                         : products.map((product) => {
                               const isAdding = addingId === product.id;
+                              const productHref = `/shop/${product.categorySlug}/${product.slug}`;
                               return (
                                   <div key={product.id} className={styles.card}>
-                                      <div className={styles.imageWrapper}>
+                                      <Link
+                                          href={productHref}
+                                          className={styles.imageLink}
+                                          aria-label={`View ${product.title}`}
+                                      >
                                           <Image
                                               src={product.image}
                                               alt={product.title}
@@ -102,9 +117,11 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
                                               sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 300px"
                                               className={styles.productImage}
                                           />
-                                      </div>
+                                      </Link>
                                       <div className={styles.info}>
-                                          <h3 className={styles.title}>{product.title}</h3>
+                                          <Link href={productHref} className={styles.titleLink}>
+                                              <h3 className={styles.title}>{product.title}</h3>
+                                          </Link>
                                           <p className={styles.subtitle}>{product.subtitle}</p>
                                           <div className={styles.priceRow}>
                                               <span className={styles.price}>{product.price}</span>

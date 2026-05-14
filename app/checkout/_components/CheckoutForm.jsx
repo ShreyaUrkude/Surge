@@ -26,6 +26,37 @@ import {
 } from "@/utils/checkoutUtils";
 import { saveAddressAPI } from "@/app/account/profile/_components/ProfileComponents/profileApiUtils";
 
+const getCheckoutOrderId = (data) =>
+  data?.dbOrderId || data?.orderId || data?.id || data?.order?.id || null;
+
+const rememberOrderSelections = (orderId, products) => {
+  if (!orderId || typeof window === "undefined") return;
+
+  const selections = products
+    .map((product) => ({
+      productId: product.product || product.productId || product.id,
+      variantId: product.vId || product.variantId || "",
+      customSelections: product.customSelections || {},
+      customization: Object.values(product.customSelections || {}).filter(Boolean).join(", "),
+    }))
+    .filter((product) => product.customization);
+
+  if (selections.length === 0) return;
+
+  try {
+    const stored = JSON.parse(localStorage.getItem("orderCustomSelections") || "{}");
+    localStorage.setItem(
+      "orderCustomSelections",
+      JSON.stringify({
+        ...stored,
+        [orderId]: selections,
+      }),
+    );
+  } catch (error) {
+    console.error("Failed to save order selections", error);
+  }
+};
+
 export default function CheckoutForm({
   session,
   status,
@@ -124,11 +155,18 @@ export default function CheckoutForm({
         billingAddress: billAddr,
         shippingAddressAsBillingAddress: useShippingAsBilling,
         email: email,
-        products: product.map((p) => ({
-          productId: p.product || p.productId || p.id,
-          variantId: p.vId || p.variantId || "",
-          quantity: p.quantity,
-        })),
+        products: product.map((p) => {
+          const customization = Object.values(p.customSelections || {}).filter(Boolean).join(", ");
+
+          return {
+            productId: p.product || p.productId || p.id,
+            variantId: p.vId || p.variantId || "",
+            quantity: p.quantity,
+            customization,
+            customizations: customization,
+            customSelections: p.customSelections || {},
+          };
+        }),
         useWTCoins: !!isBeansApplied,
         appliedCouponCode: appliedCoupon?.code || "",
       });
@@ -138,6 +176,8 @@ export default function CheckoutForm({
       const data = res.data;
 
       if (!data.success) throw new Error(data.error || "Checkout failed");
+
+      rememberOrderSelections(getCheckoutOrderId(data), product);
 
       // 5. Save address if opted in
       if (shippingForm.saveAddress && status === "authenticated" && session?.user?.id && delivery === "ship") {
