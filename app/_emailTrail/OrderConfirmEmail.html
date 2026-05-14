@@ -68,7 +68,7 @@
       }
     };
 
-    const LOGO_URL = 'https://wordpressbackend.whitemantis.ae/wp-content/uploads/2026/01/SURGE_Logo_Image.png';
+    const LOGO_URL = 'https://wordpressbackend.whitemantis.ae/wp-content/uploads/2026/01/image.png';
     const ACCENT_COLOR = '#C4754E'; // Surge Orange
     const TEXT_DARK = '#414343';
     const TEXT_LIGHT = '#818686';
@@ -86,7 +86,7 @@
                   <!-- Header -->
                   <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 30px;">
                     <tr>
-                      <td align="left"><img src="${LOGO_URL}" width="100" alt="Surge"></td>
+                      <td align="left"><img src="${LOGO_URL}" width="58" alt="Surge"></td>
                       <td align="right" style="font-size: 16px; font-weight: 400; color: ${TEXT_DARK};">
                         Order Id : ${order.id} 
                         <span style="display:inline-block; vertical-align:middle; margin-left:5px; cursor:pointer;">
@@ -142,12 +142,12 @@
     <tr>
       <!-- Image Cell -->
       <td style="padding: 16px 0; width: 60px; border-top: 1px solid #f0f0f0;">
-        <div style="width: 50px; height: 65px; overflow: hidden;">
+        <div style="width: 80px; height: 80px; overflow: hidden;">
           <img 
-            src="/coff.png" 
+           src="${item.imageUrl}"
             alt="${item.productName}" 
-            width="50" 
-            height="65" 
+            width="80" 
+            height="80" 
             style="display: block; border: 0;"
           >
         </div>
@@ -179,8 +179,8 @@
                     <tr><td style="padding: 16px 0;">Coupon Discount</td><td align="right" style="padding: 8px 0; color:${TEXT_DARK}">AED ${order.financials.couponDiscount}</td></tr>
                     <tr><td style="padding: 16px 0; border-bottom: 1px solid #818686; padding-bottom:15px;">VAT</td><td align="right" style="padding: 8px 0; border-bottom: 1px solid #818686; padding-bottom:15px; color:${TEXT_DARK}">AED ${order.financials.taxAmount}</td></tr>
                     <tr style="font-weight: 700; color: ${TEXT_DARK};">
-                      <td style="padding: 16px 0;">Total</td>
-                      <td align="right" style="padding: 20px 0 ;">AED ${order.financials.total.toFixed(2)}</td>
+                      <td style="padding: 20px 0 0;">Total</td>
+                      <td align="right" style="padding: 20px 0 0;">AED ${order.financials.total.toFixed(2)}</td>
                     </tr>
                   </table>
 
