@@ -243,7 +243,7 @@ export default function Footer({ categories }) {
             <div className={styles.infoBlock}>
               <p className={styles.label}>Email</p>
               <Link
-                href="mailto:hello@whitemantis.ae"
+                href="hello@surgecoffee.ae"
                 className={styles.accentLink}
               >
              hello@surgecoffee.ae
