@@ -171,7 +171,7 @@ export default function Sendenq() {
             <form onSubmit={handleSubmit} className={styles.formMain}>
               <div className={styles.Top}>
                 <h3>Book Surge for Your Event</h3>
-                <p>All fields marked with * are mandatory.</p>
+                <p>Fill out the form below and we'll get back to you within 24 hours.</p>
               </div>
 
               <div className={styles.formBox}>
